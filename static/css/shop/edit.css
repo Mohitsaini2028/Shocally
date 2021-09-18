@@ -1,0 +1,64 @@
+body{
+  background-color: lightgray;
+  padding:0px;
+  margin:0px;
+  font-family:sans-serif;
+}
+
+#main
+{
+  width:80%;
+  margin:auto;
+  align-items:stretch;
+  justify-content: center;
+  background-color:white;
+  min-height:500px;
+  padding:20px;
+  margin-top:20px;
+  box-shadow: 5px -5px 5px gray;
+}
+#main table
+{
+  width:80%;
+  border:2px Solid #000020;
+}
+#main table th
+{
+  background-color:darkgray;
+}
+#main form
+{
+
+  width:70%;
+  border:2px Solid #000020;
+  padding:20px;
+}
+#main form input
+{
+  display:block;
+  margin-top:10px;
+  margin-bottom:20px;
+
+}
+
+#main form textarea
+{
+  display:block;
+  margin-top:10px;
+  margin-bottom:20px;
+
+}
+#main form a
+{
+  display:block;
+  margin-top:10px;
+  margin-bottom:20px;
+
+}
+#main form img
+{
+  display:block;
+  margin-top:10px;
+  margin-bottom:20px;
+
+}

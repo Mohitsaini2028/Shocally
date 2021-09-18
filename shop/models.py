@@ -7,7 +7,7 @@ class User(AbstractUser):
     UserType=models.CharField(max_length=20, default="user")
     Address=models.CharField(max_length=500, default="")
     Category=models.CharField(max_length=50, default="")
-    phoneNo=models.IntegerField(default=0)
+    PhoneNo=models.IntegerField(default=0)
     UserImg=models.ImageField(upload_to="shop/images",default="")
 
     is_Seller=models.BooleanField(default=False)
@@ -19,32 +19,36 @@ class User(AbstractUser):
     def getUser(username):
         return User.objects.get(username=username)
 
-    def _str_(self):
+    def __str__(self):
         return self.first_name+" "+self.last_name+" -- "+str(self.PINCODE)
 
 
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    PinCode=models.IntegerField(default=0)
-    RatingGiven=models.IntegerField(default=0)
+    pincode=models.IntegerField(default=0)
+    ratingGiven=models.IntegerField(default=0)
 
-    def _str_(self):
+    def __str__(self):
         return self.user.first_name+" "+self.user.last_name+" -- "+str(self.user.PINCODE)
 
 class Seller(models.Model): #Shop Information
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    RatingNo=models.IntegerField(default=0)
-    PinCode=models.IntegerField(default=0)
-    ShopName=models.CharField(max_length=100, default="")
-    ShopCategory=models.CharField(max_length=50, default="")
-    ShopAddress=models.CharField(max_length=500, default="")
+    ratingNo=models.IntegerField(default=0)
+    pincode=models.IntegerField(default=0)
+    shopName=models.CharField(max_length=100, default="")
+    shopCategory=models.CharField(max_length=50, default="")
+    shopAddress=models.CharField(max_length=500, default="")
     shopRating=models.IntegerField(default=0)
     longitude=models.FloatField(default=0.0)
     latitude=models.FloatField(default=0.0)
-    ShopImg= models.ImageField(upload_to="shop/images",default="")
+    shopImg= models.ImageField(upload_to="shop/images",default="")
+    productBased=models.BooleanField(default=True)
+    appointmentBased=models.BooleanField(default=False)
+    #starting time ending time
+    #no of workers
 
-    def _str_(self):
-        return self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE) + " -  -  -  " + self.ShopCategory
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE) + " -  -  -  " + self.shopCategory
 
 
 class Product(models.Model):
@@ -71,12 +75,47 @@ class Product(models.Model):
         return self.originalPrice - self.price
 
     @property
-    def pinCode(self):
-        return self.seller.PinCode
+    def pincode(self):
+        return self.seller.pincode
 
     @property
     def Discount(self):
         return 100-int((self.price/self.originalPrice)*100)
 
-    def _str_(self):
+    def __str__(self):
         return self.product_name + "  ----  " + str(self.id)
+
+class Cart(models.Model):
+     user=models.OneToOneField(User,on_delete=models.CASCADE)
+     itemJson=models.CharField(max_length=5000, default="")
+     totalPrice=models.FloatField(default=0.0)
+     totalCart=models.IntegerField(default=0)
+
+     def __str__(self):
+         return self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE)
+
+
+class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    itemJson = models.CharField(max_length=5000)
+    phoneNo=models.IntegerField(default=0)
+    pincode=models.IntegerField(default=0)
+    address = models.CharField(max_length=111)
+    city = models.CharField(max_length=111)
+    totalItem = models.IntegerField(default=0)
+    totalPrice = models.FloatField(default=0.0)
+    # country = models.CharField(max_length=111)
+
+    def __str__(self):
+        return self.itemJson[5:20] + "...       " + str(self.user)
+
+
+class OrderUpdate(models.Model):
+    update_id  = models.AutoField(primary_key=True)
+    order_id = models.IntegerField(default="")
+    update_desc = models.CharField(max_length=5000)
+    timestamp = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.update_desc[0:25] + "...             " +"        Order ID : " +str(self.order_id)

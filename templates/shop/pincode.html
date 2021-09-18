@@ -3,15 +3,8 @@
 
 {% block body %}
 
-
-    <form action="/shop/pinResult" >
-      Enter Your PinCode <input type="tel" name="pinCode">
-      <input type="submit" name="submit" value="submit">
-    </form>
-    <p>{{pinCode}}</p>
-
     <div class="container m-5 ">
-      <form  action="/shop/pinCodeResult">
+      <form  action="/shop/pincodeResult">
         <div class="form-group">
         <label for="pinCode"><h1>Enter Your PinCode :</h1></label>
         <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Search your City" required>
