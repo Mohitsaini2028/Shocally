@@ -43,11 +43,11 @@ def shopView(request,shopid):
     allProds = []
     EXIST=[]
 
-    catprods = Product.objects.values('category', 'id')
-    cats = {item['category'] for item in catprods}
+    catprods = Product.objects.values('subCategory', 'id')
+    cats = {item['subCategory'] for item in catprods}
 
     for cat in cats:
-        prod = Product.objects.filter(seller=shop[0],category=cat)
+        prod = Product.objects.filter(seller=shop[0],subCategory=cat)
         if prod.exists():
             n = len(prod)
             nSlides = n // 4 + ceil((n / 4) - (n // 4))
@@ -351,7 +351,7 @@ def handelLogin(request):
             return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
 
         else:
-            print("\n\n FAIL beta ")
+            
             messages.error(request, "LOGIN FAILED ! Invalid credentials! Please try again")
             return render(request,"shop/pincode.html")
             # return redirect("home")

@@ -62,8 +62,8 @@
 
                         <br><br>
 
-                        <p class="card-title" id="namepr{{i.id}}"><b>{{i.shopCategory}}</b></p>
-                        <p class="card-title" id="namepr{{i.id}}"><b>Address : </b>{{i.shopAddress}}</p>
+                        <p class="card-title" id="namepr{{i.id}}"><b>Category : </b>{{i.shopCategory}}</p>
+                        <p class="card-title" id="namepr{{i.id}}"><b>Address : </b>{{i.shopAddress|title|slice:"55"}}</p>
                         <p class="card-title" id="namepr{{i.id}}"><b> Contact : </b>{{i.user.PhoneNo}}</p>
         <!--             <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">Rs.{{i.price}}</span></h6> -->
 
@@ -93,12 +93,9 @@
     </div>
     {% endfor %}
 </div>
-<p>{{request.session.cartJson}}</p>
-{% for key in request.session.keys %}
-<p>{{ key }}</p><br>
-{% endfor %}
 
-<p>{{session.cartJson}}</p>
+
+
 
 
 

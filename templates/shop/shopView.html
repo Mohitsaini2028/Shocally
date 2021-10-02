@@ -83,7 +83,7 @@
     {% if product %}
 
 
-    <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+    <h5 class="my-4">Flash Sale On {{product.0.subCategory}} - Recommended Items</h5>
     <div class="row">
         <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
@@ -116,9 +116,10 @@
                                 {% else %}
 
                                     {% if i.inStock <= 0 %}
-                                    <p>Out of Stock</p>
+                                    <p><mark class="bg-danger rounded">Out of Stock</mark></p>
                                     {% else %}
-                                    <br>
+                                    <p><mark class="bg-secondary text-light rounded">Available</mark></p>
+
                                     {% endif %}
 
                                 {% if i.inStock <= 0 %}
