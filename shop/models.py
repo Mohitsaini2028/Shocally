@@ -44,6 +44,7 @@ class Seller(models.Model): #Shop Information
     shopImg= models.ImageField(upload_to="shop/images",default="")
     productBased=models.BooleanField(default=True)
     appointmentBased=models.BooleanField(default=False)
+    
     #starting time ending time
     #no of workers
 

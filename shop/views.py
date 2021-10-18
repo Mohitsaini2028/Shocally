@@ -100,6 +100,7 @@ def handleSignUp(request):
         pincode=request.POST['pinCode']
         phoneNo=request.POST['PhoneNo']
 
+
         userImg=request.FILES.get('userImg')
         address=request.POST['Address']
 
@@ -110,6 +111,8 @@ def handleSignUp(request):
             shopCat=request.POST['shopCat']
             shopAddress=request.POST['shopAddress']
             shopImg=request.FILES.get('shopImg')
+            BookingOrNot=bool(request.POST.get('BookingOrNot',False))
+
 
         # check for errorneous input
 
@@ -128,7 +131,7 @@ def handleSignUp(request):
             myuser.is_Seller=True
             myuser.is_Customer=False
             myuser.Category=shopCat
-            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress= shopAddress,shopImg= shopImg)
+            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress= shopAddress,shopImg= shopImg,appointmentBased=BookingOrNot)
             myuser.save()
         else:
             myuser.UserType= 'User'
@@ -351,7 +354,7 @@ def handelLogin(request):
             return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
 
         else:
-            
+
             messages.error(request, "LOGIN FAILED ! Invalid credentials! Please try again")
             return render(request,"shop/pincode.html")
             # return redirect("home")
