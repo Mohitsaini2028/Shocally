@@ -111,8 +111,13 @@ def handleSignUp(request):
             shopCat=request.POST['shopCat']
             shopAddress=request.POST['shopAddress']
             shopImg=request.FILES.get('shopImg')
-            BookingOrNot=bool(request.POST.get('BookingOrNot',False))
-
+            BookingOrNot=bool(request.POST.get('BookingOrNot'))
+            print("\n\n\n\n",BookingOrNot)
+            if BookingOrNot:
+                productBased=True
+            else:
+                productBased=False
+            print(productBased,BookingOrNot)
 
         # check for errorneous input
 
@@ -131,7 +136,7 @@ def handleSignUp(request):
             myuser.is_Seller=True
             myuser.is_Customer=False
             myuser.Category=shopCat
-            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress= shopAddress,shopImg= shopImg,appointmentBased=BookingOrNot)
+            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress=shopAddress,shopImg=shopImg,productBased=productBased,appointmentBased=BookingOrNot)
             myuser.save()
         else:
             myuser.UserType= 'User'

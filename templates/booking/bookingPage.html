@@ -61,7 +61,7 @@
                                 <!-- <button id="edit{{i.id}}" class="btn btn-success mx-2">Edit Product</button>
                                 <button id="del{{i.id}}" class="btn btn-danger ">Delete </button> -->
                                 {% else %}
-            
+
                                 <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
                                 {% endif %}
 
@@ -103,7 +103,7 @@
 
     {% for shop, range, nSlides in allShop %}
 
-    <h5 class="my-4"><mark>Booking Shops</mark> - {{shop.0.ShopCategory}} </h5>
+    <h5 class="my-4"><mark>Booking Shops</mark> - {{shop.0.shopCategory}} </h5>
     <div class="row">
         <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
@@ -118,9 +118,9 @@
 
                   <div class="col-xs-3 col-sm-3 col-md-3">
                       <div class="card align-items-center" style="width: 18rem;">
-                        <img src='/media/{{i.ShopImg}}' class="card-img-top" alt="...">
+                        <img src='/media/{{i.shopImg}}' class="card-img-top" alt="...">
                           <div class="card-body">
-                            <h6 class="card-title text-primary " id="namepr{{i.id}}" ><b>Shop Name  : </b>{{i.ShopName|title|slice:"20"}}</h6>
+                            <h6 class="card-title text-primary " id="namepr{{i.id}}" ><b>Shop Name  : </b>{{i.shopName|title|slice:"50"}}</h6>
                                 <!-- <p class="card-title" id="namepr{{i.id}}"><b>Rating : </b>{{i.shopRating}}</p> -->
 
                           <div class="rate">
@@ -138,13 +138,13 @@
 
                         <br><br>
 
-                        <p class="card-title" id="namepr{{i.id}}"><b>{{i.ShopCategory}}</b></p>
-                        <p class="card-title" id="namepr{{i.id}}"><b>Address : </b>{{i.ShopAddress}}</p>
-                        <p class="card-title" id="namepr{{i.id}}"><b> Contact : </b>{{i.user.phoneNo}}</p>
-                        <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                        <p class="card-title" id="namepr{{i.id}}"><b>{{i.shopCategory}}</b></p>
+                        <p class="card-title" id="namepr{{i.id}}"><b>Address : </b>{{i.shopAddress}}</p>
+                        <p class="card-title" id="namepr{{i.id}}"><b> Contact : </b>{{i.user.PhoneNo}}</p>
 
-                        <a href="/booking/ShopView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
-                        <!-- <a href="/shop/ShopView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
+
+                        <a href="/booking/ShopView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary">QuickView</button></a>
+                      
                     </div>
                   </div>
                 </div>

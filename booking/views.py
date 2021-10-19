@@ -9,6 +9,7 @@ def home(request):
     prod=[]
     catprods = Seller.objects.values('shopCategory', 'id')
     cats = {item['shopCategory'] for item in catprods}
+    print("\n\n\n\n\n",catprods,"- - - - ",cats)
     nSlides = ''
     for cat in cats:
         # prod=User.objects.filter(PINCODE=pinCode,is_Seller=True,Category=cat)
@@ -21,7 +22,7 @@ def home(request):
 
 
 
-
+    print(allShop)
     params = {'allShop':allShop,'nSlides':nSlides}
 
     return render(request, 'booking/bookingPage.html', params)
