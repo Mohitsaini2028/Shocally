@@ -81,7 +81,7 @@ def shopView(request,shopid):
     # form = NewProductForm()
 
     # return render(request, 'bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
-    return render(request, 'bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
+    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
 def appointmentBook(request):
     pass
