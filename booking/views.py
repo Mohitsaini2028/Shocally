@@ -9,6 +9,7 @@ def home(request):
     prod=[]
     catprods = Seller.objects.values('shopCategory', 'id')
     cats = {item['shopCategory'] for item in catprods}
+    print("\n\n\n\n\n",catprods,"- - - - ",cats)
     nSlides = ''
     for cat in cats:
         # prod=User.objects.filter(PINCODE=pinCode,is_Seller=True,Category=cat)
@@ -21,7 +22,7 @@ def home(request):
 
 
 
-
+    print(allShop)
     params = {'allShop':allShop,'nSlides':nSlides}
 
     return render(request, 'booking/bookingPage.html', params)
@@ -80,7 +81,7 @@ def shopView(request,shopid):
     # form = NewProductForm()
 
     # return render(request, 'bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
-    return render(request, 'bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
+    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
 def appointmentBook(request):
     pass

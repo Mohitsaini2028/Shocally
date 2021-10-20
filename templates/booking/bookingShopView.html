@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/shop/slider.css' %}">
+
+<!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
+{% endblock %}
+
+
+{% block body %}
+{% load crispy_forms_tags %}
+{% if user.id ==  shop.user.id %}
+<!-- <div class="container-fluid"> -->
+<h3 class="text-light text-center text-uppercase border bg-info my-2"> WELCOME TO YOUR SHOP {{user.first_name}}</h3>
+<!-- </div> -->
+{% endif %}
+
+
+    <div class="container">
+
+    <div class="container my-4 ">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row m-4">
+        <img src="/media/{{shop.shopImg}}"class="border  rounded-circle" " width="300px" height="250px">
+    </div>
+
+
+    </div>
+
+
+
+    <div class="col-md-8">
+
+
+
+        <h1 class="text-success mt-3"><ins>{{shop.shopName|title}}</ins></h1>
+
+        <br><br>
+        <address ><b>Shop Address : </b>  {{shop.shopAddress}}  </address>
+        <p><b>Shop Category : </b>{{shop.shopCategory}}</p>
+
+        <p><b>Shop Rating   :  </b>{{shop.ratingNo}}</p>
+        <p><b>Phone Number  :  </b>{{shop.user.PhoneNo}}</p>
+
+    </div>
+    </div>
+
+
+</div>
+</div>
+
+{% if user.id ==  shop.user.id %}
+<div class="container">
+  <!-- <button id="edit{{shop.id}}" class="btn btn-success ml-5" data-toggle="modal" data-target="#editShop">Edit Your Shop</button> -->
+  <a href="/shop/editShop/{{shop.id}}" class="btn btn-success mx-2">Edit Your Shop</a>
+  <!-- <a href="/shop/newProduct/{{i.id}}" class="btn btn-success mx-2">Edit Product</a> -->
+  <button id="adp{{i.id}}" class="btn btn-success mx-2" data-toggle="modal" data-target="#addProduct">Add New Product</button>
+
+</div>
+{% endif %}
+
+<!-- <p>{{allProds.0.0}}</p>
+<p>{{allProds.0.1}}</p> -->
+
+
+
+<!-- <form method="post">
+  {% csrf_token %}
+
+  <input type="hidden" name="shopId" id="{{shop.id}}" value="{{shop.id}}">
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="prodSearch" id="prodSearch">
+  <button class="btn btn-primary my-2 my-sm-0 " name="prodSearchSubmit" type="submit">Search</button>
+</form> -->
+
+<div class="container">
+    <!--Slideshow starts here -->
+    {% for product, range, nSlides in allProds %}
+
+    {% if product %}
+
+
+    <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+    <div class="row">
+        <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
+            <ul class="carousel-indicators">
+                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                {% for i in range %}
+                <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+                {% endfor %}
+            </ul>
+            <div class="container carousel-inner no-padding">
+                <div class="carousel-item active">
+                    {% for i in product %}
+
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="card align-items-center" style="width: 18rem;">
+                            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h6 class="card-title" id="namepr{{i.id}}">{{i.item_name|title}}</h6>
+                                <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+                                <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                                {% if user.id ==  i.seller.user.id %}
+                                <a href="/booking/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
+                                <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete</button>
+                                <form   method="post">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="delProd" id="delProd{{i.id}}" value="{{i.id}}">
+                                  <input type="hidden" name="sellerId" id="sellerId" value="{{shop.id}}">
+                                </form>
+                                <!-- <button id="edit{{i.id}}" class="btn btn-success mx-2">Edit Product</button>
+                                <button id="del{{i.id}}" class="btn btn-danger ">Delete </button> -->
+                                {% else %}
+
+                                    {% if i.inStock <= 0 %}
+                                    <p>Out of Stock</p>
+                                    {% else %}
+                                    <br>
+                                    {% endif %}
+
+                                {% if i.inStock <= 0 %}
+                                <span>
+                                    <button  class="btn btn-primary" disabled>Book</button>
+                                </span>
+                                {% else %}
+                                <span  class="divpr">
+                                  <a href="/booking/ItemBookPage/{{i.id}}"><button  class="btn btn-primary ">Book</button></a>
+                                  <!-- <button id="book{{i.id}}" class="btn btn-success" data-toggle="modal" data-target="#bookItem"></button> -->
+                                    <!-- <button id="book{{i.id}}" class="btn btn-primary cart" >Book</button> -->
+                                </span>
+                                {% endif %}
+
+                                <a href="/booking/productView/{{i.id}}"><button  class="btn btn-primary ">QuickView</button></a>
+                                {% endif %}
+
+                                <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+                </div>
+                <div class="carousel-item">
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- left and right controls for the slide -->
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    {%  endif  %}
+
+
+    {% endfor %}
+    {% if prodExist is not True %}
+    <div class="container pl-3">
+      <h3 ><mark>Sorry Nothing To Display</mark></h3>
+    </div>
+    {%  endif  %}
+</div>
+
+<form  id="cartForm" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="cartData" id="cartData" value="">
+  <input type="hidden" name="user" id="user" value="{{user}}">
+  </form>
+
+
+
+
+<!-- ADD PRODUCT -->
+  <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalTitle">Add New Product here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form id='main' action="/shop/newProduct/" enctype='multipart/form-data' method="post">
+          {% csrf_token %}
+
+          {{form|crispy}}
+          <input type='hidden'  name="sellerId" value="{{shop.id}}">
+          <button type="submit" class="btn my-2 btn-success">Add Product</button>
+        </form>
+
+        </div>
+         <div class="modal-footer">
+        </div>
+  </div>
+  </div>
+  </div>
+
+
+  <!-- Book your Slot -->
+    <div class="modal fade" id="bookItem" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalTitle">Book Your Appointment here</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form id='main' action="/booking/appointmentBook/" enctype='multipart/form-data' method="post">
+            {% csrf_token %}
+            <h3>Available Slot</h3>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+              {% for i in timeSlot %}
+              {% if i.max_booking > 0 %}
+                <label class="btn btn-warning m-2">
+                  <input type="radio" name="options" id="slot{{i.id}}"> {{i.starting_time}} - {{i.ending_time}}
+                </label>
+              {% endif %}
+              {% endfor %}
+            </div>
+
+            <!-- <input type='hidden'  name="BookingItemId" value="{{shop.id}}"> -->
+            <!-- <input type='hidden'  name="bookingSlotId" value="{{shop.id}}"> -->
+            <div class="text-center">
+            <button type="submit" class="btn my-2 btn-success">Confirm Appointment</button>
+            </div>
+          </form>
+
+          </div>
+           <div class="modal-footer">
+          </div>
+    </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<script>
+
+  // const cb = document.getElementById('accept');
+  // console.log(cb.value); // on
+
+  $(".prodDel").click(function(e){
+
+    // $('.prodDel').val(JSON.stringify(cart));
+    e.preventDefault();
+    var id=this.id.slice(3)
+    console.log(id)
+    $.ajax({
+        type:'POST',
+        url:'/shop/deleteProduct/',
+        data:{
+              // delProd:$('delProd'+id).val(),
+              delProd:id,
+              sellerId:$('#sellerId').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(){
+              location.reload(true);
+            }
+    });
+  });
+
+
+
+console.log("hi");
+
+</script>
+
+
+
+{% endblock js %}

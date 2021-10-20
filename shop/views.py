@@ -111,8 +111,13 @@ def handleSignUp(request):
             shopCat=request.POST['shopCat']
             shopAddress=request.POST['shopAddress']
             shopImg=request.FILES.get('shopImg')
-            BookingOrNot=bool(request.POST.get('BookingOrNot',False))
-
+            BookingOrNot=bool(request.POST.get('BookingOrNot'))
+            print("\n\n\n\n",BookingOrNot)
+            if BookingOrNot:
+                productBased=True
+            else:
+                productBased=False
+            print(productBased,BookingOrNot)
 
         # check for errorneous input
 
@@ -131,7 +136,7 @@ def handleSignUp(request):
             myuser.is_Seller=True
             myuser.is_Customer=False
             myuser.Category=shopCat
-            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress= shopAddress,shopImg= shopImg,appointmentBased=BookingOrNot)
+            mySeller=Seller.objects.create(user=myuser,shopName=shopName,pincode=pincode,shopCategory= shopCat,shopAddress=shopAddress,shopImg=shopImg,productBased=productBased,appointmentBased=BookingOrNot)
             myuser.save()
         else:
             myuser.UserType= 'User'
@@ -200,6 +205,23 @@ def cart(request):
 
         return HttpResponse(cartData)
 
+
+def newProduct(request):
+    if request.method=='POST':
+        form=NewProductForm(request.POST)
+        product= Product()
+        product.product_name=form.data['productName']
+        product.category=form.data['category']
+        product.subCategory=form.data['subCategory']
+        product.originalPrice=form.data['originalPrice']
+        product.price=form.data['price']
+        product.desc=form.data['descripton']
+        product.image=request.FILES.get('img')
+
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        product.seller=seller
+        product.save()
+        return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
 
 def placeOrder(request):
     cartUser= Cart.objects.get(user=request.user.id)
