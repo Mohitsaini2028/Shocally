@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 {% block title %} ShocallyHomePage {% endblock title %}
-
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="/css/shop/homePage.css">
+{% endblock %}
 {% block body %}
 
+<div class="background-Image">
     <div class="container m-5 ">
       <form  action="/shop/pincodeResult">
         <div class="form-group">
         <label for="pinCode"><h1>Enter Your PinCode :</h1></label>
+
+
         <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Search your City" required>
         <div class="text-center">
         <input type="submit" class="m-2 btn btn-success btn-lg" name="submit" value="submit">
         </div>
         </div>
+
+        </div>
+        </div>
       </form>
-     <div>
+    
 
 {% endblock body %}
