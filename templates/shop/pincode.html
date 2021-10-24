@@ -2,7 +2,7 @@
 {% block title %} ShocallyHomePage {% endblock title %}
 {% load static %}
 {% block link %}
-<link rel="stylesheet" href="/css/shop/homePage.css">
+<link rel="stylesheet" href="{% static 'css/shop/homePage.css' %}">
 {% endblock %}
 {% block body %}
 
@@ -22,6 +22,6 @@
         </div>
         </div>
       </form>
-    
+
 
 {% endblock body %}
