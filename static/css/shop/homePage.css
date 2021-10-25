@@ -7,7 +7,9 @@ html,body{
 .background-Image
 {
   background-image: url('/static/image/trollee.png ');
+  /* background: rgba(0, 0, 0, 0.6) url('/static/image/trollee.png'); */
   height: 100%;
+  background-size: cover;
   background-position: center;
   background-repeat:  no-repeat;
   width: 100%;
