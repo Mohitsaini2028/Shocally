@@ -6,7 +6,7 @@ html,body{
 }
 .background-Image
 {
-  background-image: url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fshopping%2Btrolley&psig=AOvVaw3v3YxYCpWhSPJd4PsGxuUi&ust=1635059318856000&source=images&cd=vfe&ved=0CAgQjRxqFwoTCIiY1uj83_MCFQAAAAAdAAAAABAJ);
+  background-image: url('/static/image/trollee.png ');
   height: 100%;
   background-position: center;
   background-repeat:  no-repeat;
