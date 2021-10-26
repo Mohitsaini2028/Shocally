@@ -1,6 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse ,HttpResponseRedirect
 from .models import User, Seller, BookingItem, Booking, TimeSlot
 from math import ceil
+from booking.forms import NewBookingItemForm
 # Create your views here.
 
 def home(request):
@@ -47,7 +48,6 @@ def home(request):
 #     print(allProds)
 #     if len(allProds)==0:
 #         prodExist=False
-#     else:
 #         prodExist=True
 #
 #     form = NewProductForm()
@@ -78,10 +78,10 @@ def shopView(request,shopid):
     else:
         prodExist=True
 
-    # form = NewProductForm()
+    form = NewBookingItemForm()
 
-    # return render(request, 'bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
-    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
+    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
+    #return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
 def appointmentBook(request):
     pass
@@ -91,3 +91,21 @@ def ItemBookPage(request,itemId):
     # seller = Seller.objects.filter(id=item.seller.id)
     timeSlot = TimeSlot.objects.filter(seller=item.seller)
     return render(request,'ItemBookingPage.html',{'item':item, 'timeSlot':timeSlot})
+
+
+def NewBookingItem(request):
+    if request.method=='POST':
+        form=NewBookingItemForm(request.POST)
+        bookingItem= BookingItem()
+        bookingItem.service_name=form.data['service_name']
+        bookingItem.category=form.data['category']
+        bookingItem.subCategory=form.data['subCategory']
+        bookingItem.originalPrice=form.data['originalPrice']
+        bookingItem.price=form.data['price']
+        bookingItem.desc=form.data['desc']
+        bookingItem.image=request.FILES.get('img')
+
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        bookingItem.seller=seller
+        bookingItem.save()
+        return HttpResponseRedirect(f"/booking/ShopView/{request.POST['sellerId']}")

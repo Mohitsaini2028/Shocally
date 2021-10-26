@@ -6,7 +6,7 @@ from django.utils.timezone import now
 class BookingItem(models.Model):
     item_id = models.AutoField
     seller = models.ForeignKey(Seller,on_delete=models.CASCADE) # one to many relationship
-    item_name = models.CharField(max_length=50, default="")
+    service_name = models.CharField(max_length=50, default="")
     category = models.CharField(max_length=50, default="")
     subCategory = models.CharField(max_length=50, default="")
     originalPrice = models.FloatField(default=0.0)
@@ -19,7 +19,7 @@ class BookingItem(models.Model):
 
 
     def __str__(self):
-             return self.item_name + " " + self.subCategory + " -- " + str(self.seller)
+             return self.service_name + " " + self.subCategory + " -- " + str(self.seller)
 #shop m member bhi dalna
 
 

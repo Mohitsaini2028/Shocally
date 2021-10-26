@@ -101,7 +101,7 @@
                         <div class="card align-items-center" style="width: 18rem;">
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h6 class="card-title" id="namepr{{i.id}}">{{i.item_name|title}}</h6>
+                                <h6 class="card-title" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
                                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}
@@ -190,7 +190,7 @@
         </div>
         <div class="modal-body">
 
-          <form id='main' action="/shop/newProduct/" enctype='multipart/form-data' method="post">
+          <form id='main' action="/booking/NewBookingItem/" enctype='multipart/form-data' method="post">
           {% csrf_token %}
 
           {{form|crispy}}
