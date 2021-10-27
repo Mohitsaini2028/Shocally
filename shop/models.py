@@ -44,7 +44,7 @@ class Seller(models.Model): #Shop Information
     shopImg= models.ImageField(upload_to="shop/images",default="")
     productBased=models.BooleanField(default=True)
     appointmentBased=models.BooleanField(default=False)
-    
+
     #starting time ending time
     #no of workers
 
@@ -120,3 +120,12 @@ class OrderUpdate(models.Model):
 
     def __str__(self):
         return self.update_desc[0:25] + "...             " +"        Order ID : " +str(self.order_id)
+
+class ProductRating(models.Model):
+     rating=models.FloatField(default=0)
+     user=models.ForeignKey(User,on_delete=models.CASCADE)
+     product=models.ForeignKey(Product,on_delete=models.CASCADE)
+     comment=models.CharField(max_length=500,default="")
+
+     def __str__(self):
+        return str(self.user) + "   " + self.product.product_name[:10]+"...    Rating = "+ str(self.rating) +  "    Product Id - "+ str(self.product.id)

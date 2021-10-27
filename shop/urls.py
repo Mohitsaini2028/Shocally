@@ -17,5 +17,8 @@ urlpatterns = [
     path("placeOrder/",views.placeOrder,name="placeOrder"),
     path("tracker/",views.tracker,name="tracker"),
     path('newProduct/', views.newProduct, name="newProduct"),
+    path("ratingPage/<int:id>/",views.ratingPage,name="ratingPage"),
+    # path('RatingUpdate/', views.ShopRatingUpdate, name="ShopRatingUpdate"),
+    path('prodRatingUpdate/', views.prodRatingUpdate, name="prodRatingUpdate"),
 
 ]

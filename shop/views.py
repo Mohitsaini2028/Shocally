@@ -1,12 +1,12 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
-from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate
+from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
 import json
 from shop.forms import NewProductForm, NewSellerForm
-
+import time
 # Create your views here.
 
 def home(request):
@@ -338,6 +338,41 @@ def tracker(request):
             print("\n\n - - - - - - - TRACKER- - - - - - - - \n\n")
     return render(request,'shop/tracker.html',{'orders':orders,'orderUpdate':orderUpdate})
 
+def ratingPage(request,id):
+    print("\n\n\n\n Rating Page")
+    print(id)
+    return render(request,'rating.html',{'id':id})
+
+def prodRatingUpdate(request):
+    id=request.user.id
+
+    prod=Product.objects.get(id=request.POST['productId'])
+    number=float(request.POST['RatingGiven'])
+    print(type(number))
+    print("\n\n\n\n")
+    print("before",prod.rating,prod.ratingNo)
+    prod.ratingNo+=1
+    prod.rating = (prod.rating*(prod.ratingNo-1) + number)/prod.ratingNo
+    print("after",prod.rating)
+    time.sleep(2.4)
+
+    prod.save()
+    try:
+        prodUpdate = ProductRating.objects.get(user=request.user,product=prod)
+        #if user already rated the same product
+        print("prodUpdate",prodUpdate)
+        prodUpdate.rating=number
+        prodUpdate.comment=request.POST['comment']
+        prodUpdate.save()
+        print(" Already Rated")
+    except Exception as e:
+        print("Exception hh bhai ",e)
+        # if first time rating
+        prodRat=ProductRating.objects.create(user=request.user,product=prod,rating=number,comment=request.POST['comment'])
+        prodRat.save()
+        print(" First Time Rated")
+
+    return HttpResponseRedirect(f"/shop/productView/{request.POST['productId']}")
 
 
 def handelLogin(request):
