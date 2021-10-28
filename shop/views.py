@@ -225,7 +225,7 @@ def newProduct(request):
 
 def editProduct(request,prodId):
     product=Product.objects.get(id=prodId)
-    fields={'productName':product.product_name, 'category':product.category,'subCategory':product.subCategory,'originalPrice':product.originalPrice,'price':product.price,'descripton':product.desc,'img':product.image}
+    fields={'productName':product.product_name, 'category':product.category,'subCategory':product.subCategory,'originalPrice':product.originalPrice,'price':product.price,'descripton':product.desc,'img':product.image, 'inStock':product.inStock}
     form=NewProductForm(initial=fields)
     return  render(request, "shop/editProduct.html",{'form':form,'product':product})
 
@@ -242,6 +242,7 @@ def editProductHandle(request):
         product.originalPrice=form.data['originalPrice']
         product.price=form.data['price']
         product.desc=form.data['descripton']
+        product.inStock=form.data['inStock']
         if request.FILES.get('img'):
             product.image=request.FILES.get('img')
         else:
