@@ -15,7 +15,8 @@
   </head>
   <body>
 
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <header>
+    <nav class="navbar mb-0 pb-0 sticky-top navbar-expand-lg navbar-dark bg-dark">
 
       <a class="navbar-brand" href="#">
         <img src="/static/image/logo3.png" class="rounded-circle" width="100" height="50" alt="">
@@ -108,7 +109,7 @@ SignUp
 
       <!-- <h1 id="AnonymousUser">{{request.user}}</h1> -->
 
-
+{% if message %}
       {% for message in messages  %}
       <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
             <strong>Message : </strong> {{ message }}
@@ -117,9 +118,9 @@ SignUp
             </button>
       </div>
       {% endfor %}
+{% endif %}
 
-
-
+{% block body %}  {% endblock body %}
 
 
 <!-- SignUp Modal -->
@@ -248,7 +249,7 @@ SignUp
     </div>
   </div>
 
-      {% block body %}  {% endblock body %}
+
 
 
 <!-- Login Modal -->
