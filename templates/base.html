@@ -31,6 +31,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
 
+            {% if user.is_authenticated %}
+            <li class="nav-item {% block shopactive %}  {% endblock shopactive %} ">
+              <a class="nav-link" href="/shop/pinResult/{{user.PINCODE}}">Shop</a>
+            </li>
+            {% endif %}
+
             <li class="nav-item {% block bookingactive %}  {% endblock bookingactive %} ">
               <a class="nav-link" href="/booking/">Booking</a>
             </li>
@@ -72,18 +78,27 @@
           <a class="nav-link dropdown-toggle" href='#' id="AuthUser" role="button" data-toggle="dropdown"> Welcome {{request.user.first_name}}</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/shop/logout">Logout</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/shop/tracker/">My Order</a>
+                    <a class="dropdown-item" href="/booking/update/">My Booking</a>
+
 
                     {% if user.id == request.session.sellerUserId %}
-                    <a class="dropdown-item" href="/shop/ShopView/{{request.session.shopId | safe}}">My Shop</a>
-                    <a class="dropdown-item" href="/shop/orderNotify/{{request.session.shopId | safe}}">My Orders</a>
-                    <a class="dropdown-item" href="/shop/">car</a>
-                      {% endif %}
+                    <div class="dropdown-divider"></div>
+                    {% if request.session.appointmentBased %}
+                    <a class="dropdown-item" href="/booking/ShopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
+                    {% else %}
+                    <a class="dropdown-item" href="/shop/shopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
+                    {% endif %}
+                    <a class="dropdown-item" href="/shop/orderNotify/{{request.session.shopId | safe}}"><b>Orders for Myshop</b></a>
 
-                    <a class="dropdown-item" href="/shop/tracker/">My Order</a>
-                  </div>
-                </li>
-                </ul>
-                </div>
+                    {% endif %}
+
+
+            </div>
+            </li>
+            </ul>
+            </div>
           {% else %}
 
           <!-- <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus

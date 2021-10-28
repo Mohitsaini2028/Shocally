@@ -31,7 +31,7 @@ def pinResult(request,result):
             allShop.append([shop, range(1, nSlides), nSlides])
 
     params = {'allShop':allShop}
-
+    request.session['pincode']=pincode
     return render(request, 'shop/index.html', params)
 
 def pincodeResult(request):                                             #for those user who don't want to login
@@ -331,10 +331,10 @@ def placeOrder(request):
     #     orderNotify=orderNotification.objects.create(user=request.user, seller=i, notificatonJson=notifyJson)
     #     orderNotify.save()
     #
-    # order=Order.objects.create(user=request.user,pincode=user.PINCODE,address=address,city=city,phoneNo=user.phoneNo,itemJson=cartUser.itemJson,totalPrice=cartUser.totalPrice,totalItem=cartUser.totalCart)
-    # update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
-    # order.save()
-    # update.save()
+    order=Order.objects.create(user=request.user,pincode=user.PINCODE,address=address,city=city,phoneNo=user.PhoneNo,itemJson=cartUser.itemJson,totalPrice=cartUser.totalPrice,totalItem=cartUser.totalCart)
+    update = OrderUpdate.objects.create(order_id=order.order_id, update_desc="The order has been placed")
+    order.save()
+    update.save()
     #
     # #adding data to dataset
     #
@@ -464,6 +464,7 @@ def handelLogin(request):
                 print(type(sellerUser[0].user.id))
                 request.session['sellerUserId']=sellerUser[0].user.id #user
                 request.session['shopId']=sellerUser[0].id #seller
+                request.session['appointmentBased']=sellerUser[0].appointmentBased #seller
 
             # request.session['user']=user #user is not serializeabe you can't pass it
             return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")

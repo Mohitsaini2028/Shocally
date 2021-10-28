@@ -39,7 +39,16 @@ class Booking(models.Model):
      user = models.ForeignKey(User,on_delete=models.CASCADE)
      item = models.ForeignKey(BookingItem,on_delete=models.CASCADE)
      time = models.ForeignKey(TimeSlot,on_delete=models.CASCADE)
-     date = models.DateField()
 
      def __str__(self):
          return self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE)
+
+
+class BookingUpdate(models.Model):
+    update_id  = models.AutoField(primary_key=True)
+    booking_id = models.ForeignKey(Booking,on_delete=models.CASCADE)
+    update_desc = models.CharField(max_length=5000)
+    timestamp = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.update_desc[0:25] + "...             " +"        Order ID : " +str(self.booking_id)

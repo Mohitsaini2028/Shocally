@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse ,HttpResponseRedirect
-from .models import User, Seller, BookingItem, Booking, TimeSlot
+from .models import User, Seller, BookingItem, Booking, TimeSlot, BookingUpdate
 from math import ceil
 from booking.forms import NewBookingItemForm
 # Create your views here.
@@ -84,13 +84,39 @@ def shopView(request,shopid):
     #return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
 def appointmentBook(request):
-    pass
+    bookingItem = BookingItem.objects.get(id=request.POST['bookingItemId'])
+    timeSlot = TimeSlot.objects.get(id=request.POST['bookingSlotId'])
+
+    if request.POST['bookingSlotId'] == "":
+            messages.error(request,"please add Time Slot for your booking. ")
+    else:
+        booking=Booking.objects.create(user=request.user, item=bookingItem, time=timeSlot)
+
+        descripton = f"The Booking is Confirmed for {bookingItem.service_name} at {timeSlot.starting_time} - {timeSlot.ending_time} - Date {timeSlot.bookingDate} "
+        update = BookingUpdate(booking_id=booking, update_desc=descripton)
+        booking.save()
+        update.save()
+
+    return HttpResponseRedirect(f"/booking/ShopView/{bookingItem.seller.id}")
+
+def update(request):
+    bookings=Booking.objects.filter(user=request.user)
+    bookingUpdate=[]
+
+    for booking in bookings:
+        print("\n\n- - - - - - - ",booking)
+        update=BookingUpdate.objects.filter(booking_id=booking.id)
+        if update:
+            bookingUpdate.append(update)
+            print("\n\n - - - - - - - Update Page- - - - - - - - \n\n")
+    print(bookings,bookingUpdate)
+    return render(request,'booking/update.html',{'bookings':bookings,'bookingUpdate':bookingUpdate})
 
 def ItemBookPage(request,itemId):
     item = BookingItem.objects.get(id=itemId)
     # seller = Seller.objects.filter(id=item.seller.id)
     timeSlot = TimeSlot.objects.filter(seller=item.seller)
-    return render(request,'ItemBookingPage.html',{'item':item, 'timeSlot':timeSlot})
+    return render(request,'booking/itemBookingPage.html',{'item':item, 'timeSlot':timeSlot})
 
 
 def NewBookingItem(request):

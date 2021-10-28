@@ -8,5 +8,6 @@ urlpatterns = [
     path("appointmentBook/", views.appointmentBook, name="appointmentBook"),
     path("ItemBookPage/<int:itemId>", views.ItemBookPage, name="ItemBookPage"),
     path('NewBookingItem/', views.NewBookingItem, name="NewBookingItem"),
+    path('update/', views.update, name="update"),
 
 ]
