@@ -18,8 +18,8 @@ class NewProductForm(forms.Form):
     inStock = forms.IntegerField()
 
 class NewSellerForm(forms.Form):
-    PinCode=forms.IntegerField()
-    ShopName=forms.CharField(max_length=100)
-    ShopCategory=forms.CharField(max_length=50)
-    ShopAddress=forms.CharField(max_length=500)
-    ShopImg= forms.ImageField()
+    pincode=forms.IntegerField()
+    shopName=forms.CharField(max_length=100)
+    shopCategory=forms.CharField(max_length=50)
+    shopAddress=forms.CharField(max_length=500)
+    shopImg= forms.ImageField()

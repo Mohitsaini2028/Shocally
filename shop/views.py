@@ -223,6 +223,63 @@ def newProduct(request):
         product.save()
         return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
 
+def editProduct(request,prodId):
+    product=Product.objects.get(id=prodId)
+    fields={'productName':product.product_name, 'category':product.category,'subCategory':product.subCategory,'originalPrice':product.originalPrice,'price':product.price,'descripton':product.desc,'img':product.image}
+    form=NewProductForm(initial=fields)
+    return  render(request, "shop/editProduct.html",{'form':form,'product':product})
+
+
+def editProductHandle(request):
+    if request.method=="POST":
+        form=NewProductForm(request.POST)
+        product=Product()
+        oldProduct=Product.objects.get(id=request.POST['productId'])
+        product.id=oldProduct.id
+        product.product_name=form.data['productName']
+        product.category=form.data['category']
+        product.subCategory=form.data['subCategory']
+        product.originalPrice=form.data['originalPrice']
+        product.price=form.data['price']
+        product.desc=form.data['descripton']
+        if request.FILES.get('img'):
+            product.image=request.FILES.get('img')
+        else:
+            product.image=oldProduct.image
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        product.seller=seller
+        product.save()
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
+
+def editShop(request,sellId):
+    seller=Seller.objects.get(id=sellId)
+    fields={'pincode':seller.pincode, 'shopName':seller.shopName,'shopCategory':seller.shopCategory,'shopAddress':seller.shopAddress,'shopImg':seller.shopImg}
+    form=NewSellerForm(initial=fields)
+    return  render(request, "shop/editShop.html",{'form':form,'seller':seller})
+
+def editShopHandle(request):
+    if request.method=="POST":
+        form=NewSellerForm(request.POST)
+        seller=Seller()
+
+        oldSeller=Seller.objects.get(id=request.POST['sellId'])
+        seller.id=oldSeller.id
+        seller.user=oldSeller.user
+        seller.ratingNo=oldSeller.ratingNo
+        seller.shopRating=oldSeller.shopRating
+        seller.pincode=form.data['pincode']
+        seller.shopName=form.data['shopName']
+        seller.shopCategory=form.data['shopCategory']
+        seller.shopAddress=form.data['shopAddress']
+        if(request.FILES.get('shopImg')):
+            seller.shopImg=request.FILES.get('shopImg')
+        else:
+            seller.shopImg=oldSeller.shopImg
+        seller.save()
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellId']}")
+
+
+
 def placeOrder(request):
     cartUser= Cart.objects.get(user=request.user.id)
     user=User.objects.get(id=request.user.id)
