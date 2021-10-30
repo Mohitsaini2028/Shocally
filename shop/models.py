@@ -129,3 +129,12 @@ class ProductRating(models.Model):
 
      def __str__(self):
         return str(self.user) + "   " + self.product.product_name[:10]+"...    Rating = "+ str(self.rating) +  "    Product Id - "+ str(self.product.id)
+
+class ShopRating(models.Model):
+     rating=models.FloatField(default=0)
+     user=models.ForeignKey(User,on_delete=models.CASCADE)
+     shop=models.ForeignKey(Seller,on_delete=models.CASCADE)
+     comment=models.CharField(max_length=500,default="")
+
+     def __str__(self):
+        return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.shopRating) +  "    Product Id - "+ str(self.shop.id)

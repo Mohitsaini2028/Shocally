@@ -19,10 +19,11 @@ urlpatterns = [
     path('newProduct/', views.newProduct, name="newProduct"),
     path('editProduct/<int:prodId>', views.editProduct, name="editProduct"),
     path('editProductHandle/', views.editProductHandle, name="editProductHandle"),
+    path('deleteProduct/',views.deleteProduct, name="deleteProduct"),
     path('editShop/<int:sellId>', views.editShop, name="editShop"),
     path('editShopHandle/', views.editShopHandle, name="editShopHandle"),
-    path("ratingPage/<int:id>/",views.ratingPage,name="ratingPage"),
-    # path('RatingUpdate/', views.ShopRatingUpdate, name="ShopRatingUpdate"),
+    path("ratingPage/<int:id>/<str:val>",views.ratingPage,name="ratingPage"),
+    path('shopRatingUpdate/', views.shopRatingUpdate, name="shopRatingUpdate"),
     path('prodRatingUpdate/', views.prodRatingUpdate, name="prodRatingUpdate"),
 
 ]

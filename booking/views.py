@@ -90,12 +90,13 @@ def appointmentBook(request):
     if request.POST['bookingSlotId'] == "":
             messages.error(request,"please add Time Slot for your booking. ")
     else:
+        timeSlot.max_booking-=1
         booking=Booking.objects.create(user=request.user, item=bookingItem, time=timeSlot)
-
         descripton = f"The Booking is Confirmed for {bookingItem.service_name} at {timeSlot.starting_time} - {timeSlot.ending_time} - Date {timeSlot.bookingDate} "
         update = BookingUpdate(booking_id=booking, update_desc=descripton)
         booking.save()
         update.save()
+        timeSlot.save()
 
     return HttpResponseRedirect(f"/booking/ShopView/{bookingItem.seller.id}")
 

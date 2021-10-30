@@ -77,6 +77,7 @@
 
     <input type="hidden" class="form-control" id="productId" name="productId" value="{{ product.id }}">
     <input type="hidden" class="form-control" id="RatingGiven" name="RatingGiven" value="" >
+    <input type="hidden" class="form-control" id="product" name="product" value="product" >
   </div>
 
 
@@ -169,9 +170,9 @@
 
 
 
-  $('.changePage').on('click',function(){
+  $('.changePage').on('click',function(e){
     console.log({{product.id}})
-   window.location.href="/shop/ratingPage/{{product.id}}/";
+   window.location.href="/shop/ratingPage/{{product.id}}/product";
 });
 
 

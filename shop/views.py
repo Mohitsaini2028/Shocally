@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
-from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating
+from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
@@ -47,7 +47,7 @@ def shopView(request,shopid):
     cats = {item['subCategory'] for item in catprods}
 
     for cat in cats:
-        prod = Product.objects.filter(seller=shop[0],subCategory=cat)
+        prod = Product.objects.filter(seller=shop[0],subCategory=cat).order_by('-rating')
         if prod.exists():
             n = len(prod)
             nSlides = n // 4 + ceil((n / 4) - (n // 4))
@@ -158,7 +158,7 @@ def handleSignUp(request):
         messages.error("Invalid credentials !! Please try again ")
         return redirect('home')
 
-
+@login_required(login_url='/')
 def clearCart(request):
     cartUser= Cart.objects.filter(user=request.user.id)
     cartUser.update(itemJson="{}",totalPrice=0,totalCart=0)
@@ -171,7 +171,7 @@ def clearCart(request):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render(request,"shop/pincode.html")
 
-
+@login_required(login_url='/')
 def cart(request):
         user=request.POST['user']
         cartData=request.POST['cartData']
@@ -205,7 +205,7 @@ def cart(request):
 
         return HttpResponse(cartData)
 
-
+@login_required(login_url='/')
 def newProduct(request):
     if request.method=='POST':
         form=NewProductForm(request.POST)
@@ -223,13 +223,14 @@ def newProduct(request):
         product.save()
         return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
 
+@login_required(login_url='/')
 def editProduct(request,prodId):
     product=Product.objects.get(id=prodId)
     fields={'productName':product.product_name, 'category':product.category,'subCategory':product.subCategory,'originalPrice':product.originalPrice,'price':product.price,'descripton':product.desc,'img':product.image, 'inStock':product.inStock}
     form=NewProductForm(initial=fields)
     return  render(request, "shop/editProduct.html",{'form':form,'product':product})
 
-
+@login_required(login_url='/')
 def editProductHandle(request):
     if request.method=="POST":
         form=NewProductForm(request.POST)
@@ -252,12 +253,24 @@ def editProductHandle(request):
         product.save()
     return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
 
+@login_required(login_url='/')
+def deleteProduct(request):
+    prodId=int(request.POST['delProd'])
+    sellerId=int(request.POST['sellerId'])
+    print(sellerId," a rha h yrr yha tak")
+    product=Product.objects.get(id=prodId)
+    product.delete()
+    messages.success(request, "Product is successfully deleted")
+    return HttpResponseRedirect(f"/shop/shopView/{sellerId}")
+
+@login_required(login_url='/')
 def editShop(request,sellId):
     seller=Seller.objects.get(id=sellId)
     fields={'pincode':seller.pincode, 'shopName':seller.shopName,'shopCategory':seller.shopCategory,'shopAddress':seller.shopAddress,'shopImg':seller.shopImg}
     form=NewSellerForm(initial=fields)
     return  render(request, "shop/editShop.html",{'form':form,'seller':seller})
 
+@login_required(login_url='/')
 def editShopHandle(request):
     if request.method=="POST":
         form=NewSellerForm(request.POST)
@@ -280,7 +293,7 @@ def editShopHandle(request):
     return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellId']}")
 
 
-
+@login_required(login_url='/')
 def placeOrder(request):
     cartUser= Cart.objects.get(user=request.user.id)
     user=User.objects.get(id=request.user.id)
@@ -378,12 +391,11 @@ def placeOrder(request):
     messages.success(request,"Thankyou for Ordering From Shocally ")
     return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
 
-
-
-
+@login_required(login_url='/')
 def checkout(request):
         return render(request, 'shop/checkout.html')
 
+@login_required(login_url='/')
 def tracker(request):
     orders=Order.objects.filter(user=request.user)
     orderUpdate=[]
@@ -396,15 +408,52 @@ def tracker(request):
             print("\n\n - - - - - - - TRACKER- - - - - - - - \n\n")
     return render(request,'shop/tracker.html',{'orders':orders,'orderUpdate':orderUpdate})
 
-def ratingPage(request,id):
+
+@login_required(login_url='/')
+def ratingPage(request,id,val):
     print("\n\n\n\n Rating Page")
-    print(id)
-    return render(request,'rating.html',{'id':id})
+    print(id,"val",val)
+    if val=="product":
+        return render(request,'rating.html',{'id':id,'url':"/shop/prodRatingUpdate/"})
+    if val=="shop":
+        return render(request,'rating.html',{'id':id,'url':"/shop/shopRatingUpdate/"})
+
+@login_required(login_url='/')
+def shopRatingUpdate(request):
+    id=request.user.id
+
+    shop=Seller.objects.get(id=request.POST['Id'])
+    number=float(request.POST['RatingGiven'])
+    print(type(number))
+    print("\n\n\n\n")
+    print("before",shop.shopRating,shop.ratingNo)
+    shop.ratingNo+=1
+    shop.shopRating = (shop.shopRating*(shop.ratingNo-1) + number)/shop.ratingNo
+    print("after",shop.shopRating)
+    time.sleep(2.4)
+
+    shop.save()
+    try:
+        shopUpdate = ShopRating.objects.get(user=request.user,shop=shop)
+        #if user already rated the same product
+        print("shopUpdate",shopUpdate)
+        shopUpdate.shopRating=number
+        shopUpdate.comment=request.POST['comment']
+        shopUpdate.save()
+        print(" Already Rated")
+    except Exception as e:
+        print("Exception Rating Page",e)
+        # if first time rating
+        shopRat=ShopRating.objects.create(user=request.user,shop=shop,rating=number,comment=request.POST['comment'])
+        shopRat.save()
+        print(" First Time Rated")
+
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['Id']}")
 
 def prodRatingUpdate(request):
     id=request.user.id
 
-    prod=Product.objects.get(id=request.POST['productId'])
+    prod=Product.objects.get(id=request.POST['Id'])
     number=float(request.POST['RatingGiven'])
     print(type(number))
     print("\n\n\n\n")
@@ -424,13 +473,13 @@ def prodRatingUpdate(request):
         prodUpdate.save()
         print(" Already Rated")
     except Exception as e:
-        print("Exception hh bhai ",e)
+        print("Exception Rating Page",e)
         # if first time rating
         prodRat=ProductRating.objects.create(user=request.user,product=prod,rating=number,comment=request.POST['comment'])
         prodRat.save()
         print(" First Time Rated")
 
-    return HttpResponseRedirect(f"/shop/productView/{request.POST['productId']}")
+    return HttpResponseRedirect(f"/shop/productView/{request.POST['Id']}")
 
 
 def handelLogin(request):
@@ -477,7 +526,7 @@ def handelLogin(request):
 
     return HttpResponse("404- Not found")
 
-
+@login_required(login_url='/')
 def handelLogout(request):
     request.session.flush()
     logout(request)

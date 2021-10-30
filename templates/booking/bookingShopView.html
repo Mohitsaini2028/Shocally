@@ -5,6 +5,8 @@
 {% load static %}
 
 {% block link %}
+
+<link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}">
 <link rel="stylesheet" href="{% static 'css/shop/slider.css' %}">
 
 <!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
@@ -44,9 +46,23 @@
         <address ><b>Shop Address : </b>  {{shop.shopAddress}}  </address>
         <p><b>Shop Category : </b>{{shop.shopCategory}}</p>
 
-        <p><b>Shop Rating   :  </b>{{shop.ratingNo}}</p>
         <p><b>Phone Number  :  </b>{{shop.user.PhoneNo}}</p>
-
+        <p><b>Shop Rating   :  </b>{{shop.shopRating}}</p>
+        <a href='/shop/ratingPage'>
+        <!-- <div class="rate m-0 p-0" id="rating" data-toggle="modal" data-target="#RatingModal"> -->
+        <div class="rate m-0 p-0" id="rating">
+          <input type="radio" id="star5" class="changePage" name="rate" value="5" />
+          <label for="star5" title="text">5 stars</label>
+          <input type="radio" id="star4" class="changePage" name="rate" value="4" />
+          <label for="star4" title="text">4 stars</label>
+          <input type="radio" id="star3" class="changePage" name="rate" value="3" />
+          <label for="star3" title="text">3 stars</label>
+          <input type="radio" id="star2" class="changePage" name="rate"  value="2" />
+          <label for="star2" title="text">2 stars</label>
+          <input type="radio" id="star1" class="changePage" name="rate" value="1" />
+          <label for="star1" title="text">1 star</label>
+      </div>
+      </a>
     </div>
     </div>
 
@@ -282,10 +298,19 @@
 
 
 
-console.log("hi");
+    $('.changePage').on('click',function(e){
+      console.log({{shop.id}})
+     window.location.href="/shop/ratingPage/{{shop.id}}/shop";
+  });
 
-</script>
+    s=document.getElementById('rating');
+    y=s.children
 
+    if ( {{shop.shopRating}} != 0.0){
+      y[10-2*parseInt({{shop.shopRating}})].checked=true;
+    }
+
+  </script>
 
 
 {% endblock js %}

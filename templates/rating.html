@@ -5,7 +5,7 @@
     <title>Star Rating Form | Shocally</title>
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'css/shop/ratingAnimation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ratingAnimation.css' %}">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   </head>
@@ -26,7 +26,7 @@
         <label for="rate-2" class="fas fa-star"></label>
         <input type="radio" name="rate"  onclick="r(1);" id="rate-1">
         <label for="rate-1" class="fas fa-star"></label>
-        <form action="/shop/prodRatingUpdate/" id='ratingForm' method="post">
+        <form action="" id='ratingForm' method="post">
         {% csrf_token %}
           <header></header>
           <div class="textarea">
@@ -34,7 +34,7 @@
           </div>
 
           <input type="hidden"  id="RatingGiven" name="RatingGiven" value="" >
-          <input type="hidden" id="productId" name="productId" value="{{id}}">
+          <input type="hidden" id="Id" name="Id" value="{{id}}">
           <div class="btn">
 
             <button type="submit">Post</button>
@@ -45,6 +45,10 @@
     <script>
 
       <!-- Rating Given By User -->
+
+      document.getElementById("ratingForm").action="{{url}}";
+      // document.getElementById("ratingForm").action="/shop/prodRatingUpdate/";
+
       function r(value){
         console.log(value);
         document.getElementById('RatingGiven').value=value;
