@@ -137,4 +137,4 @@ class ShopRating(models.Model):
      comment=models.CharField(max_length=500,default="")
 
      def __str__(self):
-        return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.shopRating) +  "    Product Id - "+ str(self.shop.id)
+        return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.shopRating) +  "    Shop Id - "+ str(self.shop.id)

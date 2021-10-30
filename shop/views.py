@@ -415,8 +415,10 @@ def ratingPage(request,id,val):
     print(id,"val",val)
     if val=="product":
         return render(request,'rating.html',{'id':id,'url':"/shop/prodRatingUpdate/"})
-    if val=="shop":
+    elif val=="shop":
         return render(request,'rating.html',{'id':id,'url':"/shop/shopRatingUpdate/"})
+    elif val=="booking":
+        return render(request,'rating.html',{'id':id,'url':"/booking/bookingItemRatingUpdate/"})
 
 @login_required(login_url='/')
 def shopRatingUpdate(request):
@@ -450,6 +452,7 @@ def shopRatingUpdate(request):
 
     return HttpResponseRedirect(f"/shop/shopView/{request.POST['Id']}")
 
+@login_required(login_url='/')
 def prodRatingUpdate(request):
     id=request.user.id
 

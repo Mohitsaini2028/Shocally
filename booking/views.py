@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse ,HttpResponseRedirect
-from .models import User, Seller, BookingItem, Booking, TimeSlot, BookingUpdate
+from .models import User, Seller, BookingItem, Booking, TimeSlot, BookingUpdate, BookingItemRating
 from math import ceil
 from booking.forms import NewBookingItemForm
+import time
 # Create your views here.
 
 def home(request):
@@ -83,6 +84,32 @@ def shopView(request,shopid):
     return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
     #return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
+
+def bookingItemView(request,itemid):
+    bookingItem = BookingItem.objects.filter(id=itemid)
+    # recommendations = Product.objects.filter(category=product[0].category).order_by('-rating')
+    # print(recommendations)
+    recommendations = []
+
+    # count = 0
+    # for  i in Product.objects.filter(category=product[0].category,subCategory=product[0].subCategory).order_by('-rating'):
+    #     if i.seller.Pincode == product[0].seller.Pincode:
+    #             recommendations.append(i)
+    #     if count>=5:
+    #         break
+    #     count+=1
+    # seller.PinCode=product[0].seller.Pincode,
+
+    # a=clusterRecommend.run(product[0].subCategory)
+    # print(a)
+    # suggestions = []
+    # try:
+    #     suggestions = aprori_recommender.run(product[0].subCategory)
+    #     print("\n\n\n\n",suggestions)
+    # except:
+    #     print("\n\n\Exception occur at Aprori Recommendation System\n\n")
+    return render(request, 'booking/bookingItemView.html', {'bookingItem':bookingItem[0]})
+
 def appointmentBook(request):
     bookingItem = BookingItem.objects.get(id=request.POST['bookingItemId'])
     timeSlot = TimeSlot.objects.get(id=request.POST['bookingSlotId'])
@@ -136,3 +163,35 @@ def NewBookingItem(request):
         bookingItem.seller=seller
         bookingItem.save()
         return HttpResponseRedirect(f"/booking/ShopView/{request.POST['sellerId']}")
+
+
+def bookingItemRatingUpdate(request):
+    id=request.user.id
+
+    bookingItem=BookingItem.objects.get(id=request.POST['Id'])
+    number=float(request.POST['RatingGiven'])
+    print(type(number))
+    print("\n\n\n\n")
+    print("before",bookingItem.rating,bookingItem.ratingNo)
+    bookingItem.ratingNo+=1
+    bookingItem.rating = (bookingItem.rating*(bookingItem.ratingNo-1) + number)/bookingItem.ratingNo
+    print("after",bookingItem.rating)
+    time.sleep(2.4)
+
+    bookingItem.save()
+    try:
+        bookingItemUpdate = BookingItemRating.objects.get(user=request.user,product=prod)
+        #if user already rated the same product
+        print("bookingItemUpdate",bookingItemUpdate)
+        bookingItemUpdate.rating=number
+        bookingItemUpdate.comment=request.POST['comment']
+        bookingItemUpdate.save()
+        print(" Already Rated")
+    except Exception as e:
+        print("Exception Rating Page",e)
+        # if first time rating
+        bookingItemRat=BookingItemRating.objects.create(user=request.user,bookingItem=bookingItem,rating=number,comment=request.POST['comment'])
+        bookingItemRat.save()
+        print(" First Time Rated")
+
+    return HttpResponseRedirect(f"/booking/bookingItemView/{request.POST['Id']}")

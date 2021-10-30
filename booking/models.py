@@ -15,7 +15,25 @@ class BookingItem(models.Model):
     image = models.ImageField(upload_to='shop/images', default="")
     rating = models.FloatField(default=0.0)
     ratingNo = models.IntegerField(default=0)  #Number of rating by users
+    @property
+    def updateRating(self,no):
+        self.rating = (self.rating + no)/(ratingNo + 1)
+        return self.rating
 
+    @property
+    def Save(self):
+        return self.originalPrice - self.price
+
+    @property
+    def pincode(self):
+        return self.seller.pincode
+
+    @property
+    def Discount(self):
+        return 100-int((self.price/self.originalPrice)*100)
+
+    def __str__(self):
+        return self.service_name + "  ----  " + str(self.id)
 
 
     def __str__(self):
@@ -52,3 +70,12 @@ class BookingUpdate(models.Model):
 
     def __str__(self):
         return self.update_desc[0:25] + "...             " +"        Order ID : " +str(self.booking_id)
+
+class BookingItemRating(models.Model):
+     rating=models.FloatField(default=0)
+     user=models.ForeignKey(User,on_delete=models.CASCADE)
+     bookingItem=models.ForeignKey(BookingItem,on_delete=models.CASCADE)
+     comment=models.CharField(max_length=500,default="")
+
+     def __str__(self):
+        return str(self.user) + "   " + self.bookingItem.service_name[:10]+"...    Rating = "+ str(self.rating) +  "    BookingItem Id - "+ str(self.bookingItem.id)

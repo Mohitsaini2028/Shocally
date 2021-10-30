@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}">
+<link rel="stylesheet" href="{% static 'css/shop/slider.css' %}">
+
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row">
+        <img src="/media/{{bookingItem.image}}" class="border rounded-circle" width="233px" height="340px">
+    </div>
+        <div class="row m-5 d-flex">
+
+
+            <a href="/booking/ItemBookPage/{{bookingItem.id}}"><button  class="btn btn-lg btn-primary">Book</button></a>
+
+            <!-- <span id="divpr{{bookingItem.id}}" class="divpr" >
+                <button id="pr{{bookingItem.id}}" class="btn btn-primary cart"></button>
+            </span> -->
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <h5 class="text-success my-4" id="namepr{{bookingItem.id}}">{{bookingItem.service_name|title}}</h5>
+        <p>{{bookingItem.desc}}</p>
+        {% if bookingItem.Save is not 0 %}
+          <p><b>Price : </b> <del class="text-danger">Rs. {{bookingItem.originalPrice}} </del></p>
+          <p><b>Deal of the Day  : </b> Rs.<span class="text-info" id="pricepr{{bookingItem.id}}">{{bookingItem.price}}</span></p>
+          <!-- <p><b>Deal of the Day : </b> Rs.{{product.price|add:"-5"}} </p> -->
+          <p><b>Discount : </b> {{bookingItem.Discount}} %</p>
+          <p><b>You Save : </b> Rs. {{ bookingItem.Save}} </p>
+        {% else %}
+        <p><b>Deal of the Day  : </b>Rs. {{bookingItem.originalPrice}}</p>
+        {% endif %}
+        <a href='/shop/ratingPage'>
+        <!-- <div class="rate m-0 p-0" id="rating" data-toggle="modal" data-target="#RatingModal"> -->
+        <div class="rate m-0 p-0" id="rating">
+          <input type="radio" id="star5" class="changePage" name="rate" value="5" />
+          <label for="star5" title="text">5 stars</label>
+          <input type="radio" id="star4" class="changePage" name="rate" value="4" />
+          <label for="star4" title="text">4 stars</label>
+          <input type="radio" id="star3" class="changePage" name="rate" value="3" />
+          <label for="star3" title="text">3 stars</label>
+          <input type="radio" id="star2" class="changePage" name="rate"  value="2" />
+          <label for="star2" title="text">2 stars</label>
+          <input type="radio" id="star1" class="changePage" name="rate" value="1" />
+          <label for="star1" title="text">1 star</label>
+      </div>
+      </a>
+      <p>{{bookingItem.rating}}<p>
+    </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="RatingModal" tabindex="-1" aria-labelledby="RatingModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="RatingModalTitle">Give Your Rating Here</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="shop/prodRatingUpdate/" method="post">
+        {% csrf_token %}
+  <div class="form-group">
+
+    <input type="hidden" class="form-control" id="bookingItemId" name="bookingItemId" value="{{ bookingItem.id }}">
+    <input type="hidden" class="form-control" id="RatingGiven" name="RatingGiven" value="" >
+    <input type="hidden" class="form-control" id="bookingItem" name="bookingItem" value="bookingItem" >
+  </div>
+
+
+  <h4>How much you rate this product </h4>
+  <div class="form-group">
+
+    <div class="rate m-0 p-0" id="ratingNo">
+    <input type="radio" id="star-5" name="rate" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star-4" name="rate" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star-3" name="rate" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star-2" name="rate" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star-1" name="rate" value="1" />
+    <label for="star1" title="text">1 star</label>
+    </div>
+  </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+       <div class="modal-footer">
+      </div>
+</div>
+</div>
+</div>
+
+<form  id="cartForm" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="cartData" id="cartData" value="">
+  <input type="hidden" name="user" id="user" value="{{user}}">
+  </form>
+
+
+
+
+
+  {% for i in recommendations %}
+    <p>{{i}}<p>
+  {% endfor %}
+
+
+{% endblock %}
+
+
+
+
+
+{% block js %}
+
+
+
+<script src="{% static 'js/shop/cartManage.js' %}"></script>
+
+<script type="text/javascript">
+
+
+
+  $('.changePage').on('click',function(e){
+    console.log({{bookingItem.id}})
+   window.location.href="/shop/ratingPage/{{bookingItem.id}}/booking";
+});
+
+
+
+</script>
+
+<script>
+  console.log(2*parseInt({{bookingItem.rating}}))
+  s=document.getElementById('rating');
+  y=s.children
+
+  if ( {{bookingItem.rating}} != 0.0){
+    y[10-2*parseInt({{bookingItem.rating}})].checked=true;
+  }
+
+
+
+  // form=document.getElementById('formRating');
+
+  // document.getElementById('hiddenRating').value=s;
+  // form.submit();
+
+
+</script>
+
+
+<!-- <script>
+console.log('working');
+
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+
+else
+{
+cart = JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+
+$('.cart').click(function(){
+
+console.log('clicked');
+var idstr = this.id.toString();
+console.log(idstr);
+if (cart[idstr] !=undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else
+{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+$('#popcart').popover();
+
+document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+
+<!-- </script> -->
+
+{% endblock js %}
