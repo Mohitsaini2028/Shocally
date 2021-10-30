@@ -3,6 +3,7 @@ from .models import User, Seller, BookingItem, Booking, TimeSlot, BookingUpdate,
 from math import ceil
 from booking.forms import NewBookingItemForm
 import time
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -32,16 +33,16 @@ def home(request):
 
 # def shopView(request,shopid):
 #     shop= Seller.objects.filter(id=shopid)
-#     # Products=Product.objects.filter(seller=shop)
+#     # BookingItems=BookingItem.objects.filter(seller=shop)
 #     allProds = []
 #     EXIST=[]
 #
-#     catprods = Product.objects.values('category', 'id')
+#     catprods = BookingItem.objects.values('category', 'id')
 #     cats = {item['category'] for item in catprods}
 #
 #     for cat in cats:
-#         # prod = Product.objects.filter(seller=shop[0],category=cat)
-#         prod = Product.objects.filter(seller=shop[0],category=cat)
+#         # prod = BookingItem.objects.filter(seller=shop[0],category=cat)
+#         prod = BookingItem.objects.filter(seller=shop[0],category=cat)
 #         if prod.exists():
 #             n = len(prod)
 #             nSlides = n // 4 + ceil((n / 4) - (n // 4))
@@ -51,14 +52,14 @@ def home(request):
 #         prodExist=False
 #         prodExist=True
 #
-#     form = NewProductForm()
+#     form = NewBookingItemForm()
 #
 #     return render(request, 'shopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
 
 
 def shopView(request,shopid):
     shop= Seller.objects.filter(id=shopid)
-    # Products=Product.objects.filter(seller=shop)
+    # BookingItems=BookingItem.objects.filter(seller=shop)
     timeSlot = TimeSlot.objects.filter(seller=shopid)
     allProds = []
     EXIST=[]
@@ -67,7 +68,7 @@ def shopView(request,shopid):
     cats = {item['category'] for item in catprods}
 
     for cat in cats:
-        # prod = Product.objects.filter(seller=shop[0],category=cat)
+        # prod = BookingItem.objects.filter(seller=shop[0],category=cat)
         prod = BookingItem.objects.filter(seller=shop[0],category=cat)
         if prod.exists():
             n = len(prod)
@@ -87,24 +88,24 @@ def shopView(request,shopid):
 
 def bookingItemView(request,itemid):
     bookingItem = BookingItem.objects.filter(id=itemid)
-    # recommendations = Product.objects.filter(category=product[0].category).order_by('-rating')
+    # recommendations = BookingItem.objects.filter(category=BookingItem[0].category).order_by('-rating')
     # print(recommendations)
     recommendations = []
 
     # count = 0
-    # for  i in Product.objects.filter(category=product[0].category,subCategory=product[0].subCategory).order_by('-rating'):
-    #     if i.seller.Pincode == product[0].seller.Pincode:
+    # for  i in BookingItem.objects.filter(category=BookingItem[0].category,subCategory=BookingItem[0].subCategory).order_by('-rating'):
+    #     if i.seller.Pincode == BookingItem[0].seller.Pincode:
     #             recommendations.append(i)
     #     if count>=5:
     #         break
     #     count+=1
-    # seller.PinCode=product[0].seller.Pincode,
+    # seller.PinCode=BookingItem[0].seller.Pincode,
 
-    # a=clusterRecommend.run(product[0].subCategory)
+    # a=clusterRecommend.run(BookingItem[0].subCategory)
     # print(a)
     # suggestions = []
     # try:
-    #     suggestions = aprori_recommender.run(product[0].subCategory)
+    #     suggestions = aprori_recommender.run(BookingItem[0].subCategory)
     #     print("\n\n\n\n",suggestions)
     # except:
     #     print("\n\n\Exception occur at Aprori Recommendation System\n\n")
@@ -180,8 +181,8 @@ def bookingItemRatingUpdate(request):
 
     bookingItem.save()
     try:
-        bookingItemUpdate = BookingItemRating.objects.get(user=request.user,product=prod)
-        #if user already rated the same product
+        bookingItemUpdate = BookingItemRating.objects.get(user=request.user,BookingItem=prod)
+        #if user already rated the same BookingItem
         print("bookingItemUpdate",bookingItemUpdate)
         bookingItemUpdate.rating=number
         bookingItemUpdate.comment=request.POST['comment']
@@ -195,3 +196,32 @@ def bookingItemRatingUpdate(request):
         print(" First Time Rated")
 
     return HttpResponseRedirect(f"/booking/bookingItemView/{request.POST['Id']}")
+
+@login_required(login_url='/')
+def editBookingItem(request,itemId):
+    bookingItem=BookingItem.objects.get(id=itemId)
+    fields={'service_name':bookingItem.service_name, 'category':bookingItem.category,'subCategory':bookingItem.subCategory,'originalPrice':bookingItem.originalPrice,'price':bookingItem.price,'desc':bookingItem.desc,'img':bookingItem.image }
+    form=NewBookingItemForm(initial=fields)
+    return  render(request, "booking/editBookingItem.html",{'form':form,'bookingItem':bookingItem})
+
+@login_required(login_url='/')
+def editBookingItemHandle(request):
+    if request.method=="POST":
+        form=NewBookingItemForm(request.POST)
+        bookingItem=BookingItem()
+        oldBookingItem=BookingItem.objects.get(id=request.POST['ItemId'])
+        bookingItem.id=oldBookingItem.id
+        bookingItem.service_name=form.data['service_name']
+        bookingItem.category=form.data['category']
+        bookingItem.subCategory=form.data['subCategory']
+        bookingItem.originalPrice=form.data['originalPrice']
+        bookingItem.price=form.data['price']
+        bookingItem.desc=form.data['desc']
+        if request.FILES.get('img'):
+            bookingItem.image=request.FILES.get('img')
+        else:
+            bookingItem.image=oldBookingItem.image
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        bookingItem.seller=seller
+        bookingItem.save()
+    return HttpResponseRedirect(f"/booking/ShopView/{request.POST['sellerId']}")
