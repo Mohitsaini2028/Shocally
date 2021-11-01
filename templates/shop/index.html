@@ -44,10 +44,16 @@
                       <div class="card align-items-center" style="width: 18rem;">
                         <img src='/media/{{i.shopImg}}' class="card-img-top" alt="...">
                           <div class="card-body">
-                            <h6 class="card-title text-primary " id="namepr{{i.id}}" ><b>Shop Name  : </b>{{i.shopName|title|slice:"20"}}</h6>
-                                <!-- <p class="card-title" id="namepr{{i.id}}"><b>Rating : </b>{{i.shopRating}}</p> -->
+                            <h6 class="card-title text-primary " id="namepr{{i.id}}" ><b>Shop Name  : </b>{{i.shopName|title|slice:"31"}}</h6>
 
-                          <div class="rate">
+                            {% if i.shopName|length < 12 %}
+                              <br class="p-5">
+
+                            {% endif %}
+
+                                <!-- <p class="card-title" id="namepr{{i.id}}"><b>Rating : </b>{{i.shopRating}}</p> -->
+                          <a href='/shop/ratingPage'>
+                          <div class="rate" id="rating{{i.id}}">
                             <input type="radio" id="star5" name="rate" value="5" />
                             <label for="star5" title="text">5 stars</label>
                             <input type="radio" id="star4" name="rate" value="4" />
@@ -58,7 +64,24 @@
                             <label for="star2" title="text">2 stars</label>
                             <input type="radio" id="star1" name="rate" value="1" />
                             <label for="star1" title="text">1 star</label>
-                        </div>
+                         </div>
+                         </a>
+
+                        <script type="text/javascript">
+
+                        //   $('.changePage').on('click',function(e){
+                        //     console.log({{shop.id}})
+                        //    window.location.href="/shop/ratingPage/{{i.id}}/shop";
+                        // });
+
+                          console.log(2*parseInt({{i.shopRating}}))
+                          s=document.getElementById('rating{{i.id}}');
+                          y=s.children
+
+                          if ( {{i.shopRating}} != 0.0){
+                            y[10-2*parseInt({{i.shopRating}})].checked=true;
+                          }
+                        </script>
 
                         <br><br>
 

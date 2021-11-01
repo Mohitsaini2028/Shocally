@@ -1,12 +1,12 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
-from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate
+from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
 import json
 from shop.forms import NewProductForm, NewSellerForm
-
+import time
 # Create your views here.
 
 def home(request):
@@ -31,7 +31,7 @@ def pinResult(request,result):
             allShop.append([shop, range(1, nSlides), nSlides])
 
     params = {'allShop':allShop}
-
+    request.session['pincode']=pincode
     return render(request, 'shop/index.html', params)
 
 def pincodeResult(request):                                             #for those user who don't want to login
@@ -47,7 +47,7 @@ def shopView(request,shopid):
     cats = {item['subCategory'] for item in catprods}
 
     for cat in cats:
-        prod = Product.objects.filter(seller=shop[0],subCategory=cat)
+        prod = Product.objects.filter(seller=shop[0],subCategory=cat).order_by('-rating')
         if prod.exists():
             n = len(prod)
             nSlides = n // 4 + ceil((n / 4) - (n // 4))
@@ -158,7 +158,7 @@ def handleSignUp(request):
         messages.error("Invalid credentials !! Please try again ")
         return redirect('home')
 
-
+@login_required(login_url='/')
 def clearCart(request):
     cartUser= Cart.objects.filter(user=request.user.id)
     cartUser.update(itemJson="{}",totalPrice=0,totalCart=0)
@@ -171,7 +171,7 @@ def clearCart(request):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render(request,"shop/pincode.html")
 
-
+@login_required(login_url='/')
 def cart(request):
         user=request.POST['user']
         cartData=request.POST['cartData']
@@ -205,7 +205,7 @@ def cart(request):
 
         return HttpResponse(cartData)
 
-
+@login_required(login_url='/')
 def newProduct(request):
     if request.method=='POST':
         form=NewProductForm(request.POST)
@@ -223,6 +223,77 @@ def newProduct(request):
         product.save()
         return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
 
+@login_required(login_url='/')
+def editProduct(request,prodId):
+    product=Product.objects.get(id=prodId)
+    fields={'productName':product.product_name, 'category':product.category,'subCategory':product.subCategory,'originalPrice':product.originalPrice,'price':product.price,'descripton':product.desc,'img':product.image, 'inStock':product.inStock}
+    form=NewProductForm(initial=fields)
+    return  render(request, "shop/editProduct.html",{'form':form,'product':product})
+
+@login_required(login_url='/')
+def editProductHandle(request):
+    if request.method=="POST":
+        form=NewProductForm(request.POST)
+        product=Product()
+        oldProduct=Product.objects.get(id=request.POST['productId'])
+        product.id=oldProduct.id
+        product.product_name=form.data['productName']
+        product.category=form.data['category']
+        product.subCategory=form.data['subCategory']
+        product.originalPrice=form.data['originalPrice']
+        product.price=form.data['price']
+        product.desc=form.data['descripton']
+        product.inStock=form.data['inStock']
+        if request.FILES.get('img'):
+            product.image=request.FILES.get('img')
+        else:
+            product.image=oldProduct.image
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        product.seller=seller
+        product.save()
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
+
+@login_required(login_url='/')
+def deleteProduct(request):
+    prodId=int(request.POST['delProd'])
+    sellerId=int(request.POST['sellerId'])
+    print(sellerId," a rha h yrr yha tak")
+    product=Product.objects.get(id=prodId)
+    product.delete()
+    messages.success(request, "Product is successfully deleted")
+    return HttpResponseRedirect(f"/shop/shopView/{sellerId}")
+
+@login_required(login_url='/')
+def editShop(request,sellId):
+    seller=Seller.objects.get(id=sellId)
+    fields={'pincode':seller.pincode, 'shopName':seller.shopName,'shopCategory':seller.shopCategory,'shopAddress':seller.shopAddress,'shopImg':seller.shopImg}
+    form=NewSellerForm(initial=fields)
+    return  render(request, "shop/editShop.html",{'form':form,'seller':seller})
+
+@login_required(login_url='/')
+def editShopHandle(request):
+    if request.method=="POST":
+        form=NewSellerForm(request.POST)
+        seller=Seller()
+
+        oldSeller=Seller.objects.get(id=request.POST['sellId'])
+        seller.id=oldSeller.id
+        seller.user=oldSeller.user
+        seller.ratingNo=oldSeller.ratingNo
+        seller.shopRating=oldSeller.shopRating
+        seller.pincode=form.data['pincode']
+        seller.shopName=form.data['shopName']
+        seller.shopCategory=form.data['shopCategory']
+        seller.shopAddress=form.data['shopAddress']
+        if(request.FILES.get('shopImg')):
+            seller.shopImg=request.FILES.get('shopImg')
+        else:
+            seller.shopImg=oldSeller.shopImg
+        seller.save()
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellId']}")
+
+
+@login_required(login_url='/')
 def placeOrder(request):
     cartUser= Cart.objects.get(user=request.user.id)
     user=User.objects.get(id=request.user.id)
@@ -273,10 +344,10 @@ def placeOrder(request):
     #     orderNotify=orderNotification.objects.create(user=request.user, seller=i, notificatonJson=notifyJson)
     #     orderNotify.save()
     #
-    # order=Order.objects.create(user=request.user,pincode=user.PINCODE,address=address,city=city,phoneNo=user.phoneNo,itemJson=cartUser.itemJson,totalPrice=cartUser.totalPrice,totalItem=cartUser.totalCart)
-    # update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
-    # order.save()
-    # update.save()
+    order=Order.objects.create(user=request.user,pincode=user.PINCODE,address=address,city=city,phoneNo=user.PhoneNo,itemJson=cartUser.itemJson,totalPrice=cartUser.totalPrice,totalItem=cartUser.totalCart)
+    update = OrderUpdate.objects.create(order_id=order.order_id, update_desc="The order has been placed")
+    order.save()
+    update.save()
     #
     # #adding data to dataset
     #
@@ -320,12 +391,11 @@ def placeOrder(request):
     messages.success(request,"Thankyou for Ordering From Shocally ")
     return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
 
-
-
-
+@login_required(login_url='/')
 def checkout(request):
         return render(request, 'shop/checkout.html')
 
+@login_required(login_url='/')
 def tracker(request):
     orders=Order.objects.filter(user=request.user)
     orderUpdate=[]
@@ -338,6 +408,81 @@ def tracker(request):
             print("\n\n - - - - - - - TRACKER- - - - - - - - \n\n")
     return render(request,'shop/tracker.html',{'orders':orders,'orderUpdate':orderUpdate})
 
+
+@login_required(login_url='/')
+def ratingPage(request,id,val):
+    print("\n\n\n\n Rating Page")
+    print(id,"val",val)
+    if val=="product":
+        return render(request,'rating.html',{'id':id,'url':"/shop/prodRatingUpdate/"})
+    elif val=="shop":
+        return render(request,'rating.html',{'id':id,'url':"/shop/shopRatingUpdate/"})
+    elif val=="booking":
+        return render(request,'rating.html',{'id':id,'url':"/booking/bookingItemRatingUpdate/"})
+
+@login_required(login_url='/')
+def shopRatingUpdate(request):
+    id=request.user.id
+
+    shop=Seller.objects.get(id=request.POST['Id'])
+    number=float(request.POST['RatingGiven'])
+    print(type(number))
+    print("\n\n\n\n")
+    print("before",shop.shopRating,shop.ratingNo)
+    shop.ratingNo+=1
+    shop.shopRating = (shop.shopRating*(shop.ratingNo-1) + number)/shop.ratingNo
+    print("after",shop.shopRating)
+    time.sleep(2.4)
+
+    shop.save()
+    try:
+        shopUpdate = ShopRating.objects.get(user=request.user,shop=shop)
+        #if user already rated the same product
+        print("shopUpdate",shopUpdate)
+        shopUpdate.shopRating=number
+        shopUpdate.comment=request.POST['comment']
+        shopUpdate.save()
+        print(" Already Rated")
+    except Exception as e:
+        print("Exception Rating Page",e)
+        # if first time rating
+        shopRat=ShopRating.objects.create(user=request.user,shop=shop,rating=number,comment=request.POST['comment'])
+        shopRat.save()
+        print(" First Time Rated")
+
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['Id']}")
+
+@login_required(login_url='/')
+def prodRatingUpdate(request):
+    id=request.user.id
+
+    prod=Product.objects.get(id=request.POST['Id'])
+    number=float(request.POST['RatingGiven'])
+    print(type(number))
+    print("\n\n\n\n")
+    print("before",prod.rating,prod.ratingNo)
+    prod.ratingNo+=1
+    prod.rating = (prod.rating*(prod.ratingNo-1) + number)/prod.ratingNo
+    print("after",prod.rating)
+    time.sleep(2.4)
+
+    prod.save()
+    try:
+        prodUpdate = ProductRating.objects.get(user=request.user,product=prod)
+        #if user already rated the same product
+        print("prodUpdate",prodUpdate)
+        prodUpdate.rating=number
+        prodUpdate.comment=request.POST['comment']
+        prodUpdate.save()
+        print(" Already Rated")
+    except Exception as e:
+        print("Exception Rating Page",e)
+        # if first time rating
+        prodRat=ProductRating.objects.create(user=request.user,product=prod,rating=number,comment=request.POST['comment'])
+        prodRat.save()
+        print(" First Time Rated")
+
+    return HttpResponseRedirect(f"/shop/productView/{request.POST['Id']}")
 
 
 def handelLogin(request):
@@ -371,6 +516,7 @@ def handelLogin(request):
                 print(type(sellerUser[0].user.id))
                 request.session['sellerUserId']=sellerUser[0].user.id #user
                 request.session['shopId']=sellerUser[0].id #seller
+                request.session['appointmentBased']=sellerUser[0].appointmentBased #seller
 
             # request.session['user']=user #user is not serializeabe you can't pass it
             return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
@@ -383,7 +529,7 @@ def handelLogin(request):
 
     return HttpResponse("404- Not found")
 
-
+@login_required(login_url='/')
 def handelLogout(request):
     request.session.flush()
     logout(request)

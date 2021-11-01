@@ -40,25 +40,25 @@
         {% else %}
         <p><b>Deal of the Day  : </b>Rs. {{product.originalPrice}}</p>
         {% endif %}
-        <div class="rate m-0 p-0" id="rating" data-toggle="modal" data-target="#RatingModal">
-          <input type="radio" id="star5" name="rate" value="5" />
+        <a href='/shop/ratingPage'>
+        <!-- <div class="rate m-0 p-0" id="rating" data-toggle="modal" data-target="#RatingModal"> -->
+        <div class="rate m-0 p-0" id="rating">
+          <input type="radio" id="star5" class="changePage" name="rate" value="5" />
           <label for="star5" title="text">5 stars</label>
-          <input type="radio" id="star4" name="rate" value="4" />
+          <input type="radio" id="star4" class="changePage" name="rate" value="4" />
           <label for="star4" title="text">4 stars</label>
-          <input type="radio" id="star3" name="rate" value="3" />
+          <input type="radio" id="star3" class="changePage" name="rate" value="3" />
           <label for="star3" title="text">3 stars</label>
-          <input type="radio" id="star2" name="rate"  value="2" />
+          <input type="radio" id="star2" class="changePage" name="rate"  value="2" />
           <label for="star2" title="text">2 stars</label>
-          <input type="radio" id="star1" name="rate" value="1" />
+          <input type="radio" id="star1" class="changePage" name="rate" value="1" />
           <label for="star1" title="text">1 star</label>
       </div>
+      </a>
       <p>{{product.rating}}<p>
     </div>
     </div>
-
-
 </div>
-
 
 
 <div class="modal fade" id="RatingModal" tabindex="-1" aria-labelledby="RatingModal" aria-hidden="true">
@@ -77,6 +77,7 @@
 
     <input type="hidden" class="form-control" id="productId" name="productId" value="{{ product.id }}">
     <input type="hidden" class="form-control" id="RatingGiven" name="RatingGiven" value="" >
+    <input type="hidden" class="form-control" id="product" name="product" value="product" >
   </div>
 
 
@@ -95,11 +96,9 @@
     <input type="radio" id="star-1" name="rate" value="1" />
     <label for="star1" title="text">1 star</label>
     </div>
-
-    <!-- <input type="number" class="form-control" max="5" min="0" id="ratingNo" name="ratingNo" placeholder=" "> -->
   </div>
 
-        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+        <button type="submit" class="btn btn-primary">Submit</button>
 </form>
       </div>
        <div class="modal-footer">
@@ -167,6 +166,19 @@
 
 <script src="{% static 'js/shop/cartManage.js' %}"></script>
 
+<script type="text/javascript">
+
+
+
+  $('.changePage').on('click',function(e){
+    console.log({{product.id}})
+   window.location.href="/shop/ratingPage/{{product.id}}/product";
+});
+
+
+
+</script>
+
 <script>
   console.log(2*parseInt({{product.rating}}))
   s=document.getElementById('rating');
@@ -175,6 +187,14 @@
   if ( {{product.rating}} != 0.0){
     y[10-2*parseInt({{product.rating}})].checked=true;
   }
+
+
+
+  // form=document.getElementById('formRating');
+
+  // document.getElementById('hiddenRating').value=s;
+  // form.submit();
+
 
 </script>
 

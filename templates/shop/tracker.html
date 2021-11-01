@@ -1,0 +1,96 @@
+
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block body %}
+
+<div class="container p-4">
+  <h2>Your Order Details</h2>
+</div>
+      <!-- <div class="my-4">
+          <ul class="list-group" id="citems">
+          </ul>
+      </div>
+ -->
+
+<h1>{{order.order_id}}</h1>
+{% for order in orders %}
+
+{% for OrderUpdate in orderUpdate %}
+
+
+
+
+{% if OrderUpdate.0.order_id == order.order_id %}
+
+<div class="container my-5">
+    <div class="col my-4">
+      <h3>Order {{forloop.parentloop.counter}}</h3>
+        <div class="my-4">
+            <ul class="list-group" id="order{{order.order_id}}">
+            </ul>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                  <li class="breadcrumb-item active" aria-current="page">Order Cost is &ensp; <b> Rs. <span id="totalPrice">{{order.totalPrice}}</span></b></li>
+                </ol>
+            </nav>
+            {% for i in OrderUpdate %}
+
+
+            <p><b>Updates : </b>  <mark class="text-light bg-secondary">{{i.timestamp}}</mark> - {{i.update_desc}}  </p>
+            {% endfor %}
+      </div>
+    </div>
+
+
+
+
+
+<!-- {% with var1=order.itemJson %}
+{{var1}}
+{% endwith %} -->
+
+<!-- {% for key,val in order.itemJson.items %} -->
+<!-- <p>{{key}}{{value}}</p> -->
+<!-- {% endfor %} -->
+
+<script>
+var mystr=" "
+
+  var item = {{ order.itemJson | safe }}
+  console.log(item)
+  Object.values(item).forEach(val=>{
+    console.log(val[0],val[1],val[2]);
+    mystr+=  `<li class="list-group-item d-flex justify-content-between align-items-center"> ${val[1]}
+       <span class="badge badge-primary badge-pill">${val[0]}</span>
+              </li>`
+
+    // document.getElementById('order'+{{ order.order_id|stringformat:"i" }}).innerHTML="<p>"+val[0].toString()+" "+val[1]+" "+val[2].toString()+" </p>"
+    document.getElementById('order'+{{ order.order_id|stringformat:"i" }}).innerHTML=mystr
+    });
+
+
+
+
+  // var abcd=JSON.parse(order);
+  // console.log(abcd)
+
+</script>
+</div>
+<hr>
+{% endif %}
+
+{% endfor %}
+{% empty %}
+<div class="container text-primary">
+<p>Your haven't order yet. If you think we made a mistake you can Contact us anytime :)</p>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block body %}
+
+<div class="container p-4">
+  <h2>Your Booking Details</h2>
+</div>
+      <!-- <div class="my-4">
+          <ul class="list-group" id="citems">
+          </ul>
+      </div>
+ -->
+
+{% for booking in bookings %}
+
+
+{% for BookingUpdate in bookingUpdate %}
+
+
+
+{% if BookingUpdate.0.booking_id.id == booking.id %}
+
+<div class="container my-5">
+    <div class="col my-4">
+      <h3>Booking {{forloop.parentloop.counter}}</h3>
+        <div class="my-4">
+            <ul class="list-group" id="order{{order.order_id}}">
+            </ul>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                  <img src="/media/{{booking.item.image}}"class="border  rounded-circle" " width="50px" >
+                  <li class="pl-2 breadcrumb-item active text-dark" aria-current="page"><b>Service Name -</b> &ensp; {{booking.item.service_name}}  &ensp; <b>  Price -&ensp;</b> Rs. {{booking.item.price}}</b></li>
+                </ol>
+            </nav>
+            {% for i in BookingUpdate %}
+
+
+            <p><b>Updates : </b>  <mark class="text-light bg-secondary">{{i.timestamp}}</mark> - {{i.update_desc}}  </p>
+            {% endfor %}
+      </div>
+    </div>
+
+
+
+
+
+
+</div>
+<hr>
+{% endif %}
+
+{% endfor %}
+{% empty %}
+<div class="container text-primary">
+<p>Your haven't order yet. If you think we made a mistake you can Contact us anytime :)</p>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}

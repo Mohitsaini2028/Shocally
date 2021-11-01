@@ -5,6 +5,8 @@
 {% load static %}
 
 {% block link %}
+
+<link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}">
 <link rel="stylesheet" href="{% static 'css/shop/slider.css' %}">
 
 <!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
@@ -26,7 +28,7 @@
     <div class="row">
     <div class="col-md-4">
     <div class="row m-4">
-        <img src="/media/{{shop.shopImg}}"class="border  rounded-circle" " width="300px" height="250px">
+        <img src="/media/{{shop.shopImg}}" class="border rounded-circle"  width="300px" height="250px">
     </div>
 
 
@@ -44,9 +46,23 @@
         <address ><b>Shop Address : </b>  {{shop.shopAddress}}  </address>
         <p><b>Shop Category : </b>{{shop.shopCategory}}</p>
 
-        <p><b>Shop Rating   :  </b>{{shop.ratingNo}}</p>
         <p><b>Phone Number  :  </b>{{shop.user.PhoneNo}}</p>
-
+        <p><b>Shop Rating   :  </b>{{shop.shopRating}}</p>
+        <a href='/shop/ratingPage'>
+        <!-- <div class="rate m-0 p-0" id="rating" data-toggle="modal" data-target="#RatingModal"> -->
+        <div class="rate m-0 p-0" id="rating">
+          <input type="radio" id="star5" class="changePage" name="rate" value="5" />
+          <label for="star5" title="text">5 stars</label>
+          <input type="radio" id="star4" class="changePage" name="rate" value="4" />
+          <label for="star4" title="text">4 stars</label>
+          <input type="radio" id="star3" class="changePage" name="rate" value="3" />
+          <label for="star3" title="text">3 stars</label>
+          <input type="radio" id="star2" class="changePage" name="rate"  value="2" />
+          <label for="star2" title="text">2 stars</label>
+          <input type="radio" id="star1" class="changePage" name="rate" value="1" />
+          <label for="star1" title="text">1 star</label>
+      </div>
+      </a>
     </div>
     </div>
 
@@ -101,11 +117,11 @@
                         <div class="card align-items-center" style="width: 18rem;">
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h6 class="card-title" id="namepr{{i.id}}">{{i.item_name|title}}</h6>
+                                <h6 class="card-title" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
                                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}
-                                <a href="/booking/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
+                                <a href="/booking/editBookingItem/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
                                 <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete</button>
                                 <form   method="post">
                                   {% csrf_token %}
@@ -134,7 +150,7 @@
                                 </span>
                                 {% endif %}
 
-                                <a href="/booking/productView/{{i.id}}"><button  class="btn btn-primary ">QuickView</button></a>
+                                <a href="/booking/bookingItemView/{{i.id}}"><button  class="btn btn-primary ">QuickView</button></a>
                                 {% endif %}
 
                                 <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
@@ -163,7 +179,7 @@
 
     {% endfor %}
     {% if prodExist is not True %}
-    <div class="container pl-3">
+    <div class="container m-2 pt-3">
       <h3 ><mark>Sorry Nothing To Display</mark></h3>
     </div>
     {%  endif  %}
@@ -190,7 +206,7 @@
         </div>
         <div class="modal-body">
 
-          <form id='main' action="/shop/newProduct/" enctype='multipart/form-data' method="post">
+          <form id='main' action="/booking/NewBookingItem/" enctype='multipart/form-data' method="post">
           {% csrf_token %}
 
           {{form|crispy}}
@@ -282,10 +298,19 @@
 
 
 
-console.log("hi");
+    $('.changePage').on('click',function(e){
+      console.log({{shop.id}})
+     window.location.href="/shop/ratingPage/{{shop.id}}/shop";
+  });
 
-</script>
+    s=document.getElementById('rating');
+    y=s.children
 
+    if ( {{shop.shopRating}} != 0.0){
+      y[10-2*parseInt({{shop.shopRating}})].checked=true;
+    }
+
+  </script>
 
 
 {% endblock js %}

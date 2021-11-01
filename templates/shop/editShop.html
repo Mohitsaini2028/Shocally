@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/shop/edit.css' %}">
+<!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
+{% endblock %}
+
+{% block body %}
+
+    <div id="main">
+      <h2>Edit Your Shop Here</h2>
+      <form action="/shop/editShopHandle/" enctype='multipart/form-data' method="post" >
+        {% csrf_token %}
+        <input type="hidden" name='sellId' value="{{seller.id}}">
+        {{form}}
+        <input type="submit" value="Update">
+      </form>
+    </div>
+
+{% endblock %}

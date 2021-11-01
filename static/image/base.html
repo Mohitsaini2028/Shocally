@@ -9,15 +9,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>{% block title %} {% endblock title %}</title>
-    <style >
+    <style>
       {% block css %} {% endblock %}
+      body{
+        padding-bottom: 70px;
+      }
     </style>
+
   </head>
   <body>
 
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> -->
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="/static/image/logo3.png" class="rounded-circle" alt="" width="100" height="50">
@@ -103,7 +108,55 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
           </div>
-          {% endfor %}
+    {% endfor %}
+
+
+
+      {% block body %}  {% endblock body %}
+
+
+      <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/shop/login" method="post">
+              {% csrf_token %}
+        <div class="form-group">
+          <label for="loginusername">Username</label>
+          <input type="text" class="form-control" id="loginusername" name="loginusername" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+          <label for="loginpassword">Enter your password </label>
+          <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password ">
+        </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+            </div>
+             <div class="modal-footer">
+            </div>
+      </div>
+      </div>
+      </div>
+       <script>
+                function yesnoCheck() {
+            if (document.getElementById('yesCheck').checked) {
+
+            document.getElementById('ifYes').style.display = 'block';
+            document.getElementById('hide').value = 'Admin';
+            }
+            else  document.getElementById('ifYes').style.display = 'none';
+            }
+            </script>
+
+
+      <!-- Login Modal -->
 
       <!-- SignUp Modal -->
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
@@ -220,55 +273,13 @@
 </div>
 
 
-      {% block body %}  {% endblock body %}
-
-      <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="/shop/login" method="post">
-        {% csrf_token %}
-  <div class="form-group">
-    <label for="loginusername">Username</label>
-    <input type="text" class="form-control" id="loginusername" name="loginusername" placeholder="Enter your username">
-  </div>
-  <div class="form-group">
-    <label for="loginpassword">Enter your password </label>
-    <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password ">
-  </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-      </div>
-       <div class="modal-footer">
-      </div>
-</div>
-</div>
-</div>
- <script>
-          function yesnoCheck() {
-      if (document.getElementById('yesCheck').checked) {
-
-      document.getElementById('ifYes').style.display = 'block';
-      document.getElementById('hide').value = 'Admin';
-      }
-      else  document.getElementById('ifYes').style.display = 'none';
-      }
-      </script>
 {% load static %}
 
 
 
 <!-- Footer -->
-<footer class="page-footer  bg-dark font-small blue pt-4 fixed-bottom">
-
+<!-- <footer class="page-footer  bg-dark font-small blue pt-5 mt-4 fixed-bottom"> -->
+<footer class="page-footer  bg-dark font-small blue pt-5">
   <!-- Footer Links -->
   <div class="container-fluid text-center text-md-left">
 
@@ -349,7 +360,7 @@
 
 </footer>
 <!-- Footer -->
-
+-->
 
 
      <script>

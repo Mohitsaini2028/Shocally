@@ -4,24 +4,100 @@
 {% block link %}
 <link rel="stylesheet" href="{% static 'css/shop/homePage.css' %}">
 {% endblock %}
+
 {% block body %}
 
-<div class="background-Image">
-    <div class="container m-5 ">
-      <form  action="/shop/pincodeResult">
-        <div class="form-group">
-        <label for="pinCode"><h1>Enter Your PinCode's :</h1></label>
 
 
-        <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Search your City" required>
-        <div class="text-center">
-        <input type="submit" class="m-2 btn btn-success btn-lg" name="submit" value="submit">
-        </div>
-        </div>
+<!-- Full Page Intro -->
+      <div class="view pt-0 mt-0" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Others/images/91.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+        <!-- Mask & flexbox options-->
+        <div class="mask rgba-gradient align-items-center">
+          <!-- Content -->
+          <div class="container">
+            <!--Grid row-->
+            <div class="row mt-5">
+              <!--Grid column-->
+              <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-left">
+                <h1 class="h1-responsive font-weight-bold wow fadeInLeft" data-wow-delay="0.3s">Sign up right now! </h1>
+                <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
+                <h6 class="mb-3 wow fadeInLeft" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga
+                nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea
+                dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+                <a class="btn btn-outline-white wow fadeInLeft" data-wow-delay="0.3s">Learn more</a>
+              </div>
 
-        </div>
-        </div>
-      </form>
+              <div class="card wow fadeInRight" data-wow-delay="0.3s">
+              <!-- <div class="card wow fadeInRight" data-wow-delay="0.3s"> -->
+              <div class="card-body">
+              <form  action="/shop/pincodeResult">
+                <div class="form-group">
+                <label for="pinCode"><h3 class="">Enter Your PinCode :</h1></label><div class="text-center">
+                  <!-- <h3 class="white-text">
+                  <i class="fas fa-user white-text"></i> Register:</h3>
+                  <hr class="hr-light"> -->
+                <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Search your City" required>
+                <div class="text-center">
+                <input type="submit" class="m-2 btn btn-success btn-lg" name="submit" value="submit">
+                </div>
+                </div>
+              </form>
+              </div>
+              </div>
+              </div>
 
+
+
+            </div>
+            <!--Grid row-->
+          </div>
+          <!-- Content -->
+        </div>
+        <!-- Mask & flexbox options-->
+      </div>
+      <!-- Full Page Intro -->
+    </header>
+    <!-- Main navigation -->
+    <!--Main Layout-->
+    <main>
+      <div class="container">
+        <!--Grid row-->
+        <div class="row py-5">
+          <!--Grid column-->
+          <div class="col-md-12 text-center">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+    </main>
+    <!--Main Layout-->
+
+    <!--
+    <div class="background-Image m-0">
+        <div class="container m-5 ">
+          <form  action="/shop/pincodeResult">
+            <div class="form-group">
+            <label for="pinCode"><h1>Enter Your PinCode :</h1></label>
+
+
+            <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Search your City" required>
+            <div class="text-center">
+            <input type="submit" class="m-2 btn btn-success btn-lg" name="submit" value="submit">
+            </div>
+            </div>
+            </form>
+            </div>
+    </div>
+      -->
 
 {% endblock body %}
+
+{% block js %}
+<script type="text/javascript">
+  // Animations init
+  new WOW().init();
+</script>
+
+{% endblock %}
