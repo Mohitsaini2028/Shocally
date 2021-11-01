@@ -11,7 +11,6 @@ urlpatterns = [
     path('NewBookingItem/', views.NewBookingItem, name="NewBookingItem"),
     path('bookingItemRatingUpdate/', views.bookingItemRatingUpdate, name="bookingItemRatingUpdate"),
     path('update/', views.update, name="update"),
-    path('editBookingItem/<int:itemId>', views.editBookingItem, name="editBookingItem"),
-    path('editBookingItemHandle/', views.editBookingItemHandle, name="editBookingItemHandle"),
+
 
 ]

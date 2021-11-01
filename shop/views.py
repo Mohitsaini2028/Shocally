@@ -114,9 +114,9 @@ def handleSignUp(request):
             BookingOrNot=bool(request.POST.get('BookingOrNot'))
             print("\n\n\n\n",BookingOrNot)
             if BookingOrNot:
-                productBased=True
-            else:
                 productBased=False
+            else:
+                productBased=True
             print(productBased,BookingOrNot)
 
         # check for errorneous input

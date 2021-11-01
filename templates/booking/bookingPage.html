@@ -47,7 +47,7 @@
                                 {% endif %}
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}
-                                <a href="/shop/editBookingItem/{{i.id}}" class="btn btn-success mx-2">Edit Product</a>
+                                <a href="/shop/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Product</a>
                                 <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete </button>
                                 <form   method="post">
                                   {% csrf_token %}
