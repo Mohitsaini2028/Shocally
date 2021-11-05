@@ -7,6 +7,11 @@ from math import ceil
 import json
 from shop.forms import NewProductForm, NewSellerForm
 import time
+import csv
+from pathlib import Path
+import os
+BASE_DIR = Path(__file__).resolve().parent.parent
+recommendations_path=os.path.join(BASE_DIR,'Recommendation')
 # Create your views here.
 
 def home(request):
@@ -450,6 +455,12 @@ def shopRatingUpdate(request):
         shopRat.save()
         print(" First Time Rated")
 
+    with open(recommendations_path+'\\shopRating.csv','a') as f_object:
+        writer_object = csv.writer(f_object)
+        print("writing data in csv file.")
+        writer_object.writerow([request.user.id,request.POST['Id'],number,1395578400])
+        f_object.close()
+
     return HttpResponseRedirect(f"/shop/shopView/{request.POST['Id']}")
 
 @login_required(login_url='/')
@@ -481,6 +492,13 @@ def prodRatingUpdate(request):
         prodRat=ProductRating.objects.create(user=request.user,product=prod,rating=number,comment=request.POST['comment'])
         prodRat.save()
         print(" First Time Rated")
+
+    #writing data in csv file.
+    with open(recommendations_path+'\\rating.csv','a') as f_object:
+        writer_object = csv.writer(f_object)
+        print("writing data in csv file.")
+        writer_object.writerow([request.user.id,request.POST['Id'],number,1395578400])
+        f_object.close()
 
     return HttpResponseRedirect(f"/shop/productView/{request.POST['Id']}")
 
