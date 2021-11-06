@@ -11,8 +11,10 @@ def run(string):
     from pathlib import Path
 
     CUR_PATH = Path(__file__).resolve().parent
+
     CSV_FILE = os.path.join(CUR_PATH,'store_data1.csv')
-    #Command for Powershell converting content of the file to lowercase 
+    print("CSV_FILE",CSV_FILE)
+    #Command for Powershell converting content of the file to lowercase
     #(Get-Content  "F:\mohit\ML\Amazon Recommendation System\Association\store_data0.csv" -Raw).ToLower() | Out-File "F:\mohit\ML\Amazon Recommendation System\Association\store_data0.csv" -Force
     df_orders = pd.read_csv(CSV_FILE)
     df_orders.shape
@@ -85,19 +87,20 @@ def run(string):
     print(rules[['antecedents']])
     print(" - - - - - - - -")
 
-    #if lift > 1 Good, confidence > 0.25 
+    #if lift > 1 Good, confidence > 0.25
     data=rules[ (rules['lift'] > 1) & (rules['confidence'] >= 0.25) & (rules['antecedents']=={string}) ]
+    print("SUGGESTION OF PRODUCT ",string)
     print(data['consequents'],type(data['consequents']))
-    
+
     suggestions = []
     for i in data['consequents']:
         s=list(i)
-        
+
         suggestions.append(s[0])
-    
-    print(suggestions)
-    return suggestions 
+
+    print("suggestion in apriori",suggestions)
+    return suggestions
 
 if "__name__"=="__main__":
-    run("mobile")
-    
+    # run("mobile")
+    pass

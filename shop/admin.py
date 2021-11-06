@@ -21,10 +21,16 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+
+class ProductAdmin(admin.ModelAdmin):
+     list_display=['product_name', 'price', 'subCategory', 'seller']
+     search_fields = ['product_name','id', 'price', 'subCategory', 'category']
+     
+
 admin.site.register(User,CustomUserAdmin)
 admin.site.register(Customer)
 admin.site.register(Seller)
-admin.site.register(Product)
+admin.site.register(Product,ProductAdmin)
 admin.site.register(Cart)
 admin.site.register(Order)
 admin.site.register(OrderUpdate)

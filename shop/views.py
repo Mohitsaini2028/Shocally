@@ -99,9 +99,8 @@ def productView(request,prodid):
     #     for  j in Product.objects.filter(category=product[0].category,subCategory__icontains=i).exclude(id=product[0].id).order_by('-rating'):
     #         if j.seller.PinCode == product[0].seller.PinCode:
     #             clusters.add(j)
+
     #             # - --------------------------------------------------------------------
-
-
 
 
     suggestions = set()
@@ -112,9 +111,9 @@ def productView(request,prodid):
     #     print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
 
     result = aprori_recommender.run(product[0].subCategory)
-
+    print("RESULT APPRORI RECOMMENDER : ",result)
     result = (clusters + list(set(result) - set(clusters)))
-
+    print("RESULT APPRORI RECOMMENDER : ",result)
     if result:
                     # for i in result:
                     #      objects = Product.objects.filter(category=product[0].category,subCategory__icontains=i).order_by('-rating')
