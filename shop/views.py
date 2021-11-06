@@ -10,6 +10,10 @@ import time
 import csv
 from pathlib import Path
 import os
+from Recommendation.Association import aprori_recommender
+from Recommendation.Clustering import clusterRecommend
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
 # Create your views here.
@@ -18,7 +22,10 @@ def home(request):
     return HttpResponse("<h1><i> hi home page </i></h1>")
 
 def pincodeInput(request):
-    return render(request, 'shop/pincode.html')
+    return render(request, 'homePage.html')
+
+def exampleHomePage(request):
+    return render(request,'homePage.html')
 
 def pinResult(request,result):
     pincode=result
@@ -72,25 +79,77 @@ def productView(request,prodid):
     # print(recommendations)
     recommendations = []
 
-    # count = 0
-    # for  i in Product.objects.filter(category=product[0].category,subCategory=product[0].subCategory).order_by('-rating'):
-    #     if i.seller.Pincode == product[0].seller.Pincode:
-    #             recommendations.append(i)
-    #     if count>=5:
-    #         break
-    #     count+=1
-    # seller.PinCode=product[0].seller.Pincode,
+    recommendations = []
 
-    # a=clusterRecommend.run(product[0].subCategory)
-    # print(a)
-    # suggestions = []
-    # try:
-    #     suggestions = aprori_recommender.run(product[0].subCategory)
-    #     print("\n\n\n\n",suggestions)
-    # except:
-    #     print("\n\n\Exception occur at Aprori Recommendation System\n\n")
-    return render(request, 'shop/prodView.html', {'product':product[0]})
-    # return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions})
+    count = 0
+    for  i in Product.objects.filter(category=product[0].category,subCategory=product[0].subCategory).exclude(id=product[0].id).order_by('-rating'):
+        print("\n\n\n\nRecommendation i",i)
+        if i.seller.pincode == product[0].seller.pincode:
+                recommendations.append(i)
+        if count>=5:
+            break
+        count+=1
+
+
+
+    clusters = clusterRecommend.run(product[0].subCategory)
+
+
+    # for i in clus:
+    #     for  j in Product.objects.filter(category=product[0].category,subCategory__icontains=i).exclude(id=product[0].id).order_by('-rating'):
+    #         if j.seller.PinCode == product[0].seller.PinCode:
+    #             clusters.add(j)
+    #             # - --------------------------------------------------------------------
+
+
+
+
+    suggestions = set()
+
+    #try:
+
+    # except Exception as e:
+    #     print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
+
+    result = aprori_recommender.run(product[0].subCategory)
+
+    result = (clusters + list(set(result) - set(clusters)))
+
+    if result:
+                    # for i in result:
+                    #      objects = Product.objects.filter(category=product[0].category,subCategory__icontains=i).order_by('-rating')
+                    #      if len(objects)>1:
+                    #          pass
+                    #          print("\nsuggestions ",objects[0].seller.PinCode,PINCODE)
+                    #      else:
+                    #         for k in objects:
+                    #             pass
+                    #             if k.seller.PinCode == PINCODE:
+                    #               print(k)
+                    #               suggestions.extend(k)
+
+                    for i in result:
+                        for  j in Product.objects.filter(category=product[0].category,subCategory__icontains=i).exclude(id=product[0].id).order_by('-rating'):
+
+                            if j.seller.pincode == product[0].seller.pincode:
+                                    suggestions.add(j)
+
+
+                # if result:
+                #     for i in result:
+                #         for k in Product.objects.filter(category=product[0].category,subCategory__icontains=i).order_by('-rating'):
+                #             print("\nsuggestions ",k.seller.PinCode,PINCODE)
+                #
+                #             if k.seller.PinCode == PINCODE:
+                #                 # suggestions.append(k)
+                #                 pass
+
+
+
+    print("\n\n\n\n",suggestions)
+
+    # print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
+    return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions})
 
 
 def handleSignUp(request):
@@ -174,7 +233,7 @@ def clearCart(request):
     print(request.user.id,request)
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    return render(request,"shop/pincode.html")
+    return render(request,"homePage.html")
 
 @login_required(login_url='/')
 def cart(request):
@@ -542,7 +601,7 @@ def handelLogin(request):
         else:
 
             messages.error(request, "LOGIN FAILED ! Invalid credentials! Please try again")
-            return render(request,"shop/pincode.html")
+            return render(request,"homePage.html")
             # return redirect("home")
 
     return HttpResponse("404- Not found")
@@ -558,4 +617,4 @@ def handelLogout(request):
 
     # del request.session['username']
     messages.success(request, "Successfully logged out")
-    return render(request,"shop/pincode.html")
+    return render(request,"homePage.html")

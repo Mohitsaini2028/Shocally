@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bgCard.css' %}">
+
+    <title>ShocallyHomePage</title>
+    <style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Required for full background image */
+
+  html,
+  body,
+  header,
+  .view {
+    height: 100%;
+  }
+
+  @media (max-width: 740px) {
+    html,
+    body,
+    header,
+    .view {
+      height: 1000px;
+    }
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+    html,
+    body,
+    header,
+    .view {
+      height: 650px;
+    }
+  }
+
+  .top-nav-collapse {
+    background-color: #2b3532 !important;
+  }
+
+  .navbar:not(.top-nav-collapse) {
+    background: transparent !important;
+  }
+
+  @media (max-width: 991px) {
+    .navbar:not(.top-nav-collapse) {
+      background: #3f51b5 !important;
+    }
+  }
+
+  .rgba-gradient {
+    background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%);
+    background: -webkit-gradient(linear, 45deg, from(rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%));
+    background: linear-gradient(to 45deg, rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%);
+  }
+
+  .card {
+    background-color: rgba(126, 123, 215, 0.2);
+  }
+
+  .md-form label {
+    color: #ffffff;
+  }
+
+  h6 {
+    line-height: 1.7;
+  }
+
+
+
+
+  .pincode-section .form-pincode input {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1.25rem 2rem;
+  height: auto;
+  <!-- width:70%; -->
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+}
+
+.tan{
+
+}
+
+#bgVideo{
+  min-width:100%;
+  max-width:100%;
+  top:0;
+  height:100%;
+  object-fit:cover;
+  positon:fixed;
+  background:rgba(0,0,0,0.5);
+  z-index:-1;
+}
+.text-transparent{
+  background-color:rgba(0,0,0,0.6);
+}
+
+#textdiv{
+  position:relative;
+  height:0%;
+  top:-70%;
+  width:100%;
+  <!-- text-align:center; -->
+  display:flex;
+  <!-- justify-content:center; -->
+}
+
+#pinBg{
+  position:relative;
+  height:100%;
+  text-align:center;
+  <!-- top:-300%; -->
+  width:100%;
+  text-align:center;
+  <!-- display:flex; -->
+  <!-- justify-content:center; -->
+
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- Main navigation -->
+
+
+    <!-- Main navigation -->
+    <header>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+        <a class="navbar-brand" href="#">
+          <img src="/static/image/logo3.png" class="rounded-circle" width="100" height="50" alt="">
+          <!-- <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" alt=""> -->
+        </a>
+
+          <a class="navbar-brand" href="/">Shocally</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+              {% if user.is_authenticated %}
+              <li class="nav-item {% block shopactive %}  {% endblock shopactive %} ">
+                <a class="nav-link" href="/shop/pinResult/{{user.PINCODE}}">Shop</a>
+              </li>
+              {% endif %}
+
+              <li class="nav-item {% block bookingactive %}  {% endblock bookingactive %} ">
+                <a class="nav-link" href="/booking/">Booking</a>
+              </li>
+
+              <li class="nav-item {% block aboutactive %}  {% endblock aboutactive %}" >
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item {% block contactactive %}  {% endblock contactactive %} ">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+
+
+              <li class="nav-item {% block blogactive %}  {% endblock blogactive %} ">
+                <a class="nav-link" href="/blog">News</a>
+              </li>
+
+            </ul>
+            <div class="ml-auto form-inline ">
+            <form method="get" action="/search"class="my-2 my-lg-0 mx-3">
+
+              <button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
+              <a href="/admin" role="button" target="_blank" class="btn btn-outline-success m-2 my-sm-0"> Admin Panel </a>
+            </form>
+
+
+
+
+
+            {% if user.is_authenticated %}
+
+            <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus
+            sagittis lacus vel augue laoreet rutrum faucibus.">
+
+          Cart(<span id="cart">0</span>)
+        </button>
+
+            <ul class="navbar-nav mr-2">
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href='#' id="AuthUser" role="button" data-toggle="dropdown"> Welcome {{request.user.first_name|slice:":6"}}</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="/shop/logout">Logout</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/shop/tracker/">My Order</a>
+                      <a class="dropdown-item" href="/booking/update/">My Booking</a>
+
+
+                      {% if user.id == request.session.sellerUserId %}
+                      <div class="dropdown-divider"></div>
+                      {% if request.session.appointmentBased %}
+                      <a class="dropdown-item" href="/booking/ShopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
+                      {% else %}
+                      <a class="dropdown-item" href="/shop/shopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
+                      {% endif %}
+                      <a class="dropdown-item" href="/shop/orderNotify/{{request.session.shopId | safe}}"><b>Orders for Myshop</b></a>
+
+                      {% endif %}
+
+
+              </div>
+              </li>
+              </ul>
+              </div>
+            {% else %}
+
+            <!-- <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus
+            sagittis lacus vel augue laoreet rutrum faucibus.">
+
+          Cart(<span id="cart">0</span>)
+        </button> -->
+
+    <!-- Button to  trigger Login modal -->
+  <button type="button" class="btn btn-primary mr-2" id="userLogin" data-toggle="modal" data-target="#loginModal">
+  Login
+  </button>
+
+  <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#signupModal">
+  SignUp
+  </button>
+  {% endif %}
+
+
+
+          </div>
+        </nav>
+           <!-- Navbar -->
+    <!-- Full Page Intro -->
+
+
+
+    <div class="view" style="background-image: url('http://mdbootstrap.com/img/Photos/Others/images/91.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- <div class="view" style="background-image: url('https://cdn.pixabay.com/photo/2014/09/07/21/52/city-438393_1280.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;"> -->
+      <!-- Mask & flexbox options-->
+      <!-- <a href="https://pixabay.com/photos/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=438393">Free-Photos</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=438393">Pixabay</a> -->
+
+      {% if message %}
+            {% for message in messages  %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  <strong>Message : </strong> {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            {% endfor %}
+      {% endif %}
+
+
+      <div class="mask rgba-gradient d-flex justify-content-center align-items-center pt-5">
+        <!-- Content -->
+        <div class="container">
+          <!--Grid row-->
+          <div class="row mt-5">
+            <!--Grid column-->
+            <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-left">
+              <h1 class="h1-responsive font-weight-bold wow fadeInLeft" data-wow-delay="0.5s">Shop Locally - Shop Smartly </h1>
+              <hr class="hr-light wow fadeInLeft" data-wow-delay="0.5s">
+              <h6 class="mb-3 wow fadeInLeft" data-wow-delay="0.5s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga
+              nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea
+              dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+              <a class="btn btn-outline-white wow fadeInLeft" href="#services" data-wow-delay="0.5s">Learn more</a>
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6 col-xl-5 mb-4">
+              <!--Form-->
+              <div class="card wow fadeInRight" data-wow-delay="0.5s">
+                <div class="card-body">
+                  <!--Header-->
+                  <div class="text-center">
+                    <h3 class="white-text">
+                      <i class="fas fa-user white-text"></i> Sign In right now! </h3>
+                    <hr class="hr-light">
+                  </div>
+                  <!--Body-->
+                  <div class="md-form">
+                    <i class="fas fa-user prefix white-text active"></i>
+                    <input type="text" id="form3" class="white-text form-control">
+                    <label for="form3" class="active">Enter your Username</label>
+                  </div>
+                  <!-- <div class="md-form">
+                    <i class="fas fa-envelope prefix white-text active"></i>
+                    <input type="email" id="form2" class="white-text form-control">
+                    <label for="form2" class="active">Your email</label>
+                  </div> -->
+                  <div class="md-form">
+                    <i class="fas fa-lock prefix white-text active"></i>
+                    <input type="password" id="form4" class="white-text form-control">
+                    <label for="form4">Your password</label>
+                  </div>
+                  <div class="text-center mt-4">
+                    <button class="btn btn-indigo">Login</button>
+                    <hr class="hr-light mb-3 mt-4">
+                    <div class="inline-ul text-center d-flex justify-content-center">
+                      <a class="p-2 m-2 tw-ic">
+                        <i class="fab fa-twitter white-text"></i>
+                      </a>
+                      <a class="p-2 m-2 li-ic">
+                        <i class="fab fa-linkedin-in white-text"> </i>
+                      </a>
+                      <a class="p-2 m-2 ins-ic">
+                        <i class="fab fa-instagram white-text"> </i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/.Form-->
+            </div>
+
+
+            <!--Grid column-->
+          </div>
+
+
+          <!--Grid row-->
+        </div>
+        <!-- Content -->
+      </div>
+      <!-- Mask & flexbox options-->
+    </div>
+    <!-- Full Page Intro -->
+  </header>
+  <!-- Main navigation -->
+  <!--Main Layout-->
+  <main>
+
+
+
+
+  </main>
+
+
+
+<!-- BACKGROUND VIDEO -->
+    <video autoplay muted loop id="bgVideo" class="wow fadeInDown" data-wow-delay="0.2s">
+      <!-- <source src="{% static 'video/bgVideo.mp4' %}" type="video/mp4"> -->
+      <source src="{% static 'video/background.mp4' %}" type="video/mp4">
+    </video>
+
+
+<div class="container" id="textdiv">
+  <div  class="pincode-section ">
+    <form action="/shop/pincodeResult" class="form-pincode" id="contactForm" >
+      <div class="row input-group-newsletter wow fadeInLeft" data-wow-delay="0.7s">
+        <div class="col"><input class="form-control" name="pinCode" id="pinCode" type="text" placeholder="Enter your pincode or city name..." aria-label="Enter your Pincode..." data-sb-validations="required" required /></div>
+        <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Search</button></div>
+      </div>
+      <div class="col-md-12 text-center wow fadeInLeft pt-5" data-wow-delay="0.7s">
+        <h4 class="text-transparent text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+  <div class="head" id="services">
+      <div class="container text-center wow zoomIn" data-wow-iteration="5"  data-wow-delay="0.7s">
+
+          <!-- Logo -->
+          <div class="logo">
+  			  <h1><b>SERVICES PROVIDED BY US</b></h1>
+          </div>
+
+          <h1>Pure CSS Profile Cards with Bootstrap</h1>
+
+      </div>
+  </div>
+
+  <div class="container">
+  	<div class="row">
+  		<div class="col-md-4 wow fadeInRight"  data-wow-iteration="2" data-wow-delay="0.6s" >
+      <h4 class="text-center"><strong>SHOPS</strong></h4>
+      <hr>
+      <div class="profile-card-2" ><img src="https://images.unsplash.com/photo-1586880244406-556ebe35f282?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHNob3BwaW5nJTIwb25saW5lfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=352&q=60" class="img img-responsive">
+          <div class="profile-name">SHOP NOW</div>
+          <div class="profile-username">shop in your local city</div>
+          <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+      </div>
+  </div>
+
+  <div class="col-md-4 wow fadeInRight" style="visibility: visible; -webkit-animation-delay: 0.1s; -moz-animation-delay: 0.1s; animation-delay: 0.1s;" data-wow-delay="0.6s">
+  <h4 class="text-center"><strong>APPOINTMENT SYSTEM</strong></h4>
+  <hr>
+  <div class="profile-card-2"><img src="https://images.unsplash.com/photo-1605902711834-8b11c3e3ef2f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJvb2tpbmd8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=352&q=60" class="img img-responsive">
+      <div class="profile-name">BOOKING</div>
+      <div class="profile-username">Get your Slot.</div>
+      <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+  </div>
+</div>
+
+<div class="col-md-4 wow fadeInRight" style="visibility: visible; -webkit-animation-delay: 0.1s; -moz-animation-delay: 0.1s; animation-delay: 0.1s;" data-wow-delay="0.6s">
+
+<h4 class="text-center"><strong>LOCAL NEWS</strong></h4>
+<hr>
+<div class="profile-card-2"><img src="https://images.unsplash.com/photo-1557428894-56bcc97113fe?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fG5ld3N8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" class="img img-responsive">
+    <div class="profile-name">NEWS</div>
+    <div class="profile-username">Get the Latest Gossip of your Town.</div>
+    <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+</div>
+
+</div>
+
+
+
+
+  	</div>
+  </div>
+
+  <!-- SignUp Modal -->
+  <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signupModalTitle">SignUp Here</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form action= "/shop/signup" enctype='multipart/form-data' method='post'>
+              {% csrf_token %}
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Choose a unique username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="fname">First Name</label>
+        <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lname">Last Name</label>
+        <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" required>
+      </div>
+
+      <div class="form-group">
+          <label for="pinCode">PINCODE</label>
+          <input type="tel" class="form-control" id="pinCode" pattern="[0-9]{6}" name="pinCode" maxlength="6" placeholder="PINCODE where you live " required>
+      </div>
+
+      <div class="form-group" required>
+          <label for="Address">Enter Your Address</label>
+          <input type="text" class="form-control" id='=Address' name='Address' placeholder="Enter Your Address" required>
+      </div>
+
+      <div class="form-group">
+          <label for="PhoneNo">Phone Number</label>
+          <input type="tel" class="form-control" id="PhoneNo" pattern="[0-9]{10}" name="PhoneNo" maxlength="10" oninvalid="this.setCustomValidity('Please enter Valid Mobile Number of 10 digit')" oninput="this.setCustomValidity('')"  placeholder="Enter Your Phone Number" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pass1">Choose a password</label>
+        <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose Your Password" required>
+      </div>
+      <div class="form-group">
+        <label for="pass2">Confirm Password</label>
+        <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Enter your password again">
+      </div>
+
+      <div class="form-group">
+          <label for="userImg">Upload Your Profile Pic </label><br>
+          <input type="file"   id='userImg' name='userImg' >
+      </div>
+
+      <div class="form-group">
+          <b>Select Account Type</b><br>
+        <label class="bg-warning border border-dark rounded text-white"  for="yesCheck">Seller </label>
+        <input type="radio"  onclick="javascript:yesnoCheck();" id="yesCheck" name="yesno">
+        <label class="bg-success border border-dark rounded text-white " for="noCheck">Customer </label>
+        <input type="radio" onclick="javascript:yesnoCheck();" name="yesno" id="noCheck">
+        <!-- <label for="reporter">Reporter </label>
+        <input type="radio" onclick="javascript:reporter();" name="reporter" id="noCheck"> -->
+      </div>
+
+
+  <!-- <div id="ifYes" class="form-group"  style="visibility:hidden"> -->
+      <div id="ifYes" class="form-group"  style="display:none">
+
+          <div class="form-group">
+              <label for="shopName">Enter Your Shop Name</label>
+              <input type="text" class="form-control" id='shopName' name='shopName'placeholder="Enter Your Shop Name">
+          </div>
+
+          <div class="form-group">
+              <label for="shopCat">Enter Your Shop Category</label>
+              <input type="text" class="form-control" id='shopCat' name='shopCat' placeholder="Enter Your Shop Category">
+          </div>
+
+          <div class="form-group">
+              <label for="shopAddress">Enter Your Shop Address</label>
+              <input type="text" class="form-control" id='shopAddress' name='shopAddress' placeholder="Enter Your Shop Address">
+          </div>
+
+          <div class="form-group">
+          <div class="form-check">
+            <p><b>Note: If your shop is Appointment Based then only check this checkbox.</b></p>
+            <input class="form-check-input" type="checkbox" value="False" name="BookingOrNot" onchange="javascript:Booking();" id="BookingOrNot">
+            <label class="form-check-label" for="BookingOrNot">
+              Booking Shop
+          </label>
+        </div>
+        </div>
+
+
+          <div class="form-group">
+              <label for="shopImg">Upload Your Shop Image</label>
+              <input type="file"   id='shopImg' name='shopImg' >
+          </div>
+
+          <div class="form-group">
+              <input type="hidden"   id='hide' name='UserType'  value="user">
+          </div>
+
+      </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/shop/login" method="post">
+          {% csrf_token %}
+    <div class="form-group">
+      <label for="loginusername">Username</label>
+      <input type="text" class="form-control" id="loginusername" name="loginusername" placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+      <label for="loginpassword">Enter your password </label>
+      <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password ">
+    </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+        </div>
+         <div class="modal-footer">
+        </div>
+  </div>
+  </div>
+  </div>
+
+  <!--Main Layout-->
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+
+
+
+  <script>
+
+     function Booking(){
+       checkbox=document.getElementById('BookingOrNot')
+       checkbox.value = checkbox.checked
+       console.log("Working AppointmentBased",checkbox.value)
+
+     }
+
+           function yesnoCheck() {
+       if (document.getElementById('yesCheck').checked) {
+
+       document.getElementById('ifYes').style.display = 'block';
+       document.getElementById('hide').value = 'Admin';
+       }
+       else  document.getElementById('ifYes').style.display = 'none';
+       }
+  </script>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+  <!-- <script src="{% static 'js/shop/popover.min.js' %}"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> only interchange the position -->
+
+
+  <script>
+{% if user.is_authenticated %}
+
+
+{% if user.is_Seller %}
+var sellerUser={{request.session.sellerUser | safe}}
+{% endif %}
+
+console.log("authenticate hh bhai swagat karo ")
+var cartJson={{request.session.cartJson | safe}}
+var cartPrice={{request.session.cartPrice | safe}}
+var cartTotal={{request.session.cartTotal | safe}}
+
+// $('#cart').innertext(cartTotal);
+document.getElementById('cart').innerHTML=cartTotal;
+// $('#cart').textContent(toString(cartTotal));
+
+{% endif %}
+// console.log({{request.session.userCartJson}})
+</script>
+
+
+
+
+<script>
+
+function CheckingUser(){
+console.log("chala")
+  if(null==document.getElementById('AuthUser'))  //if user is not authenticated then this function will work otherwise not
+  {
+
+    loginButton=document.getElementById('userLogin');
+    loginButton.click();
+    return false;
+  }
+   else{
+     return true;
+   }
+}
+
+
+
+
+  if(document.getElementById('AuthUser')) //checking if the user is authenticated or not
+  {
+
+    if (cartJson==0) {
+      // if (localStorage.getItem('cart') == null) {
+        var cart = {};
+      }
+      else {
+        console.log("cartJson - base.html ",cartJson)
+        cart = cartJson;
+        // cart = JSON.parse(localStorage.getItem('cart'));
+        console.log("cart - ",cart);
+        // updateCart(cart);
+      }
+
+  }
+
+  //Add Popover to cart
+  // $('#popcart').popover();
+  updatePopover(cart);
+
+  function updatePopover(cart) {
+
+    if(document.getElementById('AuthUser'))
+    {
+
+      console.log('We are inside updatePopover');
+      var popStr = "";
+      popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+      var i = 1;
+      for (var item in cart) {
+        if (Object.keys(cart).length >0)
+        {
+          // popStr = popStr + "<b>" + i + "</b>. ";
+          // popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+          // i = i + 1;
+
+          popStr = popStr + "<b>" + i + "</b>. ";
+          popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+          i = i + 1;
+        }
+        else{
+          popStr = "<h5> You haven't Cart any item </h5><div class='mx-2 my-2'>";
+        }
+
+      }
+
+      // popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a><button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>"
+      // popStr = popStr + "</div> <a href='/shop/checkout' class='btn btn-primary'>Checkout</a> <a  href='' class='btn btn-primary mx-2' onclick='clearCart();' id='clearCart'>Clear Cart</a>"
+      popStr = popStr + "</div> <a href='/shop/checkout' class='btn btn-primary'>Checkout</a> <a href='/shop/clearCart/' class='btn btn-primary mx-2' id='clearCart' >Clear Cart</a>"
+      // popStr = popStr + "</div> <a href='/shop/checkout' class='btn btn-primary'>Checkout</a>"+ "<a  href='javascript:'clearCart();'   id ='clearCart'>Clear Cart</a>"
+      var dp=new DOMParser();
+      var doc=dp.parseFromString(popStr,'text/html');
+      // alert(doc.documentElement.outerHTML);
+      document.getElementById('popcart').setAttribute('data-content', popStr);
+      // document.getElementById('popcart').setAttribute('data-content',doc.documentElement.outerHTML );
+      // $('#popcart').popover('show');
+      // var $j=jQuery.noConflict();  $j use
+      $(document).ready(function(){
+
+        $('[data-toggle="popover"]').popover();
+      });
+
+    }
+  }
+
+</script>
+
+<script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+<script>
+
+  if(!(/msie [6|7|8|9]/i.test(navigator.userAgent))){
+
+    new WOW().init();
+  };
+
+  video=document.getElementById('bgVideo')
+  video.style.filter="blur(2px)";
+</script>
+
+</body>
+
+</html>

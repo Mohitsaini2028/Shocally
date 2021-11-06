@@ -25,5 +25,5 @@ urlpatterns = [
     path("ratingPage/<int:id>/<str:val>",views.ratingPage,name="ratingPage"),
     path('shopRatingUpdate/', views.shopRatingUpdate, name="shopRatingUpdate"),
     path('prodRatingUpdate/', views.prodRatingUpdate, name="prodRatingUpdate"),
-
+    path("exampleHomePage/",views.exampleHomePage,name="exampleHomePage"),
 ]
