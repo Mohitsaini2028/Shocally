@@ -103,7 +103,8 @@ def productView(request,prodid):
     #             # - --------------------------------------------------------------------
 
 
-    suggestions = set()
+    # suggestions = set()
+    suggestions=[]
 
     #try:
 
@@ -128,10 +129,11 @@ def productView(request,prodid):
                     #               suggestions.extend(k)
 
                     for i in result:
+                        print(i)
                         for  j in Product.objects.filter(category=product[0].category,subCategory__icontains=i).exclude(id=product[0].id).order_by('-rating'):
-
+                            print(",",j)
                             if j.seller.pincode == product[0].seller.pincode:
-                                    suggestions.add(j)
+                                    suggestions.append(j)
 
 
                 # if result:
@@ -144,11 +146,15 @@ def productView(request,prodid):
                 #                 pass
 
 
-
+    
     print("\n\n\n\n",suggestions)
 
+    n = len(suggestions)
+    nSlides = n // 4 + ceil((n / 4) - (n // 4))
+
+
     # print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
-    return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions})
+    return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions,'range':range(1, nSlides) })
 
 
 def handleSignUp(request):
