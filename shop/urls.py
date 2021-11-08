@@ -26,4 +26,6 @@ urlpatterns = [
     path('shopRatingUpdate/', views.shopRatingUpdate, name="shopRatingUpdate"),
     path('prodRatingUpdate/', views.prodRatingUpdate, name="prodRatingUpdate"),
     path("exampleHomePage/",views.exampleHomePage,name="exampleHomePage"),
+    path("search/",views.search,name="search"),
+    path("searchResult/",views.searchResult,name="searchResult"),
 ]

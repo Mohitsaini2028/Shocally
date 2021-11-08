@@ -101,7 +101,7 @@ def run(string):
     print("suggestion in apriori",suggestions)
     return suggestions
 
-run("shirt")
+
 if "__name__"=="__main__":
     #run("mobile")
     #print(run("pants"))

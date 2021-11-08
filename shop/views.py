@@ -27,6 +27,29 @@ def pincodeInput(request):
 def exampleHomePage(request):
     return render(request,'homePage.html')
 
+def search(request):
+    return render(request,"search.html")
+
+def searchResult(request):
+    query = request.POST.get('query')
+
+    if len(query)>78:
+        allPosts=Post.objects.none()
+    else:
+        allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=request.user.PINCODE)
+
+        allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=request.user.PINCODE)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=request.user.PINCODE)
+        allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
+        print(type(allProduct))
+
+    if allProduct.count()==0:
+        messages.warning(request, "No search results found. Please refine your query.")
+    params={'allProduct': allProduct, 'query': query}
+    print(query,allProduct)
+    return render(request,"searchResult.html",params)
+
+
 def pinResult(request,result):
     pincode=result
     allShop=[]
@@ -146,7 +169,7 @@ def productView(request,prodid):
                 #                 pass
 
 
-    
+
     print("\n\n\n\n",suggestions)
 
     n = len(suggestions)

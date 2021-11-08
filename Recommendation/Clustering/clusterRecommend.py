@@ -1,13 +1,4 @@
-import pandas as pd
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from sklearn.neighbors import NearestNeighbors
-from sklearn.cluster import KMeans
-from sklearn.metrics import adjusted_rand_score
-import os
-from pathlib import Path
+
 
 
 # links
@@ -17,6 +8,16 @@ https://www.kaggle.com/c/home-depot-product-search-relevance/data?select=test.cs
 '''
 
 def run(string):
+    import pandas as pd
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+    from sklearn.neighbors import NearestNeighbors
+    from sklearn.cluster import KMeans
+    from sklearn.metrics import adjusted_rand_score
+    import os
+    from pathlib import Path
     CUR_PATH = Path(__file__).resolve().parent
     CSV_FILE = os.path.join(CUR_PATH,'prod_Desc.csv')
     product_descriptions = pd.read_csv(CSV_FILE)
@@ -69,13 +70,11 @@ def run(string):
         prediction = model.predict(Y)
         #print(prediction)
         print_cluster(prediction[0])
-        
+
         return clus;
 
-    
+
     return show_recommendations(string)
 
 if __name__=="__main__":
     print(" -  - -  -  - - - -  - - - -  - -")
-    
-    

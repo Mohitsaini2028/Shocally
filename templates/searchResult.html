@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+
+{% block body %}
+
+
+{%if user.is_authenticated %}
+{% endif %}
+
+<div class="container my-3">
+    <h2>Search results : </h2>
+    {% if allProduct|length < 1 %}
+   <p>No search results</p>
+    Your search query : <b>{{query}}</b> did not match any documents. <br>
+    Suggestions:
+    <ul>
+    <li>Make sure that all words are spelled correctly.</li>
+    <li>Try more general keywords.</li>
+   <li> Try fewer keywords.</li>
+   <li> Try different keywords.</li>
+
+    </ul>
+
+
+    {% endif %}
+
+
+    {% if allProduct %}
+    <div class="container">
+        <div class="carousel-item active">
+
+            {% for i in allProduct %}
+            <div class="col-xs-3 col-sm-3 col-md-3 mt-2 pt-4">
+                <div class="card align-items-center" style="width: 17rem;">
+                    <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name|title}}</h6>
+                        {% if i.product_name|length < 25 %}
+                        <br class="pt-4">
+
+                        {% endif %}
+                        <p class="card-text">{{i.desc|slice:"0:47"}}...</p>
+                        {% if i.desc|length < 25 %}
+                        <br>
+                        {% endif %}
+                        <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                        {% if user.id == i.seller.user.id %}
+                        <a href="/shop/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Product</a>
+                        <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete </button>
+                        <form   method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="delProd" id="delProd{{i.id}}" value="{{i.id}}">
+                          <input type="hidden" name="sellerId" id="sellerId" value="{{shop.id}}">
+                        </form>
+                        <!-- <button id="edit{{i.id}}" class="btn btn-success mx-2">Edit Product</button>
+                        <button id="del{{i.id}}" class="btn btn-danger ">Delete </button> -->
+                        {% else %}
+                         <span id="divpr{{i.id}}" class="divpr">
+                            <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                        </span>
+                        <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
+                        {% endif %}
+
+                        <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+          </div>
+    {% endif %}
+
+    {% for i in allNews %}
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">Article  by <i>{{product.author}}</i></strong>
+            <h3 class="mb-0">{{i.product_name}}</h3>
+            <div class="mb-1 text-muted">{{result.datetime}}</div>
+            <p class="card-text mb-auto">{{post.content| truncatechars:500}}</p>
+            <div class="my-2">
+            	<a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
+            </div>
+
+        </div>
+        <div class="col-auto d-none d-lg-block">
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+            </svg>
+        </div>
+        </div>
+        {% endfor %}
+</div>
+
+
+{% endblock %}
