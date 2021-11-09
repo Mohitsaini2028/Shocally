@@ -16,7 +16,25 @@ from Recommendation.Clustering import clusterRecommend
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
+advance_search_path=os.path.join(BASE_DIR,'Advance Search')
 # Create your views here.
+
+#updating file for Search Term
+def updateDataFile(lis):
+    with open(advance_search_path+'\\data.csv','a',encoding="utf-8",newline='') as f_object:
+        writer_object = csv.writer(f_object)
+        writer_object.writerow(lis)
+        f_object.close()
+
+def updateSearchFile(request):
+    products=Product.objects.all()
+    for i in products:
+        lis = [i.category,i.category,1.0]
+        updateDataFile(lis)
+        lis = [i.subCategory,i.subCategory,1.0]
+        updateDataFile(lis)
+
+    return HttpResponse("<h1>File Updated!!</h1>")
 
 def home(request):
     return HttpResponse("<h1><i> hi home page </i></h1>")
@@ -30,11 +48,55 @@ def exampleHomePage(request):
 def search(request):
     return render(request,"search.html")
 
+def advanceSearch(query):
+
+    with open(advance_search_path+'\\data.csv', "r") as f:
+        word = f.read().split(",")
+
+    #from fuzzywuzzy import process
+    from fuzzywuzzy import fuzz, process
+
+    '''
+    soundex = fuzz.Soundex(10)
+    # Text to process
+    word = 'phone'
+    soundex(word)
+    '''
+
+    def get_matches(query, choices, limit=3):
+            results = process.extract(query, choices, limit=limit)
+            return results
+
+    '''
+    try to apply sorting features for on higher to lower order aur on the basic of date
+
+    agar data extract karne par 0 ya 5 s kam matching nikle toh fir word ko match karna fir wapis s fetch karna database s
+
+    '''
+
+    match=get_matches(f"{query}", word)
+
+
+    return match
+
+
 def searchResult(request):
     query = request.POST.get('query')
+    '''
+    s=advanceSearch(query)
+    result = []
+
+    for item in s:
+        res=''.join([i for i in item[0] if not i.isdigit()])
+        if res.startswith('.\n'):
+            res=res[2:]
+        result.append(res)
+
+    print("\n\n\n\n",result)
+    '''
 
     if len(query)>78:
-        allPosts=Post.objects.none()
+        allProduct=Product.objects.none()
     else:
         allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=request.user.PINCODE)
 
@@ -105,7 +167,7 @@ def productView(request,prodid):
     recommendations = []
 
     count = 0
-    for  i in Product.objects.filter(category=product[0].category,subCategory=product[0].subCategory).exclude(id=product[0].id).order_by('-rating'):
+    for  i in Product.objects.filter(category__iexact=product[0].category,subCategory__iexact=product[0].subCategory).exclude(id=product[0].id).order_by('-rating'):
         print("\n\n\n\nRecommendation i",i)
         if i.seller.pincode == product[0].seller.pincode:
                 recommendations.append(i)
@@ -115,41 +177,18 @@ def productView(request,prodid):
 
 
 
-    clusters = clusterRecommend.run(product[0].subCategory)
+    clusters = clusterRecommend.run(product[0].subCategory.lower())
 
 
-    # for i in clus:
-    #     for  j in Product.objects.filter(category=product[0].category,subCategory__icontains=i).exclude(id=product[0].id).order_by('-rating'):
-    #         if j.seller.PinCode == product[0].seller.PinCode:
-    #             clusters.add(j)
 
-    #             # - --------------------------------------------------------------------
-
-
-    # suggestions = set()
     suggestions=[]
 
-    #try:
 
-    # except Exception as e:
-    #     print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
-
-    result = aprori_recommender.run(product[0].subCategory)
+    result = aprori_recommender.run(product[0].subCategory.lower())
     print("RESULT APPRORI RECOMMENDER : ",result)
     result = (clusters + list(set(result) - set(clusters)))
     print("RESULT APPRORI RECOMMENDER : ",result)
     if result:
-                    # for i in result:
-                    #      objects = Product.objects.filter(category=product[0].category,subCategory__icontains=i).order_by('-rating')
-                    #      if len(objects)>1:
-                    #          pass
-                    #          print("\nsuggestions ",objects[0].seller.PinCode,PINCODE)
-                    #      else:
-                    #         for k in objects:
-                    #             pass
-                    #             if k.seller.PinCode == PINCODE:
-                    #               print(k)
-                    #               suggestions.extend(k)
 
                     for i in result:
                         print(i)
@@ -157,18 +196,6 @@ def productView(request,prodid):
                             print(",",j)
                             if j.seller.pincode == product[0].seller.pincode:
                                     suggestions.append(j)
-
-
-                # if result:
-                #     for i in result:
-                #         for k in Product.objects.filter(category=product[0].category,subCategory__icontains=i).order_by('-rating'):
-                #             print("\nsuggestions ",k.seller.PinCode,PINCODE)
-                #
-                #             if k.seller.PinCode == PINCODE:
-                #                 # suggestions.append(k)
-                #                 pass
-
-
 
     print("\n\n\n\n",suggestions)
 

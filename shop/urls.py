@@ -28,4 +28,5 @@ urlpatterns = [
     path("exampleHomePage/",views.exampleHomePage,name="exampleHomePage"),
     path("search/",views.search,name="search"),
     path("searchResult/",views.searchResult,name="searchResult"),
+    path("updateSearchFile/",views.updateSearchFile,name="updateSearchFile"),
 ]

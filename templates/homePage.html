@@ -19,25 +19,6 @@
     <style>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* Required for full background image */
 
   html,
@@ -278,23 +259,25 @@
       <!-- Mask & flexbox options-->
       <!-- <a href="https://pixabay.com/photos/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=438393">Free-Photos</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=438393">Pixabay</a> -->
 
-      {% if message %}
-            {% for message in messages  %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                  <strong>Message : </strong> {{ message }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-            {% endfor %}
-      {% endif %}
+
 
 
       <div class="mask rgba-gradient d-flex justify-content-center align-items-center pt-5">
         <!-- Content -->
         <div class="container">
+          {% if messages %}
+                {% for message in messages  %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                      <strong>Message : </strong> {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+                {% endfor %}
+          {% endif %}
           <!--Grid row-->
           <div class="row mt-5">
+
             <!--Grid column-->
             <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-left">
               <h1 class="h1-responsive font-weight-bold wow fadeInLeft" data-wow-delay="0.5s">Shop Locally - Shop Smartly </h1>
@@ -377,7 +360,7 @@
 
 
 <!-- BACKGROUND VIDEO -->
-    <video autoplay muted loop id="bgVideo" class="wow fadeInDown" data-wow-delay="0.2s">
+    <video autoplay muted loop id="bgVideo" class="wow fadeInLeft" data-wow-delay="0.2s">
       <!-- <source src="{% static 'video/bgVideo.mp4' %}" type="video/mp4"> -->
       <source src="{% static 'video/background.mp4' %}" type="video/mp4">
     </video>

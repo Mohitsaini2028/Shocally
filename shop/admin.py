@@ -9,6 +9,7 @@ class CustomUserAdmin(UserAdmin):
     model=User
     add_form=CustomerUserCreationForm
     list_display =('username','id','first_name', 'last_name', 'PINCODE','is_Seller' ,'is_staff',)
+    list_filter = ['is_Seller', 'is_Customer', 'is_Reporter', 'CityManager', 'groups', 'is_staff', 'is_superuser', 'is_active' ]
 
     add_fieldsets = UserAdmin.add_fieldsets + (
     (None, {'fields': ('email', 'first_name', 'last_name', 'PINCODE', 'UserType', 'Address', 'Category', 'PhoneNo', 'UserImg',)}),
@@ -25,7 +26,7 @@ class CustomUserAdmin(UserAdmin):
 class ProductAdmin(admin.ModelAdmin):
      list_display=['product_name', 'price', 'subCategory', 'seller']
      search_fields = ['product_name','id', 'price', 'subCategory', 'category']
-     
+
 
 admin.site.register(User,CustomUserAdmin)
 admin.site.register(Customer)

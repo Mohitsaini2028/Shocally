@@ -3,7 +3,7 @@
 {% block title %} ShocallyHomePage {% endblock title %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static 'css/shop/homePage.css' %}">
+
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
 <link href="{% static 'css/main.css' %}"  rel="stylesheet" />
 {% endblock %}
@@ -20,8 +20,8 @@
 
   <form method="POST" action="/shop/searchResult/"class="my-2 my-lg-0 mx-3">
     {% csrf_token %}
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
-    <button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
+    <input class="form-control mr-sm-2 my-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
+    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
   </form>
 
 </div>
