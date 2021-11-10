@@ -166,7 +166,7 @@
               {% endif %}
 
               <li class="nav-item {% block bookingactive %}  {% endblock bookingactive %} ">
-                <a class="nav-link" href="/booking/">Booking</a>
+                <a class="nav-link" id="booking" href="/booking/">Booking</a>
               </li>
 
               <li class="nav-item {% block aboutactive %}  {% endblock aboutactive %}" >
@@ -752,6 +752,16 @@ console.log("chala")
 
   video=document.getElementById('bgVideo')
   video.style.filter="blur(2px)";
+  
+  document.getElementById("booking").addEventListener("click", function(event){
+  event.preventDefault()
+    try{
+        val = {{request.session.pincode}}
+     }
+    catch(err){ 
+    
+    }
+});
 </script>
 
 </body>
