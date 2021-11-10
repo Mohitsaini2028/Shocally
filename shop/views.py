@@ -12,11 +12,12 @@ from pathlib import Path
 import os
 from Recommendation.Association import aprori_recommender
 from Recommendation.Clustering import clusterRecommend
+from AdvanceSearch import advance_search_functionality as search_check
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
-advance_search_path=os.path.join(BASE_DIR,'Advance Search')
+advance_search_path=os.path.join(BASE_DIR,'AdvanceSearch')
 # Create your views here.
 
 #updating file for Search Term
@@ -86,6 +87,7 @@ def searchResult(request):
         pincode = request.user.PINCODE
     else:
         pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
+    print("Search Return",search_check.main(query))
     '''
     s=advanceSearch(query)
     result = []

@@ -594,6 +594,11 @@
   </div>
   </div>
 
+  <form action="/booking/" id="pincodeForm">
+    {% csrf_token %}
+      <input type="hidden" id="code" name="code" value="">
+  </form>
+
   <!--Main Layout-->
   <!-- SCRIPTS -->
   <!-- JQuery -->
@@ -752,16 +757,28 @@ console.log("chala")
 
   video=document.getElementById('bgVideo')
   video.style.filter="blur(2px)";
-  
+
   document.getElementById("booking").addEventListener("click", function(event){
-  event.preventDefault()
+  event.preventDefault();
+
+  console.log({{request.session.pincode}})
+  pin = prompt("Enter your pincode");
     try{
-        val = {{request.session.pincode}}
+        if({{request.session.pincode}}){
+          console.log("PINCODE EXIST")
+        }
      }
-    catch(err){ 
-    
+    catch(err){
+      // console.log("PINCODE",err)
+      // pin = prompt("Enter your pincode","car");
+
+      document.getElementById('code').value=pin
+      form=document.getElementById('pincodeForm')
+      form.submit()
     }
+
 });
+
 </script>
 
 </body>

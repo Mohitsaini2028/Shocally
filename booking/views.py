@@ -7,6 +7,7 @@ import time
 
 def home(request):
     pinCode=458441
+    print("BOOKING HOME PAGE USER PINCODE",request.POST.get('code'))
     allShop=[]
     prod=[]
     catprods = Seller.objects.values('shopCategory', 'id')
