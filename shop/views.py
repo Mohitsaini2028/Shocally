@@ -82,6 +82,10 @@ def advanceSearch(query):
 
 def searchResult(request):
     query = request.POST.get('query')
+    if request.user.is_authenticated:
+        pincode = request.user.PINCODE
+    else:
+        pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
     '''
     s=advanceSearch(query)
     result = []
@@ -95,13 +99,13 @@ def searchResult(request):
     print("\n\n\n\n",result)
     '''
 
-    if len(query)>78:
+    if len(query)>78 or len(query)<=1 :
         allProduct=Product.objects.none()
     else:
-        allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=request.user.PINCODE)
+        allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
 
-        allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=request.user.PINCODE)
-        allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=request.user.PINCODE)
+        allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
         allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
         print(type(allProduct))
 
