@@ -10,10 +10,10 @@
 {% endif %}
 
 <div class="container my-3">
-    <h2>Search results : </h2>
+    <h2>Search results  for <i class="text-secondary">"{{query|slice:":29"}}{% if query|length > 30  %}... {% endif %}"</i>-</h2>
     {% if allProduct|length < 1 %}
    <p>No search results</p>
-    Your search query : <b>{{query}}</b> did not match any documents. <br>
+    Your search query : <b>{{query|slice:":29"}}{% if query|length > 30  %}... {% endif %}</b> did not match any documents. <br>
     Suggestions:
     <ul>
     <li>Make sure that all words are spelled correctly.</li>

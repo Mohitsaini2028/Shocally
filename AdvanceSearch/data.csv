@@ -2291,14 +2291,7 @@ amnisty,amnesty,0.86
 ytsinma,amnesty,0.14
 amnisty,ytsenma,0.14
 ytsinma,ytsenma,0.86
-an,and,0.8
-na,and,0.4
-an,dna,0.4
-na,dna,0.8
-and,an,0.8
-dna,an,0.4
-and,na,0.4
-dna,na,0.8
+
 ansver,answer,0.83
 revsna,answer,0.17
 ansver,rewsna,0.17
@@ -2347,14 +2340,7 @@ arrieved,arrived,0.93
 deveirra,arrived,0.27
 arrieved,devirra,0.27
 deveirra,devirra,0.93
-as,at,0.5
-sa,at,0.5
-as,ta,0.5
-sa,ta,0.5
-as,has,0.8
-sa,has,0.4
-as,sah,0.4
-sa,sah,0.8
+
 assasinated,assassinated,0.96
 detanisassa,assassinated,0.52
 assasinated,detanissassa,0.52
@@ -5709,7 +5695,7 @@ oppersit poeterie exception begining,poeterie exception begining,0.86
 oppersit poeterie exception begining,poeterie begining exception oppersit,0.58
 cort partymembers fabulous abolition,cort partymembers,0.64
 cort partymembers fabulous abolition,cort partymembers abolition fabulous,0.75
-opression has magnifum,opression has,0.74
+opression  magnifum,opression,0.74
 opression has magnifum,has magnifum opression,0.55
 left,,0.0
 left,left,1.0
@@ -5931,7 +5917,7 @@ coalitions florished understanded,understanded,0.53
 coalitions florished understanded,understanded coalitions florished,0.61
 prospere purpose definitions,purpose,0.4
 prospere purpose definitions,purpose prospere definitions,0.82
-maraton as defenitions juise,as,0.13
+maraton as defenitions juise 0.13
 maraton as defenitions juise,defenitions juise as maraton,0.61
 classridden duck spendide,duck spendide,0.68
 classridden duck spendide,classridden duck spendide,1.0
@@ -7870,6 +7856,11 @@ fals,fals,1.0
 receit,,0.0
 receit,receit,1.0
 Pakistanies,,0.0
+laptop,laptop
+above,above
+Mohit,Mohit,
+Aman,Rohan,
+Prateek
 Pakistanies,Pakistanies,1.0
 changeability scarcely queu magazines,queu magazines,0.55
 changeability scarcely queu magazines,changeability scarcely queu magazines,1.0
@@ -8549,8 +8540,7 @@ sceen choice telles sccesful,choice telles,0.63
 sceen choice telles sccesful,telles choice sccesful sceen,0.64
 chambre,,0.0
 chambre,chambre,1.0
-and,,0.0
-and,and,1.0
+
 Supreme spilend,,0.0
 Supreme spilend,spilend Supreme,0.47
 clumsy raw-material ministeres benefited,clumsy ministeres benefited,0.81
@@ -10427,8 +10417,7 @@ passportholders emphasizes posission declair,passportholders emphasizes declair,
 passportholders emphasizes posission declair,posission emphasizes declair passportholders,0.52
 confucion truth,truth,0.5
 confucion truth,confucion truth,1.0
-and,,0.0
-and,and,1.0
+
 owful courtecy privileges,privileges,0.57
 owful courtecy privileges,owful privileges courtecy,0.64
 jealus purble phototes,jealus,0.43
@@ -11053,7 +11042,7 @@ eye-opener inability,eye-opener,0.67
 eye-opener inability,eye-opener inability,1.0
 corret arouse,arouse,0.63
 corret arouse,arouse corret,0.46
-bones as Darwinism struggeling,as,0.12
+bones as Darwinism struggeling 0.12
 bones as Darwinism struggeling,Darwinism struggeling as bones,0.7
 corpse,,0.0
 corpse,corpse,1.0
@@ -11061,7 +11050,7 @@ left compromise yeard,left compromise,0.83
 left compromise yeard,compromise yeard left,0.76
 upheavel dugged,,0.0
 upheavel dugged,dugged upheavel,0.53
-glamourous troubeled at,at,0.16
+glamourous troubeled ,
 glamourous troubeled at,glamourous at troubeled,0.87
 lateyst,,0.0
 lateyst,lateyst,1.0
@@ -13051,3 +13040,172 @@ Grocery,Grocery,1.0
 ketchup,ketchup,1.0
 Grocery,Grocery,1.0
 ketchup,ketchup,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Trouser,Trouser,1.0
+Sports,Sports,1.0
+Bat,Bat,1.0
+Sports,Sports,1.0
+Football,Football,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Trouser,Trouser,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Grocery,Grocery,1.0
+Masala oats,Masala oats,1.0
+Grocery,Grocery,1.0
+Oil,Oil,1.0
+Grocery,Grocery,1.0
+Washing Powder,Washing Powder,1.0
+Grocery,Grocery,1.0
+Cashew,Cashew,1.0
+Grocery,Grocery,1.0
+Maggi,Maggi,1.0
+Grocery,Grocery,1.0
+Bathing Soap,Bathing Soap,1.0
+Grocery,Grocery,1.0
+Rice,Rice,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Rice,Rice,1.0
+Shoes,Shoes,1.0
+Sandal,Sandal,1.0
+Shoes,Shoes,1.0
+Sandal,Sandal,1.0
+Shoes,Shoes,1.0
+sleeper,sleeper,1.0
+Shoes,Shoes,1.0
+slides,slides,1.0
+Shoes,Shoes,1.0
+slides,slides,1.0
+Shoes,Shoes,1.0
+Shoes,Shoes,1.0
+Shoes,Shoes,1.0
+Shoes,Shoes,1.0
+Electronics,Electronics,1.0
+Headphones,Headphones,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Clothing,Clothing,1.0
+Pants,Pants,1.0
+Electronics,Electronics,1.0
+Smart Watch,Smart Watch,1.0
+Electronics,Electronics,1.0
+Computer,Computer,1.0
+b,b,1.0
+c,c,1.0
+Electronics,Electronics,1.0
+Televisions,Televisions,1.0
+Electronics,Electronics,1.0
+Speakers,Speakers,1.0
+Electronics,Electronics,1.0
+Speakers,Speakers,1.0
+Electronics,Electronics,1.0
+Televisions,Televisions,1.0
+Electronics,Electronics,1.0
+Televisions,Televisions,1.0
+Electronics,Electronics,1.0
+Televisions,Televisions,1.0
+Electronics,Electronics,1.0
+Speakers,Speakers,1.0
+Electronics,Electronics,1.0
+Speakers,Speakers,1.0
+Electronics,Electronics,1.0
+Headphones,Headphones,1.0
+Electronics,Electronics,1.0
+Headphones,Headphones,1.0
+Electronics,Electronics,1.0
+Headphones,Headphones,1.0
+Electronics,Electronics,1.0
+Smart Watch,Smart Watch,1.0
+Electronics,Electronics,1.0
+Smart Watch,Smart Watch,1.0
+Electronics,Electronics,1.0
+Smart Watch,Smart Watch,1.0
+Clothing,Clothing,1.0
+Pants,Pants,1.0
+Clothing,Clothing,1.0
+Pants,Pants,1.0
+Clothing,Clothing,1.0
+Pants,Pants,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Clothing,Clothing,1.0
+Shirts,Shirts,1.0
+Clothing,Clothing,1.0
+Shirts,Shirts,1.0
+Clothing,Clothing,1.0
+Trouser,Trouser,1.0
+Grocery,Grocery,1.0
+ketchup,ketchup,1.0
+Grocery,Grocery,1.0
+ketchup,ketchup,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Trouser,Trouser,1.0
+Sports,Sports,1.0
+Bat,Bat,1.0
+Sports,Sports,1.0
+Football,Football,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Hoodie,Hoodie,1.0
+Clothing,Clothing,1.0
+Trouser,Trouser,1.0
+Clothing,Clothing,1.0
+T-shirt,T-shirt,1.0
+Grocery,Grocery,1.0
+Masala oats,Masala oats,1.0
+Grocery,Grocery,1.0
+Oil,Oil,1.0
+Grocery,Grocery,1.0
+Washing Powder,Washing Powder,1.0
+Grocery,Grocery,1.0
+Cashew,Cashew,1.0
+Grocery,Grocery,1.0
+Maggi,Maggi,1.0
+Grocery,Grocery,1.0
+Bathing Soap,Bathing Soap,1.0
+Grocery,Grocery,1.0
+Rice,Rice,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Pulse,Pulse,1.0
+Grocery,Grocery,1.0
+Rice,Rice,1.0
+Shoes,Shoes,1.0
+Sandal,Sandal,1.0
+Shoes,Shoes,1.0
+Sandal,Sandal,1.0
+Shoes,Shoes,1.0
+sleeper,sleeper,1.0
+Shoes,Shoes,1.0
+slides,slides,1.0
+Shoes,Shoes,1.0

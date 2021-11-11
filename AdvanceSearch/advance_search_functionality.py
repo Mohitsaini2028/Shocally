@@ -10,7 +10,7 @@ def extract_numbers_from_text(text):
         try:
             l.append(float(t))
         except ValueError:
-            if t.upper() not in operations.keys():
+            if t.upper() not in operations.keys() and t!='':
                term.append(t)
 
     return(l)
@@ -22,29 +22,14 @@ def below(number):
     return number
 
 
-def aboveResult(term,number):
-        allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
-        allProductCategory= Product.objects.filter(category__icontains=term,price__gte=number,seller__pincode=pincode)
-        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__gte=number,seller__pincode=pincode)
-        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
-    return allProduct
 
-def belowResult(term,number):
-        allProductName= Product.objects.filter(product_name__icontains=term,price__lte=number,seller__pincode=pincode)
-        allProductCategory= Product.objects.filter(category__icontains=term,price__lte=number,seller__pincode=pincode)
-        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__lte=number,seller__pincode=pincode)
-        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
-    return allProduct
-
-
-operations={"ABOVE":above, "MINIMUM":above, "BELOW":below, "UNDER":below, "MAXIMUM":below}
-termFilter={"ABOVE":aboveResult, "MINIMUM":aboveResult , "BELOW":belowResult , "UNDER":belowResult, "MAXIMUM":belowResult}
+operations={"ABOVE":above, "MINIMUM":above, "MIN":above, "BELOW":below, "UNDER":below, "MAXIMUM":below, "MAX":below}
 
 
 
 def main(string):
         del term[:]
-
+        del oper[:]
         print()
         text=string
         for word in text.split(' '):

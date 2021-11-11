@@ -15,6 +15,7 @@ from Recommendation.Clustering import clusterRecommend
 from AdvanceSearch import advance_search_functionality as search_check
 
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
 advance_search_path=os.path.join(BASE_DIR,'AdvanceSearch')
@@ -22,6 +23,7 @@ advance_search_path=os.path.join(BASE_DIR,'AdvanceSearch')
 
 #updating file for Search Term
 def updateDataFile(lis):
+    # with open(advance_search_path+'\\search_term.csv','a',encoding="utf-8",newline='') as f_object:
     with open(advance_search_path+'\\data.csv','a',encoding="utf-8",newline='') as f_object:
         writer_object = csv.writer(f_object)
         writer_object.writerow(lis)
@@ -37,6 +39,25 @@ def updateSearchFile(request):
 
     return HttpResponse("<h1>File Updated!!</h1>")
 
+def aboveResult(term,number,pincode):
+        allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
+        allProductCategory= Product.objects.filter(category__icontains=term,price__gte=number,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__gte=number,seller__pincode=pincode)
+        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
+        print("Above Product Result",allProduct)
+        return allProduct
+
+def belowResult(term,number,pincode):
+        allProductName= Product.objects.filter(product_name__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProductCategory= Product.objects.filter(category__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
+        print("Below Product Result",allProduct)
+        return allProduct
+
+
+termFilter={"ABOVE":aboveResult, "MINIMUM":aboveResult ,"MIN":aboveResult, "BELOW":belowResult , "UNDER":belowResult, "MAXIMUM":belowResult, "MAX":belowResult}
+
 def home(request):
     return HttpResponse("<h1><i> hi home page </i></h1>")
 
@@ -51,6 +72,7 @@ def search(request):
 
 def advanceSearch(query):
 
+    # with open(advance_search_path+'\\search_term.csv', "r") as f:
     with open(advance_search_path+'\\data.csv', "r") as f:
         word = f.read().split(",")
 
@@ -80,14 +102,14 @@ def advanceSearch(query):
 
     return match
 
-def querySetGetter(query,pincode,category): 
+def querySetGetter(query,pincode,category):
         if category=='product':
             allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
             allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=pincode)
             allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
             allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
             return allProduct
-        
+
         if category=='shop':                                         #note you should check if it is product based shop or booking type
             allShopName = Seller.objects.filter(shopName__icontains=query,pincode=pincode)
             allCategory = Seller.objects.filter(shopCategory__icontains=query,pincode=pincode)
@@ -105,22 +127,36 @@ def searchResult(request):
         pincode = request.user.PINCODE
     else:
         pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
-    sliced = search_check.main(query)
-    if sliced[2].upper() in termFilter.keys():
+
+    sliced = False
+    for word in query.split(' '):
+        if word.upper() in termFilter.keys():
+            sliced = True
+
+
+
+    productResult = []
+
+    if sliced:
+        sliced = search_check.main(query)
+        print("Result operations ",sliced)
+        if sliced[0][0].upper() in termFilter.keys():
                 try:
-                   
-                    productResult=operations[sliced[2].upper()](sliced[0][0])(sliced[1])
+
+                    productResult=termFilter[sliced[0][0].upper()](sliced[2][0],sliced[1][0],pincode)
                     params={'allProduct': productResult, 'query': query}
-                    print(query,allProduct)
+                    print(query,productResult)
                     return render(request,"searchResult.html",params)
-                    
-                    
-                except:
+
+
+                except Exception as e:
+                    print("Exception ",e)
                     messages.warning(request, "No search results found. Please refine your query.")
                     params={'allProduct': Product.objects.none(), 'query': query}
-                    print(query,allProduct)
+                    # print(query,allProduct)
                     return render(request,"searchResult.html",params)
-    
+
+
     '''
     s=advanceSearch(query)
     result = []
@@ -130,23 +166,24 @@ def searchResult(request):
         if res.startswith('.\n'):
             res=res[2:]
         result.append(res)
-        
-    
-        
+
+
+
     print("\n\n\n\n",result)
     '''
 
-    if len(query)>78 and len(query)<=1:
+    if len(query)>78 or len(query)<=1:
         allProduct=Product.objects.none()
     else:
-        allProduct=querySetGetter(i,pincode,category)
+        allProduct=querySetGetter(query,pincode,category)
         print(type(allProduct))
 
     if allProduct.count()==0:
         #if User type the search Term Incorrectly.
-        '''
+        #'''
         if len(query)<78 and len(query)>1 :
                 s=advanceSearch(query)
+                print("PHONETIC SEARCH RESULT",s)
                 result = []
 
                 for item in s:
@@ -154,20 +191,20 @@ def searchResult(request):
                     if res.startswith('.\n'):
                         res=res[2:]
                     result.append(res)
-                
+
                 #if you want all term matching result
                 for i in result:
                     queryset=querySetGetter(i,pincode,category)
                     allProduct=allProduct.union(queryset)
-                
+
                 #if you only want only first term matching result
                 #allProduct=querySetGetter(i,pincode,category)
-           '''
-        
-        messages.warning(request, "No search results found. Please refine your query.")
-        
+        #'''
+        else:
+           messages.warning(request, "No search results found. Please refine your query.")
+
     if category=='product':
-        params={'allProduct': allProduct, 'query': query}  
+        params={'allProduct': allProduct, 'query': query}
         print("Product Search ", query,allProduct)
     elif category=='shop':
         params={'allShop': allProduct, 'query': query}
