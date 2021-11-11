@@ -23,14 +23,18 @@ def below(number):
 
 
 def aboveResult(term,number):
-        allProductName= Product.objects.filter(product_name__icontains=term,seller__pincode=pincode)
-
-        allProductCategory= Product.objects.filter(category__icontains=term,seller__pincode=pincode)
-        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,seller__pincode=pincode)
+        allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
+        allProductCategory= Product.objects.filter(category__icontains=term,price__gte=number,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__gte=number,seller__pincode=pincode)
         allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
     return allProduct
 
-
+def belowResult(term,number):
+        allProductName= Product.objects.filter(product_name__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProductCategory= Product.objects.filter(category__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,price__lte=number,seller__pincode=pincode)
+        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
+    return allProduct
 
 
 operations={"ABOVE":above, "MINIMUM":above, "BELOW":below, "UNDER":below, "MAXIMUM":below}
