@@ -80,9 +80,20 @@ def advanceSearch(query):
 
     return match
 
+def querySetGetter(query,pincode,category): 
+        if category=='product':
+            allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
+            allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=pincode)
+            allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
+            allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
+            return allProduct
+
+
 
 def searchResult(request):
     query = request.POST.get('query')
+    #category = request.POST.get('category')
+    category = 'product'
     if request.user.is_authenticated:
         pincode = request.user.PINCODE
     else:
@@ -91,7 +102,7 @@ def searchResult(request):
     if sliced[2].upper() in termFilter.keys():
                 try:
                    
-                    productResult=operations[sliced[2].upper()](sliced[0])(sliced[1])
+                    productResult=operations[sliced[2].upper()](sliced[0][0])(sliced[1])
                     params={'allProduct': productResult, 'query': query}
                     print(query,allProduct)
                     return render(request,"searchResult.html",params)
@@ -99,7 +110,7 @@ def searchResult(request):
                     
                 except:
                     messages.warning(request, "No search results found. Please refine your query.")
-                    params={'allProduct': None, 'query': query}
+                    params={'allProduct': Product.objects.none(), 'query': query}
                     print(query,allProduct)
                     return render(request,"searchResult.html",params)
     
@@ -112,11 +123,13 @@ def searchResult(request):
         if res.startswith('.\n'):
             res=res[2:]
         result.append(res)
-
+        
+    
+        
     print("\n\n\n\n",result)
     '''
 
-    if len(query)>78 or len(query)<=1 :
+    if len(query)>78 and len(query)<=1:
         allProduct=Product.objects.none()
     else:
         allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
@@ -127,6 +140,27 @@ def searchResult(request):
         print(type(allProduct))
 
     if allProduct.count()==0:
+        #if User type the search Term Incorrectly.
+        '''
+        if len(query)<78 and len(query)>1 :
+                s=advanceSearch(query)
+                result = []
+
+                for item in s:
+                    res=''.join([i for i in item[0] if not i.isdigit()])
+                    if res.startswith('.\n'):
+                        res=res[2:]
+                    result.append(res)
+                
+                #if you want all term matching result
+                for i in result:
+                    queryset=querySetGetter(i,pincode,category)
+                    allProduct=allProduct.union(queryset)
+                
+                #if you only want only first term matching result
+                #allProduct=querySetGetter(i,pincode,category)
+           
+        
         messages.warning(request, "No search results found. Please refine your query.")
     params={'allProduct': allProduct, 'query': query}
     print(query,allProduct)
