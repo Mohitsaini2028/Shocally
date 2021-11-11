@@ -87,6 +87,13 @@ def querySetGetter(query,pincode,category):
             allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
             allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
             return allProduct
+        
+        if category=='shop':                                         #note you should check if it is product based shop or booking type
+            allShopName = Seller.objects.filter(shopName__icontains=query,pincode=pincode)
+            allCategory = Seller.objects.filter(shopCategory__icontains=query,pincode=pincode)
+            allAddress = Seller.objects.filter(shopAddress__icontains=query,pincode=pincode)
+            allShop =  allShopName.union(allCategory, allAddress)
+            return allShop
 
 
 
