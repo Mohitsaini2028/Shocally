@@ -34,7 +34,7 @@ def aboveResult(term,number):
 
 
 operations={"ABOVE":above, "MINIMUM":above, "BELOW":below, "UNDER":below, "MAXIMUM":below}
-termFilter={"ABOVE":aboveResult, "MINIMUM":aboveResult , "BELOW":below , "UNDER":below, "MAXIMUM":below}
+termFilter={"ABOVE":aboveResult, "MINIMUM":aboveResult , "BELOW":belowResult , "UNDER":belowResult, "MAXIMUM":belowResult}
 
 
 
