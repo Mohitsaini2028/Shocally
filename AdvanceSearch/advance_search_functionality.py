@@ -22,11 +22,19 @@ def below(number):
     return number
 
 
+def aboveResult(term,number):
+        allProductName= Product.objects.filter(product_name__icontains=term,seller__pincode=pincode)
+
+        allProductCategory= Product.objects.filter(category__icontains=term,seller__pincode=pincode)
+        allProductSubCategory =Product.objects.filter(subCategory__icontains=term,seller__pincode=pincode)
+        allProduct =  allProductName.union(allProductCategory, allProductSubCategory)
+    return allProduct
+
 
 
 
 operations={"ABOVE":above, "MINIMUM":above, "BELOW":below, "UNDER":below, "MAXIMUM":below}
-
+termFilter={"ABOVE":aboveResult, "MINIMUM":aboveResult , "BELOW":below , "UNDER":below, "MAXIMUM":below}
 
 
 
