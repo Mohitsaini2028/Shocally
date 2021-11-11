@@ -87,7 +87,22 @@ def searchResult(request):
         pincode = request.user.PINCODE
     else:
         pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
-    print("Search Return",search_check.main(query))
+    sliced = search_check.main(query)
+    if sliced[2].upper() in termFilter.keys():
+                try:
+                   
+                    productResult=operations[sliced[2].upper()](sliced[0])(sliced[1])
+                    params={'allProduct': productResult, 'query': query}
+                    print(query,allProduct)
+                    return render(request,"searchResult.html",params)
+                    
+                    
+                except:
+                    messages.warning(request, "No search results found. Please refine your query.")
+                    params={'allProduct': None, 'query': query}
+                    print(query,allProduct)
+                    return render(request,"searchResult.html",params)
+    
     '''
     s=advanceSearch(query)
     result = []
