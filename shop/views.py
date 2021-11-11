@@ -139,11 +139,7 @@ def searchResult(request):
     if len(query)>78 and len(query)<=1:
         allProduct=Product.objects.none()
     else:
-        allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
-
-        allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=pincode)
-        allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
-        allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
+        allProduct=querySetGetter(i,pincode,category)
         print(type(allProduct))
 
     if allProduct.count()==0:
@@ -166,11 +162,16 @@ def searchResult(request):
                 
                 #if you only want only first term matching result
                 #allProduct=querySetGetter(i,pincode,category)
-           
+           '''
         
         messages.warning(request, "No search results found. Please refine your query.")
-    params={'allProduct': allProduct, 'query': query}
-    print(query,allProduct)
+        
+    if category=='product':
+        params={'allProduct': allProduct, 'query': query}  
+        print("Product Search ", query,allProduct)
+    elif category=='shop':
+        params={'allShop': allProduct, 'query': query}
+        print("Shop Search ",query,allProduct)
     return render(request,"searchResult.html",params)
 
 
