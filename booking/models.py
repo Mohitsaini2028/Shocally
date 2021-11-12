@@ -12,7 +12,7 @@ class BookingItem(models.Model):
     originalPrice = models.FloatField(default=0.0)
     price = models.FloatField(default=0.0)
     desc = models.TextField()
-    image = models.ImageField(upload_to='shop/images', default="")
+    image = models.ImageField(upload_to='booking/images', default="")
     rating = models.FloatField(default=0.0)
     ratingNo = models.IntegerField(default=0)  #Number of rating by users
     @property

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'shop',
     'booking',
     'crispy_forms',
+    'News',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

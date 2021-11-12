@@ -44,7 +44,7 @@ def updateSearchFile(request):
 
 def updateViews(request):
     #cron job  #for updating views
-    
+
     #lis = ['shop','news']
     '''
     for item in lis:
@@ -53,10 +53,10 @@ def updateViews(request):
              for key, value in id_views.items():
                 shop = Seller.objects.get(id=key)
                 shop.views = value
-    
+
     '''
     pass
-    
+
 def aboveResult(term,number,pincode):
         allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
         allProductCategory= Product.objects.filter(category__icontains=term,price__gte=number,seller__pincode=pincode)
@@ -139,6 +139,8 @@ def querySetGetter(query,pincode,category):
 
 def searchResult(request):
     query = request.POST.get('query')
+    cat = request.POST.get('category')
+    print("\n\n\n\n Category",cat)
     #category = request.POST.get('category')
     category = 'product'
     if request.user.is_authenticated:

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Blogpost{% endblock title %}
+{% block body %}
+
+
+
+<div class="container my-3">
+    <h2 class="blog-post-title pb-4">{{news.newsHeadline}}</h2>
+    <p class="blog-post-meta bg-dark text-light p-2">{{news.time}} by <i>{{news.publisher.user.first_name}} {{news.publisher.user.last_name}}</i> - <b>{{news.publisher.NewsCompany}}</b>  (<span > {{news.views}} views</span>)</p>
+    <p>{{news.news|safe}}</p>
+    <hr>
+</div>
+
+
+{% endblock %}

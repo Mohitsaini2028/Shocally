@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} ShocallyNewsPage {% endblock title %}
+
+{% load static %}
+
+
+
+{% block body %}
+
+{% if allNews %}
+
+
+<div class="container my-3">
+    <h2>Tops News</h2>
+    {% for news in allNews  %}
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">News  by  <i>{{news.publisher.user.first_name}} {{news.publisher.user.last_name}}</i> - <b>{{news.publisher.NewsCompany}}</b> ({{news.views}})</strong>
+            <h3 class="mb-0"><a class="text-dark" href="/news/newsView/{{news.id}}">{{news.newsHeadline}} </a> </h3>
+            <div class="mb-1 text-muted">{{news.time}}</div>
+            <p class="card-text mb-auto">{{news.news|truncatechars:200}}</p>
+            <!-- <p class="card-text mb-auto">{{post.content|safe |truncatechars:200}}</p> -->
+            <div class="my-2">
+            	<a href="/news/newsView/{{news.id}}" role="button" class="btn btn-primary">Continue reading</a>
+            </div>
+
+        </div>
+        <div class="col-auto d-none d-lg-block">
+            <img src='/media/{{news.image}}' class="bd-placeholder-img border  p-2" width="250" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                <title>Placeholder</title>
+
+            </img>
+        </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endif %}
+
+
+
+
+
+
+{% endblock %}
