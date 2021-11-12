@@ -19,6 +19,8 @@ from AdvanceSearch import advance_search_functionality as search_check
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
 advance_search_path=os.path.join(BASE_DIR,'AdvanceSearch')
+#fake_view_counter_path=os.path.join(BASE_DIR,'FakeViewCounter')
+
 # Create your views here.
 
 #updating file for Search Term
@@ -39,6 +41,22 @@ def updateSearchFile(request):
 
     return HttpResponse("<h1>File Updated!!</h1>")
 
+
+def updateViews(request):
+    #cron job  #for updating views
+    
+    #lis = ['shop','news']
+    '''
+    for item in lis:
+        if item == 'shop':
+             id_views = update_ip(word)
+             for key, value in id_views.items():
+                shop = Seller.objects.get(id=key)
+                shop.views = value
+    
+    '''
+    pass
+    
 def aboveResult(term,number,pincode):
         allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
         allProductCategory= Product.objects.filter(category__icontains=term,price__gte=number,seller__pincode=pincode)
