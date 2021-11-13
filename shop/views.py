@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
 from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating, OrderNotification
+from News.models import News, Reporter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
@@ -129,13 +130,15 @@ def advanceSearch(query):
 
 def querySetGetter(query,pincode,category):
         if category=='product':
+            print("querySetGetter  Product")
             allProductName= Product.objects.filter(product_name__icontains=query,seller__pincode=pincode)
             allProductCategory= Product.objects.filter(category__icontains=query,seller__pincode=pincode)
             allProductSubCategory =Product.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
             allProduct=  allProductName.union(allProductCategory, allProductSubCategory)
             return allProduct
 
-        if category=='shop':                                         #note you should check if it is product based shop or booking type
+        if category=='shop':
+            print("querySetGetter  Shop")                                        #note you should check if it is product based shop or booking type
             allShopName = Seller.objects.filter(shopName__icontains=query,pincode=pincode)
             allCategory = Seller.objects.filter(shopCategory__icontains=query,pincode=pincode)
             allAddress = Seller.objects.filter(shopAddress__icontains=query,pincode=pincode)
@@ -143,25 +146,30 @@ def querySetGetter(query,pincode,category):
             return allShop
 
         if category=='news':                                         #note you should check if it is product based shop or booking type
-            allShopName = News.objects.filter(newsHeadline__icontains=query,pincode=pincode)
-            allCategory=News.objects.filter(newsCategory__icontains=query,pincode=pincode)
-            allAddress = News.objects.filter(news__icontains=query,pincode=pincode)
-            allShop =  allShopName.union(allCategory, allAddress)
-            return allShop
+            print("querySetGetter  News",query)
+            allHeadlines = News.objects.filter(newsHeadline__icontains=query,pincode=pincode)
+            allCategory = News.objects.filter(newsCategory__icontains=query,pincode=pincode)
+            allNew = News.objects.filter(news__icontains=query,pincode=pincode)
+            allNews =  allHeadlines.union(allCategory, allNew)
+            print(allNews)
+            return allNews
 
 
 
 def searchResult(request):
     query = request.POST.get('query')
     cat = request.POST.get('category')
+    pincode = request.POST.get('pin')
     print("\n\n\n\n Category",cat)
     #category = request.POST.get('category')
     # category = 'product'
-    category = 'news'
+    category = 'shop'
     if request.user.is_authenticated:
-        pincode = request.user.PINCODE
+        # pincode = request.user.PINCODE
+        pincode = pincode
     else:
-        pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
+        # pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
+        pincode = pincode
 
     sliced = False
     if category == 'product':
@@ -209,13 +217,15 @@ def searchResult(request):
     print("\n\n\n\n",result)
     '''
 
+    print(query)
     if len(query)>78 or len(query)<=1:
-        allProduct=Product.objects.none()
+        print("Query length")
+        querysetResult=Product.objects.none()
     else:
-        allProduct=querySetGetter(query,pincode,category)
-        print(type(allProduct))
+        querysetResult=querySetGetter(query,pincode,category)
 
-    if allProduct.count()==0:
+
+    if querysetResult.count()==0:
         #if User type the search Term Incorrectly.
         #'''
         if len(query)<78 and len(query)>1 :
@@ -232,7 +242,7 @@ def searchResult(request):
                 #if you want all term matching result
                 for i in result:
                     queryset=querySetGetter(i,pincode,category)
-                    allProduct=allProduct.union(queryset)
+                    querysetResult=querysetResult.union(queryset)
 
                 #if you only want only first term matching result
                 #allProduct=querySetGetter(i,pincode,category)
@@ -241,14 +251,15 @@ def searchResult(request):
            messages.warning(request, "No search results found. Please refine your query.")
 
     if category=='product':
-        params={'allProduct': allProduct, 'query': query}
-        print("Product Search ", query,allProduct)
+        params={'allProduct': querysetResult, 'query': query}
+        print("Product Search ", query,querysetResult)
     elif category=='shop':
-        params={'allShop': allProduct, 'query': query}
+        params={'allShop': querysetResult, 'query': query}
         print("Shop Search ",query,params)
     elif category=='news':
-        params={'allNews': allProduct, 'query': query}
-        print("Shop Search ",query,params)
+        params={'allNews': querysetResult, 'query': query}
+        print("News Search ",query,params)
+
     return render(request,"searchResult.html",params)
 
 
