@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Customer, Seller, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating
+from .models import User, Customer, Seller, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating, OrderNotification
 from .forms import CustomerUserCreationForm
 from django.contrib.auth.admin import UserAdmin
 
@@ -36,4 +36,5 @@ admin.site.register(Cart)
 admin.site.register(Order)
 admin.site.register(OrderUpdate)
 admin.site.register(ProductRating)
+admin.site.register(OrderNotification)
 admin.site.register(ShopRating)

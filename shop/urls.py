@@ -15,6 +15,7 @@ urlpatterns = [
     path("clearCart/", views.clearCart, name="clearCart"),
     path("checkout/", views.checkout, name="Checkout"),
     path("placeOrder/",views.placeOrder,name="placeOrder"),
+    path("orderNotify/<int:sellerId>",views.orderNotify,name="orderNotify"),        # for Shop Owner
     path("tracker/",views.tracker,name="tracker"),
     path('newProduct/', views.newProduct, name="newProduct"),
     path('editProduct/<int:prodId>', views.editProduct, name="editProduct"),

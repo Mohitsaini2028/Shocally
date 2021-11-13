@@ -291,6 +291,8 @@
             <!--Grid column-->
             <div class="col-md-6 col-xl-5 mb-4">
               <!--Form-->
+              <form action="/shop/login" method="post">
+              {% csrf_token %}
               <div class="card wow fadeInRight" data-wow-delay="0.5s">
                 <div class="card-body">
                   <!--Header-->
@@ -302,7 +304,7 @@
                   <!--Body-->
                   <div class="md-form">
                     <i class="fas fa-user prefix white-text active"></i>
-                    <input type="text" id="form3" class="white-text form-control">
+                    <input type="text" id="form3" name="loginusername" class="white-text form-control">
                     <label for="form3" class="active">Enter your Username</label>
                   </div>
                   <!-- <div class="md-form">
@@ -312,11 +314,11 @@
                   </div> -->
                   <div class="md-form">
                     <i class="fas fa-lock prefix white-text active"></i>
-                    <input type="password" id="form4" class="white-text form-control">
+                    <input type="password" name="loginpassword" id="form4" class="white-text form-control">
                     <label for="form4">Your password</label>
                   </div>
                   <div class="text-center mt-4">
-                    <button class="btn btn-indigo">Login</button>
+                    <button class="btn btn-indigo" type="submit">Login</button>
                     <hr class="hr-light mb-3 mt-4">
                     <div class="inline-ul text-center d-flex justify-content-center">
                       <a class="p-2 m-2 tw-ic">
@@ -332,6 +334,7 @@
                   </div>
                 </div>
               </div>
+            </form>
               <!--/.Form-->
             </div>
 

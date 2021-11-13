@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block body %}
+
+<div class="row align-item-center m-5">
+
+{% if not notifications %}
+<div class="container text-center">
+<h1>You have No Orders.</h1>
+</div>
+{% endif %}
+
+{% for i in notifications %}
+  {% for key, value in i.notificatonJson.items %}
+<div class="col-md-5 col-lg-4 order-md-last m-3">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Your Orders</span>
+          <span class="badge bg-success rounded-pill">Profit - Rs. {% widthratio value.2 1 value.1 %}</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">{{value.0}}</h6>
+              <small class="text-muted">Product Name</small>
+            </div>
+            <span class="text-muted"></span>
+          </li>
+
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">Demand</h6>
+              <small class="text-muted">by customer</small>
+            </div>
+            <span class="text-muted">{{value.2}}</span>
+          </li>
+          {% if  value.3 > value.2 %}
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Available</h6>
+              <small>In Stock</small>
+            </div>
+            <span class="text-success">{{value.3}}</span>
+          </li>
+          {% else %}
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-danger">
+              <h6 class="my-0">Available</h6>
+              <small>In Stock</small>
+            </div>
+            <span class="text-danger">{{value.3}}</span>
+          </li>
+          {% endif %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Price (INR)</span>
+            <strong>Rs. {{value.1}}</strong>
+          </li>
+        </ul>
+      </div>
+    {% endfor %}
+  {% endfor %}
+</div>
+{% endblock %}

@@ -49,7 +49,7 @@ class Seller(models.Model): #Shop Information
     #no of workers
 
     def __str__(self):
-        return self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE) + " -  -  -  " + self.shopCategory
+        return self.shopName[:20].upper() + " "+ self.user.first_name + " " + self.user.last_name + " -- " + str(self.user.PINCODE) + " -  -  -  " + self.shopCategory
 
 
 class Product(models.Model):
@@ -138,3 +138,11 @@ class ShopRating(models.Model):
 
      def __str__(self):
         return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.shopRating) +  "    Shop Id - "+ str(self.shop.id)
+
+
+class OrderNotification(models.Model):
+    seller = models.ForeignKey(Seller,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    notificatonJson = models.CharField(max_length=5000)
+    def __str__(self):
+        return str(self.seller) + " " + self.notificatonJson

@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
-from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating
+from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating, OrderNotification
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
@@ -30,6 +30,13 @@ def updateDataFile(lis):
         writer_object = csv.writer(f_object)
         writer_object.writerow(lis)
         f_object.close()
+
+def updateList(lis,fileName):
+    with open(recommendations_path+'\\Association\\'+str(fileName),'a',newline='',encoding="utf-8") as f_object:
+        writer_object = csv.writer(f_object)
+        writer_object.writerow(lis)
+
+
 
 def updateSearchFile(request):
     products=Product.objects.all()
@@ -135,6 +142,13 @@ def querySetGetter(query,pincode,category):
             allShop =  allShopName.union(allCategory, allAddress)
             return allShop
 
+        if category=='shop':                                         #note you should check if it is product based shop or booking type
+            allShopName = Seller.objects.filter(shopName__icontains=query,pincode=pincode)
+            Seller.objects.filter(shopCategory__icontains=query,pincode=pincode)
+            allAddress = Seller.objects.filter(shopAddress__icontains=query,pincode=pincode)
+            allShop =  allShopName.union(allCategory, allAddress)
+            return allShop
+
 
 
 def searchResult(request):
@@ -149,10 +163,12 @@ def searchResult(request):
         pincode = request.session.get('pincode',0) #setting default value 0 when user did't provide the pincode.
 
     sliced = False
-    for word in query.split(' '):
-        if word.upper() in termFilter.keys():
-            sliced = True
+    if category == 'product':
+        for word in query.split(' '):
+            if word.upper() in termFilter.keys():
+                sliced = True
 
+    elif category == 'news':
 
 
     productResult = []
@@ -549,76 +565,76 @@ def placeOrder(request):
     else:
         address=request.POST['address1']
 
-    # sellerNotification = set()
-    # obj = json.loads(cartUser.itemJson)
+    sellerNotification = set()
+    obj = json.loads(cartUser.itemJson)
     # for reducing the stock in database
-    # for key in obj:
-    #     prodId = int(key[2:])
-    #     prod=Product.objects.get(id=prodId)
-    #     if prod.inStock>obj[key][0]:
-    #             prod.inStock = prod.inStock - obj[key][0]
-    #             sellerNotification.add(prod.seller)
-    #     elif prod.inStock>0:
-    #             prod.inStock = 0
-    #             sellerNotification.add(prod.seller)
-    #     else:
-    #         pass  #if 0 present in stock
-    #     prod.save()
+    for key in obj:
+        prodId = int(key[2:])
+        prod=Product.objects.get(id=prodId)
+        if prod.inStock>obj[key][0]:
+                prod.inStock = prod.inStock - obj[key][0]
+                sellerNotification.add(prod.seller)
+        elif prod.inStock>0:
+                prod.inStock = 0
+                sellerNotification.add(prod.seller)
+        else:
+            pass  #if 0 present in stock
+        prod.save()
 
         #for notify the seller
                                 #seller information, demand, available
 
 
-    # for i in  sellerNotification:
-    #
-    #     Dict = {} #for notificaton
-    #     for key in obj:
-    #          prodId = int(key[2:])
-    #          prod=Product.objects.get(id=prodId)
-    #          if i == prod.seller:
-    #               # product id, name, price, demand, available
-    #
-    #              Dict.update({prod.id:[prod.product_name,prod.price,obj[key][0],prod.inStock]})
-    #     notifyJson=json.dumps(Dict)
-    #     orderNotify=orderNotification.objects.create(user=request.user, seller=i, notificatonJson=notifyJson)
-    #     orderNotify.save()
-    #
+    for i in  sellerNotification:
+
+        Dict = {} #for notificaton
+        for key in obj:
+             prodId = int(key[2:])
+             prod=Product.objects.get(id=prodId)
+             if i == prod.seller:
+                  # product id, name, price, demand, available
+
+                 Dict.update({prod.id:[prod.product_name,prod.price,obj[key][0],prod.inStock]})
+        notifyJson=json.dumps(Dict)
+        orderNotify=OrderNotification.objects.create(user=request.user, seller=i, notificatonJson=notifyJson)
+        orderNotify.save()
+
     order=Order.objects.create(user=request.user,pincode=user.PINCODE,address=address,city=city,phoneNo=user.PhoneNo,itemJson=cartUser.itemJson,totalPrice=cartUser.totalPrice,totalItem=cartUser.totalCart)
     update = OrderUpdate.objects.create(order_id=order.order_id, update_desc="The order has been placed")
     order.save()
     update.save()
-    #
-    # #adding data to dataset
-    #
-    #
-    # prodList = []
-    # setForCat = set()
-    #
-    # for key in obj:
-    #     prodId = int(key[2:])
-    #     prod=Product.objects.get(id=prodId)                 # product id
-    #     cat = prod.category
-    #     setForCat.add(cat)                                  # contain all unique category
-    #     prodList.append(prod)
-    #
-    # for item in setForCat:
-    #  rowUpdate = []
-    #  rowUpdateCat = []
-    #  for i in prodList:
-    #         if i.category==item:
-    #             rowUpdate.append(i.product_name.lower())            # list for row update
-    #             rowUpdateCat.append(i.subCategory.lower())
-    #         #          user ID, product ID, Seller ID, productName, productCategory, productSubCategory, productPrice,productDescription
-    #         updateList([user.id,i.id,i.seller,i.product_name.lower(),i.category.lower(),i.subCategory.lower(),i.price,i.desc.lower()],'OrderFullDetail.csv')
-    #  updateList(rowUpdate,'store_data1.csv')
-    #  updateList(rowUpdateCat,'store_data1.csv')
-    #
-    #  rowUpdate.insert(0,user.id)
-    #  rowUpdateCat.insert(0,user.id)
-    #
-    #  updateList(rowUpdate,'OrderDetail.csv')
-    #  updateList(rowUpdateCat,'OrderDetail.csv')
-    #
+
+    #adding data to dataset
+
+
+    prodList = []
+    setForCat = set()
+
+    for key in obj:
+        prodId = int(key[2:])
+        prod=Product.objects.get(id=prodId)                 # product id
+        cat = prod.category
+        setForCat.add(cat)                                  # contain all unique category
+        prodList.append(prod)
+
+    for item in setForCat:
+     rowUpdate = []
+     rowUpdateCat = []
+     for i in prodList:
+            if i.category==item:
+                rowUpdate.append(i.product_name.lower())            # list for row update
+                rowUpdateCat.append(i.subCategory.lower())
+            #          user ID, product ID, Seller ID, productName, productCategory, productSubCategory, productPrice,productDescription
+            # updateList([user.id,i.id,i.seller,i.product_name.lower(),i.category.lower(),i.subCategory.lower(),i.price,i.desc.lower()],'OrderFullDetail.csv')          #UPDATING FULL DETAIL OF ORDER
+     updateList(rowUpdate,'store_data1.csv')
+     updateList(rowUpdateCat,'store_data1.csv')
+
+     rowUpdate.insert(0,user.id)
+     rowUpdateCat.insert(0,user.id)
+
+     updateList(rowUpdate,'OrderDetail.csv')
+     updateList(rowUpdateCat,'OrderDetail.csv')
+
 
     cartUser.itemJson="{}"
     cartUser.totalPrice=0
@@ -629,6 +645,17 @@ def placeOrder(request):
     request.session['cartTotal']=0
     messages.success(request,"Thankyou for Ordering From Shocally ")
     return HttpResponseRedirect(f"/shop/pinResult/{user.PINCODE}")
+
+@login_required(login_url='/')
+def orderNotify(request,sellerId):
+    seller = Seller.objects.get(id=sellerId)
+    notificatons = OrderNotification.objects.filter(seller=seller)
+    # print(notificatons)
+
+    for i in notificatons:
+        i.notificatonJson = json.loads(i.notificatonJson)
+        print(i.notificatonJson)
+    return render(request,"shop/orderNotify.html",{'notifications':notificatons})
 
 @login_required(login_url='/')
 def checkout(request):

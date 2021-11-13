@@ -79,3 +79,10 @@ class BookingItemRating(models.Model):
 
      def __str__(self):
         return str(self.user) + "   " + self.bookingItem.service_name[:10]+"...    Rating = "+ str(self.rating) +  "    BookingItem Id - "+ str(self.bookingItem.id)
+
+class BookingNotification(models.Model):
+    seller = models.ForeignKey(Seller,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    notificatonJson = models.CharField(max_length=5000)
+    def __str__(self):
+        return str(self.seller) + " " + self.notificatonJson
