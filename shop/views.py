@@ -142,10 +142,10 @@ def querySetGetter(query,pincode,category):
             allShop =  allShopName.union(allCategory, allAddress)
             return allShop
 
-        if category=='shop':                                         #note you should check if it is product based shop or booking type
-            allShopName = Seller.objects.filter(shopName__icontains=query,pincode=pincode)
-            Seller.objects.filter(shopCategory__icontains=query,pincode=pincode)
-            allAddress = Seller.objects.filter(shopAddress__icontains=query,pincode=pincode)
+        if category=='news':                                         #note you should check if it is product based shop or booking type
+            allShopName = News.objects.filter(newsHeadline__icontains=query,pincode=pincode)
+            allCategory=News.objects.filter(newsCategory__icontains=query,pincode=pincode)
+            allAddress = News.objects.filter(news__icontains=query,pincode=pincode)
             allShop =  allShopName.union(allCategory, allAddress)
             return allShop
 
@@ -156,7 +156,8 @@ def searchResult(request):
     cat = request.POST.get('category')
     print("\n\n\n\n Category",cat)
     #category = request.POST.get('category')
-    category = 'product'
+    # category = 'product'
+    category = 'news'
     if request.user.is_authenticated:
         pincode = request.user.PINCODE
     else:
@@ -169,7 +170,7 @@ def searchResult(request):
                 sliced = True
 
     elif category == 'news':
-
+        pass
 
     productResult = []
 
@@ -244,7 +245,10 @@ def searchResult(request):
         print("Product Search ", query,allProduct)
     elif category=='shop':
         params={'allShop': allProduct, 'query': query}
-        print("Shop Search ",query,allProduct)
+        print("Shop Search ",query,params)
+    elif category=='news':
+        params={'allNews': allProduct, 'query': query}
+        print("Shop Search ",query,params)
     return render(request,"searchResult.html",params)
 
 
