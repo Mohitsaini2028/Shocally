@@ -19,7 +19,85 @@
 
 
 
+{% if user.is_authenticated and recommend %}
+  <div class="container">
 
+
+  <h1 class="my-4 text-center">Products You May Like  </h1>
+  <div class="row">
+      <div id="dem" class="col carousel slide my-3" data-ride="carousel">
+          <ul class="carousel-indicators">
+              <li data-target="#dem1" data-slide-to="0" class="active"></li>
+
+              <li data-target="#dem2" data-slide-to="1"></li>
+
+          </ul>
+          <div class="container carousel-inner no-padding">
+              <div class="carousel-item active">
+
+                  {% for i in recommend %}
+                  <div class="col-xs-3 col-sm-3 col-md-3">
+                      <div class="card align-items-center" style="width: 17rem;">
+                          <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                          <div class="card-body">
+                              <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name|title}}</h6>
+                              {% if i.product_name|length < 25 %}
+                              <br>
+                              {% endif %}
+                              <p class="card-text">{{i.desc|slice:"0:47"}}...</p>
+                              {% if i.desc|length < 25 %}
+                              <br>
+                              {% endif %}
+                              <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                              {% if user.id ==  i.seller.user.id %}
+                              <a href="/shop/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Product</a>
+                              <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete </button>
+                              <form   method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="delProd" id="delProd{{i.id}}" value="{{i.id}}">
+                                <input type="hidden" name="sellerId" id="sellerId" value="{{shop.id}}">
+                              </form>
+                              <!-- <button id="edit{{i.id}}" class="btn btn-success mx-2">Edit Product</button>
+                              <button id="del{{i.id}}" class="btn btn-danger ">Delete </button> -->
+                              {% else %}
+                              <!-- <span id="divpr{{i.id}}" class="divpr">
+                                  <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                              </span> -->
+                              <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
+                              {% endif %}
+
+                              <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
+                          </div>
+                      </div>
+                  </div>
+
+
+
+
+
+                {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+              </div>
+
+               <div class="carousel-item">
+               {% endif %}
+
+               {% endfor %}
+
+          </div>
+          </div>
+      </div>
+      <!-- left and right controls for the slide -->
+      <a class="carousel-control-prev" href="#dem" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#dem" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+      </a>
+
+   </div>
+
+</div>
+{% endif %}
 
 
 <div class="container">

@@ -2,6 +2,7 @@ from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from django.contrib.auth  import authenticate, login, logout
 from .models import User, Seller, Customer, Product, Cart, Order, OrderUpdate, ProductRating, ShopRating, OrderNotification
 from News.models import News, Reporter
+from booking.models import BookingItem
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from math import ceil
@@ -11,6 +12,7 @@ import time
 import csv
 from pathlib import Path
 import os
+from Recommendation import recommender
 from Recommendation.Association import aprori_recommender
 from Recommendation.Clustering import clusterRecommend
 from AdvanceSearch import advance_search_functionality as search_check
@@ -154,6 +156,14 @@ def querySetGetter(query,pincode,category):
             print(allNews)
             return allNews
 
+        if category=='booking':                                         #note you should check if it is product based shop or booking type
+            print("querySetGetter  booking",query)
+            allServiceName = BookingItem.objects.filter(service_name__icontains=query,seller__pincode=pincode)
+            allCategory = BookingItem.objects.filter(category__icontains=query,seller__pincode=pincode)
+            allsubCategory = BookingItem.objects.filter(subCategory__icontains=query,seller__pincode=pincode)
+            allBooking =  allServiceName.union(allServiceName, allsubCategory)
+            print(allBooking)
+            return allBooking
 
 
 def searchResult(request):
@@ -162,8 +172,9 @@ def searchResult(request):
     pincode = request.POST.get('pin')
     print("\n\n\n\n Category",cat)
     #category = request.POST.get('category')
-    # category = 'product'
-    category = 'shop'
+    category = 'product'
+    # category = 'shop'
+    # category = 'booking'
     if request.user.is_authenticated:
         # pincode = request.user.PINCODE
         pincode = pincode
@@ -259,7 +270,9 @@ def searchResult(request):
     elif category=='news':
         params={'allNews': querysetResult, 'query': query}
         print("News Search ",query,params)
-
+    elif category=='booking':
+        params={'allBooking': querysetResult, 'query': query}
+        print("Booking Search ",query,params)
     return render(request,"searchResult.html",params)
 
 
@@ -278,6 +291,30 @@ def pinResult(request,result):
             nSlides = n // 4 + ceil((n / 4) - (n // 4))
             allShop.append([shop, range(1, nSlides), nSlides])
 
+    '''
+    recommend = []
+    if request.user.is_authenticated:
+        userID = request.user.id
+        num_recommendations = 10
+        try:
+            # rec = recommender.recommend_items(userID, recommender.pivot_df, recommender.preds_df, num_recommendations)
+            rec = recommender.recommendPass(userID,num_recommendations)
+            for id in rec:
+                prod = Product.objects.get(id = id)
+                recommend.append(prod)
+        except Exception as e:
+            print("\n\n\n\n Exception Recommendation",e)
+            #if user is new or user didn't gave any rating to any product
+
+
+
+    print(recommend)
+    if len(recommend)>0:
+        n = len(recommend)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+
+        params = {'allShop':allShop,'recommend':recommend,'nSlides':nSlides}
+    '''
     params = {'allShop':allShop}
     request.session['pincode']=pincode
     return render(request, 'shop/index.html', params)

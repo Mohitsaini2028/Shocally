@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}">
 <link rel="stylesheet" href="{% static 'css/shop/slider.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
 <!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
 {% endblock %}
 
@@ -80,6 +80,17 @@
 </div>
 {% endif %}
 
+
+<div  class="search-section p-4">
+  <form class="form-search" id="contactForm" >
+    <div class="row input-group-newsletter wow fadeInLeft" id='searchDiv'>
+      <div class="col"><input class="form-control search" id="searchTxt" type="search" placeholder="Search Any Service of this Shop" aria-label="Search Product..." data-sb-validations="required" /></div>
+
+    </div>
+  </form>
+</div>
+
+
 <!-- <p>{{allProds.0.0}}</p>
 <p>{{allProds.0.1}}</p> -->
 
@@ -100,7 +111,7 @@
     {% if product %}
 
 
-    <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+    <h5 class="my-4 heading">Flash Sale On {{product.0.category}} - Recommended Items</h5>
     <div class="row">
         <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
@@ -113,14 +124,14 @@
                 <div class="carousel-item active">
                     {% for i in product %}
 
-                    <div class="col-xs-3 col-sm-3 col-md-3">
+                    <div class="col-xs-3 col-sm-3 col-md-3 item">
                         <div class="card align-items-center" style="width: 18rem;">
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h6 class="card-title" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
+                                <h6 class="card-title prodName" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
 
                                 <p class="card-text">{{i.subCategory|slice:"0:53"}}</p>
-                                <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+                                <p class="card-text prodDesc">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}
                                 <a href="/booking/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
@@ -314,5 +325,102 @@
 
   </script>
 
+
+  <script type="text/javascript">
+    let search = document.getElementById('searchTxt');
+    search.addEventListener("input", function(){
+
+      let inputVal = search.value.toLowerCase();
+
+      let heading = document.getElementsByClassName('heading');
+
+      let prev = document.getElementsByClassName('carousel-control-prev');
+      let prev_icon = document.getElementsByClassName('carousel-control-prev-icon');
+      let next = document.getElementsByClassName('carousel-control-next');
+      let next_icon = document.getElementsByClassName('carousel-control-next-icon');
+
+      let indicator = document.getElementsByClassName('carousel-indicators');
+
+
+
+      Array.from(prev).forEach(function(element){
+          // element.style.display = "block";
+          element.style.display = "none";
+          // element.children.style="block";
+      })
+      Array.from(prev_icon).forEach(function(element){
+          element.style.display = "none";
+      })
+      Array.from(next).forEach(function(element){
+          element.style.display = "none";
+      })
+      Array.from(next_icon).forEach(function(element){
+          element.style.display = "none";
+      })
+
+      Array.from(heading).forEach(function(element){
+          // element.style.display = "block";
+          element.style.display = "none";
+          // element.children.style="block";
+      })
+
+      Array.from(indicator).forEach(function(element){
+          // element.style.display = "block";
+          element.style.display = "none";
+          // element.children.style="block";
+      })
+
+
+
+      if(inputVal==''){
+          let item = document.getElementsByClassName('item');
+          let prodName = document.getElementsByClassName('prodName');
+          let prodDesc = document.getElementsByClassName('prodDesc');
+          Array.from(item).forEach(function(element){
+              element.style.display = "inline-block";
+          })
+
+          Array.from(prev).forEach(function(element){
+              element.style.display = "flex";
+          })
+          Array.from(prev_icon).forEach(function(element){
+              element.style.display = "flex";
+          })
+          Array.from(next).forEach(function(element){
+              element.style.display = "flex";
+          })
+          Array.from(next_icon).forEach(function(element){
+              element.style.display = "flex";
+          })
+
+          Array.from(heading).forEach(function(element){
+              element.style.display = "block";
+          })
+
+          Array.from(indicator).forEach(function(element){
+              element.style.display = "flex";
+          })
+      }
+
+      console.log('Input event fired!', inputVal);
+      let items = document.getElementsByClassName('item');
+      Array.from(items).forEach(function(element){
+          let item = element.innerText.toLowerCase();
+
+          if(item.includes(inputVal)){
+              element.style.display = "inline-block";
+              // console.log(item, inputVal, element);
+          }
+          else{
+              // element.parentElement.style.display = "none";
+              element.style.display = "none";
+
+          }
+
+      })
+  })
+
+
+  </script>
 
 {% endblock js %}

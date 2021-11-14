@@ -79,6 +79,65 @@
           </div>
     {% endif %}
 
+    {% if allBooking %}
+    <div class="container">
+        <div class="carousel-item active">
+
+            {% for i in allBooking %}
+        
+
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card align-items-center" style="width: 18rem;">
+                    <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
+
+                        <p class="card-text">{{i.subCategory|slice:"0:53"}}</p>
+                        <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+                        <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                        {% if user.id ==  i.seller.user.id %}
+                        <a href="/booking/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
+                        <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete</button>
+                        <form   method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="delProd" id="delProd{{i.id}}" value="{{i.id}}">
+                          <input type="hidden" name="sellerId" id="sellerId" value="{{shop.id}}">
+                        </form>
+                        <!-- <button id="edit{{i.id}}" class="btn btn-success mx-2">Edit Product</button>
+                        <button id="del{{i.id}}" class="btn btn-danger ">Delete </button> -->
+                        {% else %}
+
+                            {% if i.inStock <= 0 %}
+                            <p>Out of Stock</p>
+                            {% else %}
+                            <br>
+                            {% endif %}
+
+                        {% if i.inStock <= 0 %}
+                        <span>
+                            <button  class="btn btn-primary" disabled>Book</button>
+                        </span>
+                        {% else %}
+                        <span  class="divpr">
+                          <a href="/booking/ItemBookPage/{{i.id}}"><button  class="btn btn-primary ">Book</button></a>
+                          <!-- <button id="book{{i.id}}" class="btn btn-success" data-toggle="modal" data-target="#bookItem"></button> -->
+                            <!-- <button id="book{{i.id}}" class="btn btn-primary cart" >Book</button> -->
+                        </span>
+                        {% endif %}
+
+                        <a href="/booking/bookingItemView/{{i.id}}"><button  class="btn btn-primary ">QuickView</button></a>
+                        {% endif %}
+
+                        <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+          </div>
+    {% endif %}
+
+
     {% if allNews %}
 
 
