@@ -6,7 +6,8 @@ import time
 # Create your views here.
 
 def home(request):
-    pinCode=458441
+    # pinCode=458441
+    pinCode = 452001
     print("BOOKING HOME PAGE USER PINCODE",request.POST.get('code'))
     allShop=[]
     prod=[]
@@ -127,6 +128,16 @@ def appointmentBook(request):
         timeSlot.save()
 
     return HttpResponseRedirect(f"/booking/ShopView/{bookingItem.seller.id}")
+
+def appointmentNotify(request,sellerId):
+    seller = Seller.objects.get(id=sellerId)
+    notificatons = Booking.objects.filter(item__seller=seller)
+    # print(notificatons)
+
+    for i in notificatons:
+        print(i)
+    return render(request,"booking/appointmentNotify.html",{'notifications':notificatons})
+
 
 def update(request):
     bookings=Booking.objects.filter(user=request.user)

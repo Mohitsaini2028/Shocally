@@ -118,6 +118,8 @@
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h6 class="card-title" id="namepr{{i.id}}">{{i.service_name|title}}</h6>
+
+                                <p class="card-text">{{i.subCategory|slice:"0:53"}}</p>
                                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}

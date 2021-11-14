@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block body %}
+
+<div class="row align-item-center m-5">
+
+{% if not notifications %}
+<div class="container text-center">
+<h1>You have No Orders.</h1>
+</div>
+{% endif %}
+
+{% for i in notifications %}
+
+<div class="col-md-5 col-lg-4 order-md-last m-3">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Appointment</span>
+          <span class="badge bg-success rounded-pill">Profit - Rs. {{i.item.price}}</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">{{i.item.service_name}}</h6>
+              <small class="text-muted">Service Name</small>
+            </div>
+            <span class="text-muted">{{i.item.service_name}}</span>
+          </li>
+
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">Time</h6>
+              <small class="text-muted">Date -  {{i.time.bookingDate}}</small>
+            </div>
+            <span class="text-muted">{{i.time.starting_time}} - {{i.time.ending_time}}</span>
+          </li>
+
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Customer</h6>
+              <small>phone No - {{i.user.PhoneNo}} </small>
+            </div>
+            <span class="text-success">{{i.user}}</span>
+          </li>
+
+
+<!-- 
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Price (INR)</span>
+            <strong>Rs. </strong>
+          </li> -->
+        </ul>
+      </div>
+
+  {% endfor %}
+</div>
+{% endblock %}

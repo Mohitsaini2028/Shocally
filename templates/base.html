@@ -84,11 +84,13 @@
                     {% if user.id == request.session.sellerUserId %}
                     <div class="dropdown-divider"></div>
                     {% if request.session.appointmentBased %}
+                    <a class="dropdown-item" href="/booking/appointmentNotify/{{request.session.shopId | safe}}"><b>Appointment for Myshop</b></a>
                     <a class="dropdown-item" href="/booking/ShopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
                     {% else %}
                     <a class="dropdown-item" href="/shop/shopView/{{request.session.shopId | safe}}"><b>My Shop</b></a>
-                    {% endif %}
                     <a class="dropdown-item" href="/shop/orderNotify/{{request.session.shopId | safe}}"><b>Orders for Myshop</b></a>
+                    {% endif %}
+
 
                     {% endif %}
 

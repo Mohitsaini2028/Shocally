@@ -27,10 +27,13 @@ class ProductAdmin(admin.ModelAdmin):
      list_display=['product_name', 'price', 'subCategory', 'seller']
      search_fields = ['product_name','id', 'price', 'subCategory', 'category']
 
+class SellerAdmin(admin.ModelAdmin):
+     list_display=['user', 'shopName','id', 'shopCategory', 'pincode','productBased','appointmentBased']
+     search_fields = [ 'shopName','id', 'shopCategory', 'pincode','productBased','appointmentBased']
 
 admin.site.register(User,CustomUserAdmin)
 admin.site.register(Customer)
-admin.site.register(Seller)
+admin.site.register(Seller,SellerAdmin)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Cart)
 admin.site.register(Order)

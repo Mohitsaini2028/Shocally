@@ -41,6 +41,7 @@
                                 {% if i.product_name|length < 25 %}
                                 <br>
                                 {% endif %}
+                                <p class="card-text">{{i.category|slice:"0:47"}}...</p>
                                 <p class="card-text">{{i.desc|slice:"0:47"}}...</p>
                                 {% if i.desc|length < 25 %}
                                 <br>
