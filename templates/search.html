@@ -32,12 +32,12 @@
 <div class="inner-form">
   <div class="input-field first-wrap">
     <div class="input-select">
-      <select data-trigger="" name="choices-single-defaul" id="category" name="category">
-        <option placeholder="">Category</option>
-        <option>Product</option>
-        <option>Shop</option>
-        <option>Booking</option>
-        <option>News</option>
+      <select data-trigger=""  name="choices-single-defaul" id="category" name="category">
+        <option placeholder="" value="product">Category</option>
+        <option value="product">Product</option>
+        <option value="shop">Shop</option>
+        <option value="booking">Booking</option>
+        <option value="news">News</option>
       </select>
     </div>
   </div>
@@ -46,6 +46,7 @@
   </div>
   <div class="input-field second-wrap">
     <input  type="search" placeholder="Enter Keywords?" aria-label="Search" name="query" id="query" />
+    <input  type="hidden" name="cat" id="cat" >
   </div>
   <div class="input-field third-wrap">
     <button class="btn-search" type="submit">
@@ -74,9 +75,25 @@ searchEnabled: false,
 itemSelectText: '',
 });
 
+var e = document.getElementById('category');
+var cat = document.getElementById('cat');
 
-s = document.getElementById('category')
-console.log(s)
+
+function updateCart(){
+
+  var catValue = e.options[e.selectedIndex].text;
+  // e.value = catValue;
+  console.log(catValue);
+
+
+  cat.value=catValue;
+    if (catValue == 'Category')
+      cat.value = 'product';
+}
+e.onchange = updateCart;
+updateCart();
+
+
 
 </script>
 

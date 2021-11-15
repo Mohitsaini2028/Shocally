@@ -18,7 +18,7 @@
 
 <div class="container my-3">
     <h2>Search results  for <i class="text-secondary">"{{query|slice:":29"}}{% if query|length > 30  %}... {% endif %}"</i>-</h2>
-    {% if allProduct|length < 1 and allShop|length < 1  and allNews|length < 1  %}
+    {% if allProduct|length < 1 and allShop|length < 1  and allNews|length < 1 and allBooking|length < 1  %}
    <p>No search results</p>
     Your search query : <b>{{query|slice:":29"}}{% if query|length > 30  %}... {% endif %}</b> did not match any documents. <br>
     Suggestions:
@@ -67,7 +67,7 @@
                          <span id="divpr{{i.id}}" class="divpr">
                             <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
                         </span>
-                        <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
+                        <a href="/shop/productView/{{i.id}}" target="_blank"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
                         {% endif %}
 
                         <!-- <a href="/shop/productView/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button></a> -->
@@ -84,7 +84,7 @@
         <div class="carousel-item active">
 
             {% for i in allBooking %}
-        
+
 
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="card align-items-center" style="width: 18rem;">

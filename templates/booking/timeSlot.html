@@ -1,0 +1,100 @@
+
+
+{% extends 'base.html' %}
+
+{% block title %} ShocallyHomePage {% endblock title %}
+
+{% load static %}
+
+{% block link %}
+
+
+<!-- <link rel="stylesheet" href="{% static 'css/shop/ratingStyle.css' %}"> -->
+{% endblock %}
+
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+
+
+
+
+
+<div class="btn-group btn-group-toggle d-flex bg-dark  m-4 p-4" data-toggle="buttons">
+
+  {% for i in timeSlot %}
+
+  {% if i.max_booking > 0 %}
+    <label class="btn btn-warning m-2">
+      <input type="radio" class="timeslot" name="options" id="slot{{i.id}}"> {{i.starting_time}} - {{i.ending_time}} <br> <b>{{i.bookingDate}}</b>
+    </label>
+  {% endif %}
+  {% endfor %}
+</div>
+
+<div class="container flex text-center m-4">
+{% if user.id ==  shop.user.id %}
+<div class="container p-">
+
+  <button id="ads{{i.id}}" class="btn btn-success mx-2" data-toggle="modal" data-target="#addslot">Add New Time Slot</button>
+</div>
+
+{% endif %}
+
+
+</div>
+<!-- <p>{{allProds.0.0}}</p>
+<p>{{allProds.0.1}}</p> -->
+
+
+
+<!-- <form method="post">
+  {% csrf_token %}
+
+  <input type="hidden" name="shopId" id="{{shop.id}}" value="{{shop.id}}">
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="prodSearch" id="prodSearch">
+  <button class="btn btn-primary my-2 my-sm-0 " name="prodSearchSubmit" type="submit">Search</button>
+</form> -->
+
+<div class="container">
+
+
+  <!-- ADD TIMESLOT -->
+    <div class="modal fade" id="addslot" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalTitle">Add New TimeSlot here</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form id='main' action="/booking/NewTimeSlot/" enctype='multipart/form-data' method="post">
+            {% csrf_token %}
+
+            {{slotForm|crispy}}
+            <input type='hidden'  name="sellerId" value="{{shop.id}}">
+            <button type="submit" class="btn my-2 btn-success">Add TimeSlot</button>
+          </form>
+
+          </div>
+           <div class="modal-footer">
+          </div>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

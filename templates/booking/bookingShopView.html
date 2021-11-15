@@ -75,7 +75,9 @@
   <!-- <button id="edit{{shop.id}}" class="btn btn-success ml-5" data-toggle="modal" data-target="#editShop">Edit Your Shop</button> -->
   <a href="/shop/editShop/{{shop.id}}" class="btn btn-success mx-2">Edit Your Shop</a>
   <!-- <a href="/shop/newProduct/{{i.id}}" class="btn btn-success mx-2">Edit Product</a> -->
-  <button id="adp{{i.id}}" class="btn btn-success mx-2" data-toggle="modal" data-target="#addProduct">Add New Product</button>
+  <button id="adp{{i.id}}" class="btn btn-success mx-2" data-toggle="modal" data-target="#addProduct">Add New Service</button>
+  <button id="ads{{i.id}}" class="btn btn-success mx-2" data-toggle="modal" data-target="#addslot">Add New Time Slot</button>
+  <a href="/booking/timeSlot/{{shop.id}}" class="btn btn-success mx-2">Check Time Slot </a>
 
 </div>
 {% endif %}
@@ -134,7 +136,7 @@
                                 <p class="card-text prodDesc">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                                 {% if user.id ==  i.seller.user.id %}
-                                <a href="/booking/editProduct/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
+                                <a href="/booking/editBookingItem/{{i.id}}" class="btn btn-success mx-2">Edit Item</a>
                                 <button id="del{{i.id}}" class="btn btn-danger prodDel ">Delete</button>
                                 <form   method="post">
                                   {% csrf_token %}
@@ -212,7 +214,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalTitle">Add New Product here</h5>
+          <h5 class="modal-title" id="loginModalTitle">Add New Service here</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -233,6 +235,33 @@
   </div>
   </div>
   </div>
+
+  <!-- ADD TIMESLOT -->
+    <div class="modal fade" id="addslot" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalTitle">Add New TimeSlot here</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form id='main' action="/booking/NewTimeSlot/" enctype='multipart/form-data' method="post">
+            {% csrf_token %}
+
+            {{slotForm|crispy}}
+            <input type='hidden'  name="sellerId" value="{{shop.id}}">
+            <button type="submit" class="btn my-2 btn-success">Add TimeSlot</button>
+          </form>
+
+          </div>
+           <div class="modal-footer">
+          </div>
+    </div>
+    </div>
+    </div>
 
 
   <!-- Book your Slot -->
@@ -296,7 +325,7 @@
     console.log(id)
     $.ajax({
         type:'POST',
-        url:'/shop/deleteProduct/',
+        url:'/booking/deleteBookingItem/',
         data:{
               // delProd:$('delProd'+id).val(),
               delProd:id,

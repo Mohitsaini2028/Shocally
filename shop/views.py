@@ -168,11 +168,13 @@ def querySetGetter(query,pincode,category):
 
 def searchResult(request):
     query = request.POST.get('query')
-    cat = request.POST.get('category')
+    cat = request.POST.get('cat')
     pincode = request.POST.get('pin')
-    print("\n\n\n\n Category",cat)
+
+    category = cat.lower()
+    print("\n\n\n\nCategory",category   )
     #category = request.POST.get('category')
-    category = 'product'
+
     # category = 'shop'
     # category = 'booking'
     if request.user.is_authenticated:
@@ -291,7 +293,7 @@ def pinResult(request,result):
             nSlides = n // 4 + ceil((n / 4) - (n // 4))
             allShop.append([shop, range(1, nSlides), nSlides])
 
-    '''
+    #'''
     recommend = []
     if request.user.is_authenticated:
         userID = request.user.id
@@ -300,8 +302,10 @@ def pinResult(request,result):
             # rec = recommender.recommend_items(userID, recommender.pivot_df, recommender.preds_df, num_recommendations)
             rec = recommender.recommendPass(userID,num_recommendations)
             for id in rec:
-                prod = Product.objects.get(id = id)
-                recommend.append(prod)
+                print(id,type(id))
+                prod = Product.objects.filter(id = id).first()
+                if prod:
+                    recommend.append(prod)
         except Exception as e:
             print("\n\n\n\n Exception Recommendation",e)
             #if user is new or user didn't gave any rating to any product
@@ -313,9 +317,9 @@ def pinResult(request,result):
         n = len(recommend)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
 
-        params = {'allShop':allShop,'recommend':recommend,'nSlides':nSlides}
-    '''
-    params = {'allShop':allShop}
+    params = {'allShop':allShop,'recommend':recommend,'nSlides':nSlides}
+    #'''
+    #params = {'allShop':allShop}
     request.session['pincode']=pincode
     return render(request, 'shop/index.html', params)
 
@@ -350,11 +354,15 @@ def productView(request,prodid):
     product = Product.objects.filter(id=prodid)
     # recommendations = Product.objects.filter(category=product[0].category).order_by('-rating')
     # print(recommendations)
-    recommendations = []
 
+    #'''
     recommendations = []
+    suggestions=[]
+    nSlides = 0
+    #'''
 
     count = 0
+    '''
     for  i in Product.objects.filter(category__iexact=product[0].category,subCategory__iexact=product[0].subCategory).exclude(id=product[0].id).order_by('-rating'):
         print("\n\n\n\nRecommendation i",i)
         if i.seller.pincode == product[0].seller.pincode:
@@ -369,7 +377,7 @@ def productView(request,prodid):
 
 
 
-    suggestions=[]
+
 
 
     result = aprori_recommender.run(product[0].subCategory.lower())
@@ -392,6 +400,7 @@ def productView(request,prodid):
 
 
     # print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
+    '''
     return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions,'range':range(1, nSlides) })
 
 

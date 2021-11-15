@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse ,HttpResponseRedirect
 from .models import User, Seller, BookingItem, Booking, TimeSlot, BookingUpdate, BookingItemRating
 from math import ceil
-from booking.forms import NewBookingItemForm
+from booking.forms import NewBookingItemForm, NewTimeSlotForm
+from django.contrib.auth.decorators import login_required
 import time
 # Create your views here.
 
@@ -58,6 +59,13 @@ def home(request):
 #     return render(request, 'shopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
 
 
+def timeSlot(request,shopid):
+    shop= Seller.objects.filter(id=shopid)
+    timeSlot = TimeSlot.objects.filter(seller=shopid)
+
+    slotForm = NewTimeSlotForm()
+    return render(request, 'booking/timeSlot.html', {'shop':shop[0],'timeSlot':timeSlot, 'slotForm':slotForm} )
+
 def shopView(request,shopid):
     shop= Seller.objects.filter(id=shopid)
     # Products=Product.objects.filter(seller=shop)
@@ -82,8 +90,9 @@ def shopView(request,shopid):
         prodExist=True
 
     form = NewBookingItemForm()
+    slotForm = NewTimeSlotForm()
 
-    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form} )
+    return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist ,'form':form, 'slotForm':slotForm} )
     #return render(request, 'booking/bookingShopView.html', {'shop':shop[0],'allProds':allProds,'prodExist':prodExist, 'timeSlot':timeSlot} )
 
 
@@ -176,6 +185,94 @@ def NewBookingItem(request):
         bookingItem.save()
         return HttpResponseRedirect(f"/booking/ShopView/{request.POST['sellerId']}")
 
+def NewTimeSlot(request):
+    if request.method=='POST':
+        form=NewTimeSlotForm(request.POST)
+        timeslot= TimeSlot()
+        timeslot.starting_time=form.data['starting_time']
+        timeslot.ending_time=form.data['ending_time']
+        timeslot.max_booking=form.data['max_booking']
+        timeslot.bookingDate=form.data['bookingDate']
+
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        timeslot.seller=seller
+        timeslot.save()
+        return HttpResponseRedirect(f"/booking/timeSlot/{request.POST['sellerId']}")
+
+
+@login_required(login_url='/')
+def editBookingItem(request,bookId):
+    bookingItem=BookingItem.objects.get(id=bookId)
+    fields={'service_name':bookingItem.service_name, 'category':bookingItem.category,'subCategory':bookingItem.subCategory,'originalPrice':bookingItem.originalPrice,'price':bookingItem.price,'desc':bookingItem.desc,'img':bookingItem.image}
+    form=NewBookingItemForm(initial=fields)
+    return  render(request, "booking/editBookingItem.html",{'form':form,'bookingItem':bookingItem})
+
+@login_required(login_url='/')
+def editBookingItemHandle(request):
+    if request.method=="POST":
+        form=NewBookingItemForm(request.POST)
+        bookingItem=BookingItem()
+        oldbookingItem=BookingItem.objects.get(id=request.POST['ItemId'])
+        bookingItem.id=oldbookingItem.id
+        bookingItem.service_name=form.data['service_name']
+        bookingItem.category=form.data['category']
+        bookingItem.subCategory=form.data['subCategory']
+        bookingItem.originalPrice=form.data['originalPrice']
+        bookingItem.price=form.data['price']
+        bookingItem.desc=form.data['desc']
+
+        if request.FILES.get('img'):
+            bookingItem.image=request.FILES.get('img')
+        else:
+            bookingItem.image=oldbookingItem.image
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        bookingItem.seller=seller
+        bookingItem.save()
+    return HttpResponseRedirect(f"/booking/ShopView/{request.POST['sellerId']}")
+
+@login_required(login_url='/')
+def deleteBookingItem(request):
+    bookingItemId=int(request.POST['delProd'])
+    sellerId=int(request.POST['sellerId'])
+
+    bookingItem=BookingItem.objects.get(id=bookingItemId)
+    bookingItem.delete()
+    messages.success(request, "Service is successfully deleted")
+    return HttpResponseRedirect(f"/booking/ShopView/{sellerId}")
+
+
+@login_required(login_url='/')
+def bookingItemRatingUpdate(request):
+    if request.method=="POST":
+        form=NewProductForm(request.POST)
+        product=Product()
+        oldProduct=Product.objects.get(id=request.POST['productId'])
+        product.id=oldProduct.id
+        product.product_name=form.data['productName']
+        product.category=form.data['category']
+        product.subCategory=form.data['subCategory']
+        product.originalPrice=form.data['originalPrice']
+        product.price=form.data['price']
+        product.desc=form.data['descripton']
+        product.inStock=form.data['inStock']
+        if request.FILES.get('img'):
+            product.image=request.FILES.get('img')
+        else:
+            product.image=oldProduct.image
+        seller=Seller.objects.get(id=request.POST['sellerId'])
+        product.seller=seller
+        product.save()
+    return HttpResponseRedirect(f"/shop/shopView/{request.POST['sellerId']}")
+
+@login_required(login_url='/')
+def deleteProduct(request):
+    prodId=int(request.POST['delProd'])
+    sellerId=int(request.POST['sellerId'])
+    print(sellerId," a rha h yrr yha tak")
+    product=Product.objects.get(id=prodId)
+    product.delete()
+    messages.success(request, "Product is successfully deleted")
+    return HttpResponseRedirect(f"/shop/shopView/{sellerId}")
 
 def bookingItemRatingUpdate(request):
     id=request.user.id

@@ -65,8 +65,8 @@ def recommendPass(uid,num_rec):
     columns=['userId', 'productId', 'ratings','timestamp']
 
     CUR_PATH = Path(__file__).resolve().parent
-    CSV_FILE = os.path.join(CUR_PATH,'myfile.csv')
-    # CSV_FILE = os.path.join(CUR_PATH,'rating.csv')
+    # CSV_FILE = os.path.join(CUR_PATH,'myfile.csv')
+    CSV_FILE = os.path.join(CUR_PATH,'rating.csv')
 
     electronics_df=pd.read_csv(CSV_FILE,names=columns)
 
@@ -85,7 +85,7 @@ def recommendPass(uid,num_rec):
 
 
     #Taking subset of the dataset
-    electronics_df1=electronics_df.iloc[:50,0:]
+    electronics_df1=electronics_df.iloc[:80,0:]
 
     electronics_df1.info()
 
