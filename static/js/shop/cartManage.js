@@ -69,7 +69,7 @@ console.log("chala")
                         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                       },
                       success:function(data){
-                        alert(data);
+
                       }
               });
 
@@ -216,7 +216,7 @@ console.log("chala")
               csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
             success:function(){
-              alert("ok done");
+
             }
     });
 
@@ -248,7 +248,7 @@ console.log("chala")
                   csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success:function(){
-                  alert("ok done");
+                  
                 }
         });
     }

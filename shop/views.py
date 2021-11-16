@@ -355,14 +355,15 @@ def productView(request,prodid):
     # recommendations = Product.objects.filter(category=product[0].category).order_by('-rating')
     # print(recommendations)
 
-    #'''
+
     recommendations = []
     suggestions=[]
+    '''
     nSlides = 0
-    #'''
+    '''
 
     count = 0
-    '''
+    #'''
     for  i in Product.objects.filter(category__iexact=product[0].category,subCategory__iexact=product[0].subCategory).exclude(id=product[0].id).order_by('-rating'):
         print("\n\n\n\nRecommendation i",i)
         if i.seller.pincode == product[0].seller.pincode:
@@ -400,7 +401,7 @@ def productView(request,prodid):
 
 
     # print(e, "\n\n\Exception occur at Aprori Recommendation System\n\n")
-    '''
+    #'''
     return render(request, 'shop/prodView.html', {'product':product[0],'recommendations':recommendations,'suggestions':suggestions,'range':range(1, nSlides) })
 
 
