@@ -39,6 +39,7 @@ class Seller(models.Model): #Shop Information
     shopCategory=models.CharField(max_length=50, default="")
     shopAddress=models.CharField(max_length=500, default="")
     shopRating=models.IntegerField(default=0)
+    views=models.IntegerField(default=0)
     longitude=models.FloatField(default=0.0)
     latitude=models.FloatField(default=0.0)
     shopImg= models.ImageField(upload_to="shop/images",default="")
@@ -137,7 +138,7 @@ class ShopRating(models.Model):
      comment=models.CharField(max_length=500,default="")
 
      def __str__(self):
-        return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.shopRating) +  "    Shop Id - "+ str(self.shop.id)
+        return str(self.user) + "   " + self.shop.shopName[:10]+"...    Rating = "+ str(self.rating) +  "    Shop Id - "+ str(self.shop.id)
 
 
 class OrderNotification(models.Model):

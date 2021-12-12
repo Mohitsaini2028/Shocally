@@ -16,13 +16,13 @@ from Recommendation import recommender
 from Recommendation.Association import aprori_recommender
 from Recommendation.Clustering import clusterRecommend
 from AdvanceSearch import advance_search_functionality as search_check
-
+from FakeViewCounter import currentDate
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 recommendations_path=os.path.join(BASE_DIR,'Recommendation')
 advance_search_path=os.path.join(BASE_DIR,'AdvanceSearch')
-#fake_view_counter_path=os.path.join(BASE_DIR,'FakeViewCounter')
+fake_view_counter_path=os.path.join(BASE_DIR,'FakeViewCounter')
 
 # Create your views here.
 
@@ -51,21 +51,32 @@ def updateSearchFile(request):
 
     return HttpResponse("<h1>File Updated!!</h1>")
 
+def ip(request):
+    address = request.META.get('HTTP_X_FORWARDED_FOR')
+    if address:
+        ip = address.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR') #client ip Address
+    print(ip)
+    return ip
 
 def updateViews(request):
     #cron job  #for updating views
 
-    #lis = ['shop','news']
-    '''
+    lis = ['shop','news']
+    # '''
     for item in lis:
         if item == 'shop':
-             id_views = update_ip(word)
+             id_views = currentDate.check_occurrences(item)
              for key, value in id_views.items():
                 shop = Seller.objects.get(id=key)
-                shop.views = value
+                shop.views += value
+                shop.save()
+                print("VIEW UPDATED : ",key,value)
 
-    '''
-    pass
+    return HttpResponse("<h1>VIEW UPDATED !!</h1>")
+    # '''
+    # pass
 
 def aboveResult(term,number,pincode):
         allProductName= Product.objects.filter(product_name__icontains=term,price__gte=number,seller__pincode=pincode)
@@ -328,6 +339,11 @@ def pincodeResult(request):                                             #for tho
     return HttpResponseRedirect(f"/shop/pinResult/{pincode}")
 
 def shopView(request,shopid):
+
+    ipAddress=ip(request)
+    print(ipAddress)
+    currentDate.update_ip('shop',ipAddress,shopid)
+
     shop= Seller.objects.filter(id=shopid)
     allProds = []
     EXIST=[]
