@@ -16,7 +16,7 @@ from Recommendation import recommender
 from Recommendation.Association import aprori_recommender
 from Recommendation.Clustering import clusterRecommend
 from AdvanceSearch import advance_search_functionality as search_check
-from FakeViewCounter import currentDate
+from FakeViewCounter import currentdate
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,7 +67,7 @@ def updateViews(request):
     # '''
     for item in lis:
         if item == 'shop':
-             id_views = currentDate.check_occurrences(item)
+             id_views = currentdate.check_occurrences(item)
              for key, value in id_views.items():
                 shop = Seller.objects.get(id=key)
                 shop.views += value
@@ -342,7 +342,7 @@ def shopView(request,shopid):
 
     ipAddress=ip(request)
     print(ipAddress)
-    currentDate.update_ip('shop',ipAddress,shopid)
+    currentdate.update_ip('shop',ipAddress,shopid)
 
     shop= Seller.objects.filter(id=shopid)
     allProds = []
