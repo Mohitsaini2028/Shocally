@@ -38,6 +38,7 @@ class Seller(models.Model): #Shop Information
     shopName=models.CharField(max_length=100, default="")
     shopCategory=models.CharField(max_length=50, default="")
     shopAddress=models.CharField(max_length=500, default="")
+    shopCity=models.CharField(max_length=150, default="")
     shopRating=models.IntegerField(default=0)
     views=models.IntegerField(default=0)
     longitude=models.FloatField(default=0.0)
