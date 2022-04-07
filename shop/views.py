@@ -26,6 +26,9 @@ fake_view_counter_path=os.path.join(BASE_DIR,'FakeViewCounter')
 
 # Create your views here.
 
+def error(request,string):
+    return HttpResponse("<h1>404 NOT FOUND!!</h1>")
+
 #updating file for Search Term
 def updateDataFile(lis):
     # with open(advance_search_path+'\\search_term.csv','a',encoding="utf-8",newline='') as f_object:
@@ -39,7 +42,13 @@ def updateList(lis,fileName):
         writer_object = csv.writer(f_object)
         writer_object.writerow(lis)
 
-
+def updateCity(request):
+    sellers=Seller.objects.all()
+    city = { 458441: 'Neemuch', 452001: 'Indore' , 332713: 'Neem Ka Thana', 473446: 'Chanderi'}
+    for i in sellers:
+        i.shopCity = city[i.pincode]
+        i.save()
+    return HttpResponse("<h1>City Updated Successfully !!</h1>")
 
 def updateSearchFile(request):
     products=Product.objects.all()
@@ -334,9 +343,64 @@ def pinResult(request,result):
     request.session['pincode']=pincode
     return render(request, 'shop/index.html', params)
 
+def cityResult(request,stringResult):
+    city=stringResult
+    allShop=[]
+    prod=[]
+
+    catprods = Seller.objects.values('shopCategory', 'id')
+    cats = {item['shopCategory'] for item in catprods}
+
+    pincode = 0
+
+    for cat in cats:
+        shop=Seller.objects.filter(shopCity__iexact=city,shopCategory=cat,productBased=True,appointmentBased=False).order_by('-shopRating')
+        if shop.exists():
+            pincode = shop[0].pincode
+            n = len(shop)
+            nSlides = n // 4 + ceil((n / 4) - (n // 4))
+            allShop.append([shop, range(1, nSlides), nSlides])
+
+    #'''
+    recommend = []
+    if request.user.is_authenticated:
+        userID = request.user.id
+        num_recommendations = 10
+        try:
+            # rec = recommender.recommend_items(userID, recommender.pivot_df, recommender.preds_df, num_recommendations)
+            rec = recommender.recommendPass(userID,num_recommendations)
+            for id in rec:
+                print(id,type(id))
+                prod = Product.objects.filter(id = id).first()
+                if prod:
+                    recommend.append(prod)
+        except Exception as e:
+            print("\n\n\n\n Exception Recommendation",e)
+            #if user is new or user didn't gave any rating to any product
+
+
+
+    print(recommend)
+    if len(recommend)>0:
+        n = len(recommend)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+
+    params = {'allShop':allShop,'recommend':recommend,'nSlides':nSlides}
+    #'''
+    #params = {'allShop':allShop}
+    request.session['pincode']=pincode
+    return render(request, 'shop/index.html', params)
+
+
+
+
 def pincodeResult(request):                                             #for those user who don't want to login
     pincode=request.GET['pinCode']
-    return HttpResponseRedirect(f"/shop/pinResult/{pincode}")
+    if pincode.isnumeric():
+        return HttpResponseRedirect(f"/shop/pinResult/{pincode}")
+    else:
+        return HttpResponseRedirect(f"/shop/cityResult/{pincode}")
+
 
 def shopView(request,shopid):
 

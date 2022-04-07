@@ -5,6 +5,7 @@ urlpatterns = [
     # path('', views.home, name='home'),
     path('', views.pincodeInput, name='pincodeInput'),                              # (home page/landing page) of website
     path('pinResult/<int:result>', views.pinResult, name="pinResult"),              # if user is logged in
+    path('cityResult/<str:stringResult>', views.cityResult, name="cityResult"),              # if user is logged in
     path('pincodeResult', views.pincodeResult, name="pincodeResult"),               # displaying result on the basis of input (unauthenticated user)
     path('signup', views.handleSignUp, name="handleSignUp"),
     path('login', views.handelLogin, name="handelLogin"),
@@ -31,4 +32,7 @@ urlpatterns = [
     path("searchResult/",views.searchResult,name="searchResult"),
     path("updateSearchFile/",views.updateSearchFile,name="updateSearchFile"),
     path("updateViews/",views.updateViews,name="updateViews"),
+    path("updateCity/",views.updateCity,name="updateCity"),
+    path("<str:string>", views.error, name="error"),
+
 ]

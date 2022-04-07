@@ -25,4 +25,5 @@ urlpatterns = [
     path('booking/', include('booking.urls')),
     path('news/', include('News.urls')),
     path('about/', include('about.urls')),
+    # path('<str:string>',)
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
