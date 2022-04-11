@@ -33,6 +33,7 @@ urlpatterns = [
     path("updateSearchFile/",views.updateSearchFile,name="updateSearchFile"),
     path("updateViews/",views.updateViews,name="updateViews"),
     path("updateCity/",views.updateCity,name="updateCity"),
-    path("<str:string>", views.error, name="error"),
+    path("about/", views.about, name="about"),
+    # path("<str:string>", views.error, name="error"),
 
 ]
