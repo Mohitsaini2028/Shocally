@@ -43,10 +43,12 @@
 	<div class="my-conv-form-wrapper">
 		<form action="" method="GET" class="hidden">
 
-      <select data-conv-question="Hello! How can I help you" name="category">
-        <option value="Shopping">Shopping ?</option>
-        <option value="Booking">Booking ?</option>
-        <option value="ReadingNews">Reading News ?</option>
+      <input type="text" name="pincode" data-conv-question="Hello! i am Shocally, i am happy to help you. Please enter your PINCODE !">
+
+      <select data-conv-question="Welldone,Now please choose your Category " name="category">
+        <option value="Shopping">Shopping</option>
+        <option value="Booking">Booking</option>
+        <option value="ReadingNews">News</option>
 
 
       </select>
@@ -56,10 +58,9 @@
 
       <div data-conv-fork="category">
         <div data-conv-case="Shopping">
-          <input type="text" name="pincodeShopping" data-conv-question="Please enter your pincode">
           <!-- <input type="text" name="want" data-conv-question="what do you want">     -->
 
-            <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if you want to shop click on this link</a> otherwise type other'>
+            <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincode}">if you want to shop, click on this link</a> otherwise type other'>
 
           <!-- <select data-conv-question="What to Shopping" name="cat2">
             <option value="Shop">Sho</option>
@@ -73,10 +74,8 @@
         </div> -->
 
         <div data-conv-case="Booking" data-conv-fork="first-question2">
-          <input type="text" name="pincodeBooking" data-conv-question="Please, enter your pincode">
         </div>
         <div data-conv-case="ReadingNews" data-conv-fork="first-question2">
-            <input type="text" name="pincodeNews" data-conv-question="Please, enter your pincode">
           </div>
       </div>
 
