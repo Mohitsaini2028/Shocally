@@ -10,7 +10,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    {% load static %}
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/jsbot.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'css/jquery.convform.css' %}">
+
+
+
     <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bgCard.css' %}">
@@ -140,6 +151,7 @@
 <body>
 
   <!-- Main navigation -->
+
 
 
     <!-- Main navigation -->
@@ -613,7 +625,68 @@
   <!-- SCRIPTS -->
   <!-- JQuery -->
 
+  <!-- ChatBot -->
+  <div class="chat_icon">
+  	<i class="fa fa-comments text-dark" aria-hidden="true"></i>
+  </div>
 
+  <div class="chat_box">
+  	<div class="my-conv-form-wrapper">
+  		<form action="" method="GET" class="hidden">
+
+        <input type="text" name="pincode" data-conv-question="Hello! i am Shocally, i am happy to help you. Please enter your PINCODE !">
+
+        <select data-conv-question="Welldone,Now please choose your Category " name="category">
+          <option value="Shopping">Shopping</option>
+          <option value="Booking">Booking</option>
+          <option value="ReadingNews">News</option>
+
+
+        </select>
+
+
+        <!-- const random = Math.floor(Math.random() * months.length); -->
+
+        <div data-conv-fork="category">
+          <div data-conv-case="Shopping">
+            <!-- <input type="text" name="want" data-conv-question="what do you want">     -->
+
+              <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincode}">if you want to shop, click on this link</a> otherwise type other'>
+
+            <!-- <select data-conv-question="What to Shopping" name="cat2">
+              <option value="Shop">Sho</option>
+              <option value="Book">Booking ?</option>
+              <option value="Read">Reading News ?</option>
+            </select>
+
+            <div data-conv-fork="cat2">
+              <div data-conv-case="Shop">
+                <input type="text" name="in" id="in" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if this link</a> otherwise type other'>
+          </div> -->
+
+          <div data-conv-case="Booking" data-conv-fork="first-question2">
+          </div>
+          <div data-conv-case="ReadingNews" data-conv-fork="first-question2">
+            </div>
+        </div>
+
+
+
+        <!-- <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if you want to shop click on this link</a> otherwise type other'> -->
+        <input type="text" name="name" data-conv-question='Please, Enter your name'>
+
+        <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
+
+        <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
+
+        <select data-conv-question="Please Conform">
+          <option value="Yes">Conform</option>
+        </select>
+
+    	</form>
+  	</div>
+  </div>
+  <!-- ChatBot end -->
 
   <script>
 
@@ -814,7 +887,7 @@ console.log("chala")
           form=document.getElementById('pincodeForm');
           form.submit();
         }
-      pin = prompt("Enter your pincode");  
+      pin = prompt("Enter your pincode");
      }
     catch(err){
 
@@ -829,6 +902,9 @@ console.log("chala")
 });
 
 </script>
+
+<script type="text/javascript" src="{% static 'js/jquery.convform.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/jsbot.js' %}"></script>
 
 </body>
 
