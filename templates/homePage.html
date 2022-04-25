@@ -187,9 +187,6 @@
               <li class="nav-item {% block aboutactive %}  {% endblock aboutactive %}" >
                 <a class="nav-link" href="/about">About</a>
               </li>
-              <li class="nav-item {% block contactactive %}  {% endblock contactactive %} ">
-                <a class="nav-link" href="/contact">Contact</a>
-              </li>
 
 
 
@@ -295,9 +292,10 @@
             <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-left">
               <h1 class="h1-responsive font-weight-bold wow fadeInLeft" data-wow-delay="0.5s">Shop Locally - Shop Smartly </h1>
               <hr class="hr-light wow fadeInLeft" data-wow-delay="0.5s">
-              <h6 class="mb-3 wow fadeInLeft" data-wow-delay="0.5s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga
-              nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea
-              dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+              <h6 class="mb-3 wow fadeInLeft" data-wow-delay="0.5s">
+                India's first Local E-commerce Webapp with shopping, booking and news options.
+  easy and quick
+</h6>
               <a class="btn btn-outline-white wow fadeInLeft" href="#services" data-wow-delay="0.5s">Learn more</a>
             </div>
             <!--Grid column-->
@@ -332,9 +330,10 @@
                   </div>
                   <div class="text-center mt-4">
                     <button class="btn btn-indigo" type="submit">Login</button>
+<!--
                     <hr class="hr-light mb-3 mt-4">
                     <div class="inline-ul text-center d-flex justify-content-center">
-                      <a class="p-2 m-2 tw-ic">
+                       <a class="p-2 m-2 tw-ic">
                         <i class="fab fa-twitter white-text"></i>
                       </a>
                       <a class="p-2 m-2 li-ic">
@@ -342,7 +341,7 @@
                       </a>
                       <a class="p-2 m-2 ins-ic">
                         <i class="fab fa-instagram white-text"> </i>
-                      </a>
+                      </a> -->
                     </div>
                   </div>
                 </div>
@@ -390,24 +389,15 @@
         <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Search</button></div>
       </div>
       <div class="col-md-12 text-center wow fadeInLeft pt-5" data-wow-delay="0.7s">
-        <h4 class="text-transparent text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
+        <h4 class="text-transparent text-white">Enter Pincode or Name of your City to get started</h4>
       </div>
     </form>
   </div>
 </div>
 
 
-  <div class="head" id="services">
-      <div class="container text-center wow zoomIn" data-wow-iteration="5"  data-wow-delay="0.7s">
-
-          <!-- Logo -->
-          <div class="logo">
-  			  <h1><b>SERVICES PROVIDED BY US</b></h1>
-          </div>
-
-          <h1>Pure CSS Profile Cards with Bootstrap</h1>
-
-      </div>
+  <div class="head" id="services" style="background-color : #6f42c1" >
+  <h1><strong> SERVICE PROVIDED BY US </strong></h1>
   </div>
 
 
@@ -627,14 +617,18 @@
 
   <!-- ChatBot -->
   <div class="chat_icon">
-  	<i class="fa fa-comments text-dark" aria-hidden="true"></i>
+  	<i class="fa fa-comments text-primary"  aria-hidden="true"></i>
   </div>
 
   <div class="chat_box">
   	<div class="my-conv-form-wrapper">
   		<form action="" method="GET" class="hidden">
+        <input type="text" name="name" data-conv-question='Please, Enter your name'>
 
-        <input type="text" name="pincode" data-conv-question="Hello! i am Shocally, i am happy to help you. Please enter your PINCODE !">
+        <input type="text" data-conv-question="Hello! {name}, <br> It's a pleasure to meet you." data-no-answer="true">
+
+
+        <input type="text" name="pincode" data-conv-question="I am Shocally, i am happy to help you. Please enter your PINCODE !">
 
         <select data-conv-question="Welldone,Now please choose your Category " name="category">
           <option value="Shopping">Shopping</option>
@@ -651,33 +645,24 @@
           <div data-conv-case="Shopping">
             <!-- <input type="text" name="want" data-conv-question="what do you want">     -->
 
-              <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincode}">if you want to shop, click on this link</a> otherwise type other'>
+              <input type="text" name="inputshopping" data-conv-question='<a href="/shop/pinResult/{pincode}">if you want to shop, click HERE</a>'>
 
-            <!-- <select data-conv-question="What to Shopping" name="cat2">
-              <option value="Shop">Sho</option>
-              <option value="Book">Booking ?</option>
-              <option value="Read">Reading News ?</option>
-            </select>
-
-            <div data-conv-fork="cat2">
-              <div data-conv-case="Shop">
-                <input type="text" name="in" id="in" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if this link</a> otherwise type other'>
-          </div> -->
+            </div>
 
           <div data-conv-case="Booking" data-conv-fork="first-question2">
+            <input type="text" name="inputbooking" data-conv-question='<a href="/booking/">if you want to book appointment, click HERE</a>'>
+
           </div>
           <div data-conv-case="ReadingNews" data-conv-fork="first-question2">
+            <input type="text" name="inputnews" data-conv-question='<a href="/news/">if you want to book appointment, click HERE</a>'>
             </div>
         </div>
 
 
 
         <!-- <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if you want to shop click on this link</a> otherwise type other'> -->
-        <input type="text" name="name" data-conv-question='Please, Enter your name'>
 
-        <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
-
-        <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
+        <!-- <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?"> -->
 
         <select data-conv-question="Please Conform">
           <option value="Yes">Conform</option>
