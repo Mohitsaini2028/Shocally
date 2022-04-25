@@ -1,0 +1,43 @@
+
+/*This Media Query use for Mobile View*/
+@media screen and (max-width: 767px){
+	.header{
+		padding: 20px 0;
+	}
+	.logo{
+		display: block;
+		margin: 0 auto;
+		width: 100px;
+	} 
+	.main_nav{
+		text-align: center;
+		margin-bottom: 30px;
+	} 
+	.main_nav ul li{
+		margin: 0 3px;
+	}	
+
+	.banner{
+		background-size: 200%;
+		background-position: top center;
+    background-repeat: no-repeat;
+	}
+	.banner h1{ font-size: 40px; }
+	.about-section h2{
+		font-size: 30px;
+	}
+	.about-box{
+		margin: 15px 0;
+	}
+	#port_pop_pic{
+		left: 30px;
+		top: 30px;
+		width: calc(100% - 60px);
+		height: calc(100% - 60px)
+	}
+
+}
+
+
+
+

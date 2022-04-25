@@ -1,0 +1,121 @@
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<!-- <link rel="stylesheet" href="{% static 'css/shop/bootstrap.css' %}"> -->
+<link rel="stylesheet" href="./jsbot/css/jsbot.css">
+<!-- <link rel="stylesheet" href="{% static 'css/shop/responsive.css' %}"> -->
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'jsbot/css/bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'jsbot/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'jsbot/css/responsive.css' %}"> -->
+<link rel="stylesheet" href="./jsbot/css/jquery.convform.css">
+
+
+<title></title>
+
+</head>
+<body>
+
+
+<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/responsive.css"> -->
+<!-- ChatBot -->
+<!-- <link rel="stylesheet" type="text/css" href="css/jquery.convform.css">
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.convform.js"></script> -->
+
+
+
+<!-- ChatBot -->
+<div class="chat_icon">
+	<i class="fa fa-comments text-dark" aria-hidden="true"></i>
+</div>
+
+<div class="chat_box">
+	<div class="my-conv-form-wrapper">
+		<form action="" method="GET" class="hidden">
+
+      <select data-conv-question="Hello! How can I help you" name="category">
+        <option value="Shopping">Shopping ?</option>
+        <option value="Booking">Booking ?</option>
+        <option value="ReadingNews">Reading News ?</option>
+
+
+      </select>
+
+
+      <!-- const random = Math.floor(Math.random() * months.length); -->
+
+      <div data-conv-fork="category">
+        <div data-conv-case="Shopping">
+          <input type="text" name="pincodeShopping" data-conv-question="Please enter your pincode">
+          <!-- <input type="text" name="want" data-conv-question="what do you want">     -->
+
+            <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if you want to shop click on this link</a> otherwise type other'>
+
+          <!-- <select data-conv-question="What to Shopping" name="cat2">
+            <option value="Shop">Sho</option>
+            <option value="Book">Booking ?</option>
+            <option value="Read">Reading News ?</option>
+          </select>
+
+          <div data-conv-fork="cat2">
+            <div data-conv-case="Shop">
+              <input type="text" name="in" id="in" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if this link</a> otherwise type other'>
+        </div> -->
+
+        <div data-conv-case="Booking" data-conv-fork="first-question2">
+          <input type="text" name="pincodeBooking" data-conv-question="Please, enter your pincode">
+        </div>
+        <div data-conv-case="ReadingNews" data-conv-fork="first-question2">
+            <input type="text" name="pincodeNews" data-conv-question="Please, enter your pincode">
+          </div>
+      </div>
+
+
+
+      <!-- <input type="text" name="input" data-conv-question='<a href="/shop/pinResult/{pincodeShopping}">if you want to shop click on this link</a> otherwise type other'> -->
+      <input type="text" name="name" data-conv-question='Please, Enter your name'>
+
+      <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
+
+      <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
+
+      <select data-conv-question="Please Conform">
+        <option value="Yes">Conform</option>
+      </select>
+
+  	</form>
+	</div>
+</div>
+<!-- ChatBot end -->
+
+
+
+ <!-- <script type="text/javascript" src="{% static 'js/shop/jquery-3.1.1.min.js' %}"></script> -->
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+ <script type="text/javascript" src="./jsbot/js/jquery.convform.js"></script>
+ <script type="text/javascript" src="./jsbot/js/jsbot.js"></script>
+
+ <script type="text/javascript">
+
+   $("#in").click(function(){
+alert("The paragraph was clicked.");
+});
+
+ </script>
+
+</body>
+</html>

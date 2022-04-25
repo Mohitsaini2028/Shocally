@@ -806,19 +806,24 @@ console.log("chala")
   event.preventDefault();
 
   console.log({{request.session.pincode}})
-  pin = prompt("Enter your pincode");
+
     try{
         if({{request.session.pincode}}){
           console.log("PINCODE EXIST")
+          document.getElementById('code').value={{request.session.pincode}}
+          form=document.getElementById('pincodeForm');
+          form.submit();
         }
+      pin = prompt("Enter your pincode");  
      }
     catch(err){
+
       // console.log("PINCODE",err)
       // pin = prompt("Enter your pincode","car");
-
-      document.getElementById('code').value=pin
+      console.log("ERror")
+      document.getElementById('code').value=pin;
       form=document.getElementById('pincodeForm')
-      form.submit()
+      form.submit();
     }
 
 });
