@@ -24,8 +24,7 @@ This project will bring the combination of E-commerce and domestic shopping expe
  
  
 ### `ChatBot`
-![image](https://user-images.githubusercontent.com/66358041/176397684-f9e32033-cfa9-47d7-9088-bb97386adb78.png)
-
+![chrome_wXXxTEw60y](https://user-images.githubusercontent.com/66358041/179364514-7b1b25f8-d55d-40e2-82ac-9a80bce478f3.png)
 
 
 
