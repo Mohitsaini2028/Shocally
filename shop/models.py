@@ -111,7 +111,7 @@ class Order(models.Model):
     # country = models.CharField(max_length=111)
 
     def __str__(self):
-        return self.itemJson[5:20] + "...       " + str(self.user)
+        return self.itemJson[5:20] + "...       " + str(self.user) + str(self.user.username) 
 
 
 class OrderUpdate(models.Model):

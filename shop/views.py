@@ -62,7 +62,7 @@ def updateSearchFile(request):
 
 def about(request):
     return render(request,"about.html")
-     
+
 def ip(request):
     address = request.META.get('HTTP_X_FORWARDED_FOR')
     if address:
