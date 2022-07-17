@@ -712,7 +712,7 @@
 var sellerUser={{request.session.sellerUser | safe}}
 {% endif %}
 
-console.log("authenticate hh bhai swagat karo ")
+
 var cartJson={{request.session.cartJson | safe}}
 var cartPrice={{request.session.cartPrice | safe}}
 var cartTotal={{request.session.cartTotal | safe}}
@@ -765,7 +765,6 @@ if (_isNS('google.translate.Element')){return}(function(){var c=_setupNS('google
 <script>
 
 function CheckingUser(){
-console.log("chala")
   if(null==document.getElementById('AuthUser'))  //if user is not authenticated then this function will work otherwise not
   {
 
