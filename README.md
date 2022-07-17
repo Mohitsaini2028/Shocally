@@ -12,12 +12,12 @@ This project will bring the combination of E-commerce and domestic shopping expe
 ![image](https://user-images.githubusercontent.com/66358041/176397732-74b370cc-2bb4-48b8-b89c-a6b25e8d196b.png)
 
 ### `Shop` 
- ![image](https://user-images.githubusercontent.com/66358041/176396914-14e0c1d8-dc0d-4166-b448-497d8d1b6a7d.png)
- 
+ ![chrome_AdgpKy6aCF](https://user-images.githubusercontent.com/66358041/179397416-95f281fa-8bb3-4b77-a733-5e7c0c107e76.png) 
 
 ### `Shop View`
  ![image](https://user-images.githubusercontent.com/66358041/176397060-83685892-bb5b-4247-b4af-66b512b87028.png)
- 
+
+
 
 ### `Search Page`
  ![image](https://user-images.githubusercontent.com/66358041/176397554-8c83da7b-ad35-421f-85cc-4b73dbfb886b.png)
