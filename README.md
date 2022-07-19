@@ -37,7 +37,7 @@ All databases            |  Editing news
 
 Rating based recommendation       |  Product based recommendation
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/66358041/179397734-5bb972a6-540e-460f-b4c6-ee80cdb13311.png) | ![](https://user-images.githubusercontent.com/66358041/179398145-86662933-3374-4a7e-bd32-612d24a23933.png)
+![](https://user-images.githubusercontent.com/66358041/179398145-86662933-3374-4a7e-bd32-612d24a23933.png)  |  ![](https://user-images.githubusercontent.com/66358041/179397734-5bb972a6-540e-460f-b4c6-ee80cdb13311.png)
 
 
 ### ```Seller Functionality```
@@ -71,11 +71,11 @@ Search page            |  Search products inside a shop
  
  Product (Phonetic Search Enigne) | Shop | Appointment | News
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------: 
- ![](https://user-images.githubusercontent.com/66358041/179399451-2b16d2d4-e407-4e21-acaa-760a4da359b3.png) | ![](https://user-images.githubusercontent.com/66358041/179399468-c8ed9756-96d3-4b0d-a447-6e38976bf0c8.jpg) | ![](https://user-images.githubusercontent.com/66358041/179399456-fab7bca4-bb4f-4053-a7d7-9a70124b86d2.png) | ![](https://user-images.githubusercontent.com/66358041/179399460-16753ba7-a4e6-453d-b0aa-466b61e5d58b.png) 
+ ![](https://user-images.githubusercontent.com/66358041/179399451-2b16d2d4-e407-4e21-acaa-760a4da359b3.png) | ![](https://user-images.githubusercontent.com/66358041/179399468-c8ed9756-96d3-4b0d-a447-6e38976bf0c8.jpg) | ![](https://user-images.githubusercontent.com/66358041/179399456-fab7bca4-bb4f-4053-a7d7-9a70124b86d2.png) | ![](https://user-images.githubusercontent.com/66358041/179399460-16753ba7-a4e6-453d-b0aa-466b61e5d58b.png)
 
 ### `Appointment Booking Seller Functionality`
 
- Shop view | Add imeslot | Add,edit & delete service | Appointment notification
+ Shop view | Add timeslot | Add,edit & delete service | Appointment notification
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:  
 ![](https://user-images.githubusercontent.com/66358041/179400034-2936d7cc-f91d-42d8-8037-c6f1dd254ad3.png) | ![](https://user-images.githubusercontent.com/66358041/179400044-649b659f-255f-499a-90d6-bc124f3e7e33.png) | ![](https://user-images.githubusercontent.com/66358041/179400052-e9f50954-c111-4784-a43d-0d9a95f9ee3b.png) | ![](https://user-images.githubusercontent.com/66358041/179400055-364d0cd6-2e35-4171-a6c7-1c20882b9084.png)
 
@@ -89,17 +89,3 @@ Chatbot           |  Rate shop
  <img src="https://user-images.githubusercontent.com/66358041/179366077-3509c127-d4c0-4862-b7f9-6892385a537e.png" width="500" />
  <img src="https://user-images.githubusercontent.com/66358041/179366079-9a365802-09d6-4a28-9a13-25828f6f2403.png" width="500" />
 </p>  -->
-
-
-
-
- 
-<!-- 70+ languages            |  Hindi Language Example | sdfgh
-:-------------------------:|:-------------------------: | :----------------------:
-![](https://user-images.githubusercontent.com/66358041/179365546-caed1d43-f958-44b6-a099-6d9abff2ea10.jpg) | ![](https://user-images.githubusercontent.com/66358041/179365541-c1b8be85-a007-4942-b434-5b1c6f762c40.png)  | ![](https://user-images.githubusercontent.com/66358041/179365541-c1b8be85-a007-4942-b434-5b1c6f762c40.png)
- -->
- 
-
- 
-<!-- ![chrome_29gS8Od4P0](https://user-images.githubusercontent.com/66358041/179366077-3509c127-d4c0-4862-b7f9-6892385a537e.png) |
-![chrome_nkSA2GcVYQ](https://user-images.githubusercontent.com/66358041/179366079-9a365802-09d6-4a28-9a13-25828f6f2403.png) -->
