@@ -33,11 +33,12 @@ All databases            |  Editing news
 :-------------------------:|:-------------------------:
 ![](https://user-images.githubusercontent.com/66358041/179366077-3509c127-d4c0-4862-b7f9-6892385a537e.png) |![](https://user-images.githubusercontent.com/66358041/179366079-9a365802-09d6-4a28-9a13-25828f6f2403.png)
 
-### `Recommendations`
+
+<!-- ### `Recommendations`
 
 Rating based recommendation       |  Product based recommendation
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/66358041/179398145-86662933-3374-4a7e-bd32-612d24a23933.png)  |  ![](https://user-images.githubusercontent.com/66358041/179397734-5bb972a6-540e-460f-b4c6-ee80cdb13311.png)
+![](https://user-images.githubusercontent.com/66358041/179398145-86662933-3374-4a7e-bd32-612d24a23933.png)  |  ![](https://user-images.githubusercontent.com/66358041/179397734-5bb972a6-540e-460f-b4c6-ee80cdb13311.png) -->
 
 
 ### ```Seller Functionality```
